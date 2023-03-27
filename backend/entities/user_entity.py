@@ -6,6 +6,7 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from typing import Self
 from .entity_base import EntityBase
 from .user_role_entity import user_role_table
+from .membership_entity import membership_table
 from ..models import User
 
 
@@ -29,9 +30,14 @@ class UserEntity(EntityBase):
         String(64), nullable=False, default='')
     pronouns: Mapped[str] = mapped_column(
         String(32), nullable=False, default='')
+    year: Mapped[str] = mapped_column(
+        String(32), nullable=False, default='')
 
     roles: Mapped[list['RoleEntity']] = relationship(secondary=user_role_table, back_populates='users')
     permissions: Mapped['PermissionEntity'] = relationship(back_populates='user')
+    userPosts: Mapped[list["PostEntity"]] = relationship(back_populates="postedBy")
+    teams: Mapped[list['TeamEntity']] = relationship(secondary=membership_table, back_populates='users')
+
 
     @classmethod
     def from_model(cls, model: User) -> Self:
@@ -43,6 +49,9 @@ class UserEntity(EntityBase):
             first_name=model.first_name,
             last_name=model.last_name,
             pronouns=model.pronouns,
+            year=model.year,
+            userPosts=model.userPosts,
+            teams=model.teams
         )
 
     def to_model(self) -> User:
@@ -54,6 +63,9 @@ class UserEntity(EntityBase):
             first_name=self.first_name,
             last_name=self.last_name,
             pronouns=self.pronouns,
+            year=self.year,
+            userPosts=self.userPosts,
+            teams=self.teams
         )
 
     def update(self, model: User) -> None:
@@ -61,3 +73,6 @@ class UserEntity(EntityBase):
         self.first_name = model.first_name
         self.last_name = model.last_name
         self.pronouns = model.pronouns
+        self.year=model.year,
+        self.userPosts=model.userPosts,
+        self.teams=model.teams
