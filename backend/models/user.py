@@ -18,9 +18,9 @@ class User(BaseModel):
     pronouns: str = ""
     permissions: list['Permission'] = []
     # year as in 1st, 2nd, ..etc or freshman, junior, etc
-    year = str = ""
-    userPosts = list['Post'] = []
-    teams = list['Team'] = []
+    year: str = ""
+    userPosts: list['Post'] = []
+    teams: list['Team'] = []
 
 
 class NewUser(BaseModel):
