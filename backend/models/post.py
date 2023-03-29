@@ -14,7 +14,7 @@ class Post(BaseModel):
     id: int | None = None
     content: str = ""
     created: datetime = datetime.now()
-    postedBy: 'User' | str | None
+    postedBy: int | None
     comments: list['Comment'] = []
     tags: list[str] = []
     # class Config:
