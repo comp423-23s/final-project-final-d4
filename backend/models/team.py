@@ -14,8 +14,8 @@ class Team(BaseModel):
     id: int | None = None
     # not sure if we need to track this
     # created: datetime
-    members = list['User'] = []
-    project = str = ""
+    members: list['User'] = []
+    project: str = ""
     # class Config:
     #     orm_mode = True
 
