@@ -20,8 +20,8 @@ class TeamEntity(EntityBase):
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     project: Mapped[str] = mapped_column(String(64), unique=True, index=True, default='')
 
-
-    members: Mapped[list['UserEntity']] = relationship(secondary=membership_table, back_populates='users')
+    
+    members: Mapped[list['UserEntity']] = relationship(secondary=membership_table, back_populates='teams')
 
     @classmethod
     def from_model(cls, model: Team) -> Self:
