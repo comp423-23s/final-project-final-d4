@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 from ..services.post import PostService
 from ..models.post import Post
 
@@ -12,4 +12,7 @@ def get_posts(post_serv: PostService = Depends()) -> list[Post]:
 
 @api.post("", tag=["Post view"])
 def create_post(post: Post, post_serv: PostService = Depends()) -> Post:
-    return post_serv.create(post)
+    try:
+        return post_serv.create(post)
+    except Exception as e:
+        raise HTTPException(status_code=422, detail=str(e))
