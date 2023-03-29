@@ -11,8 +11,8 @@ from datetime import datetime
 #: Comments
 class Comment(BaseModel):
     id: int | None = None
-    commenter: 'User' | str
-    post: 'Post' | int
+    commenter: int | None
+    post: int
     replies: list['Comment'] = []
     text: str = ""
     created: datetime
