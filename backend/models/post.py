@@ -13,7 +13,7 @@ class Post(BaseModel):
     # this is the primary key
     id: int | None = None
     content: str = ""
-    created: datetime
+    created: datetime = datetime.now()
     postedBy: 'User' | str | None
     comments: list['Comment'] = []
     tags: list[str] = []
