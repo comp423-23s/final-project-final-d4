@@ -27,7 +27,7 @@ class PostEntity(EntityBase):
 
     postedBy: Mapped[list['UserEntity']] = relationship(back_populates="userPosts", post_update=True)
 
-    comments: Mapped['CommentEntity'] = relationship(back_populates='post')
+    comments: Mapped[list['CommentEntity']] = relationship(back_populates='post')
 
     @classmethod
     def from_model(cls, model: Post) -> Self:
@@ -36,7 +36,7 @@ class PostEntity(EntityBase):
             content=model.content,
             tags=model.tags,
             created=model.created,
-            postedBy=model.postedBy,
+            user_id=model.postedBy,
             comments=model.comments,
         )
 
@@ -46,7 +46,7 @@ class PostEntity(EntityBase):
             content=self.content,
             tags=self.tags,
             created=self.created,
-            postedBy=self.postedBy,
+            postedBy=self.user_id,
             comments=self.comments,
         )
 

@@ -6,11 +6,11 @@ openapi_tags = {"name": "Post view", "description": "Post projects endpoints."}
 
 api = APIRouter(prefix="/api/post")
 
-@api.get("", tag=["Post view"])
+@api.get("", tags=["Post view"])
 def get_posts(post_serv: PostService = Depends()) -> list[Post]:
     return post_serv.get_posts()
 
-@api.post("", tag=["Post view"])
+@api.post("", tags=["Post view"])
 def create_post(post: Post, post_serv: PostService = Depends()) -> Post:
     try:
         return post_serv.create(post)
