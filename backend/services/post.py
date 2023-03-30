@@ -3,6 +3,8 @@ from sqlalchemy import select, or_, func
 from sqlalchemy.orm import Session
 from ..database import db_session
 from .permission import PermissionService
+from ..models import post
+from ..entities.post_entity import PostEntity
 
 class PostService:
 
@@ -14,8 +16,11 @@ class PostService:
         self._permission = permission
 
 
-    # def get() -> Post | None:
-    # get all posts
+    def get_posts() -> list[post]:
+        query = select(PostEntity)
+        entities= self._session.scalars(query).all()
+        return [entity.to_model() for entity in entities]
+
 
     # def create() -> Post | None:
 
