@@ -38,7 +38,6 @@ class UserEntity(EntityBase):
     userPosts: Mapped[list["PostEntity"]] = relationship(back_populates="postedBy")
     teams: Mapped[list['TeamEntity']] = relationship(secondary=membership_table, back_populates='members')
 
-
     @classmethod
     def from_model(cls, model: User) -> Self:
         return cls(

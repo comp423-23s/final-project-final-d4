@@ -24,6 +24,7 @@ class PostEntity(EntityBase):
     created: Mapped[datetime] = mapped_column(DateTime)
     
     user_id = mapped_column(ForeignKey("user.pid"))
+
     postedBy: Mapped[list['UserEntity']] = relationship(back_populates="userPosts", post_update=True)
 
     comments: Mapped['CommentEntity'] = relationship(back_populates='post')
