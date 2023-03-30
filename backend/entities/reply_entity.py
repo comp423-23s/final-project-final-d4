@@ -5,6 +5,6 @@ from .entity_base import EntityBase
 reply_table = Table(
     "reply", 
     EntityBase.metadata,
-    Column('comment_id', ForeignKey('comments.id'), primary_key=True),
-    Column('reply_id', ForeignKey('comments.id'), primary_key=True)
+    Column('comment_id', ForeignKey('comment.id'), primary_key=True),
+    Column('reply_id', ForeignKey('comment.id'), primary_key=True)
 )
