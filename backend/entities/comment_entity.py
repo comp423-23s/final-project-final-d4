@@ -21,7 +21,7 @@ class CommentEntity(EntityBase):
 
     id = mapped_column(Integer, primary_key=True)
 
-    user_id = mapped_column(ForeignKey("user.PID"))
+    user_id = mapped_column(ForeignKey("user.pid"))
     commenter: Mapped['UserEntity'] = relationship(post_update=True)
 
     post_id = mapped_column(ForeignKey("post.id"))

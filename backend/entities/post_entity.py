@@ -23,7 +23,8 @@ class PostEntity(EntityBase):
     tags: Mapped[list[str]] = mapped_column(MutableList.as_mutable(ARRAY(String(64))))
     created: Mapped[datetime] = mapped_column(DateTime)
     
-    user_id = mapped_column(ForeignKey("users.PID"))
+    user_id = mapped_column(ForeignKey("user.pid"))
+
     postedBy: Mapped[list['UserEntity']] = relationship(back_populates="userPosts", post_update=True)
 
     comments: Mapped['CommentEntity'] = relationship(back_populates='post')

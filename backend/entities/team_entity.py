@@ -15,12 +15,11 @@ from ..models import Team
 
 
 class TeamEntity(EntityBase):
-    __tablename__ = 'team'
+    __tablename__ = "team"
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
-    project: Mapped[str] = mapped_column(String(64), unique=True, index=True, default='')
+    project: Mapped[str] = mapped_column(String(64), default='')
 
-    
     members: Mapped[list['UserEntity']] = relationship(secondary=membership_table, back_populates='teams')
 
     @classmethod
