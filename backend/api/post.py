@@ -16,4 +16,3 @@ def create_post(post: Post, post_serv: PostService = Depends()) -> Post:
         return post_serv.create(post)
     except Exception as e:
         raise HTTPException(status_code=422, detail=str(e))
-
