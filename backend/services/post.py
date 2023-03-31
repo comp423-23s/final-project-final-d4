@@ -3,7 +3,7 @@ from sqlalchemy import select, or_, func
 from sqlalchemy.orm import Session
 from ..database import db_session
 from .permission import PermissionService
-from ..models import Post
+from ..models.post import Post
 from ..entities.post_entity import PostEntity
 
 
