@@ -12,6 +12,8 @@ from datetime import datetime
 class Post(BaseModel):
     # this is the primary key
     id: int | None = None
+    title: str = ""
+    description: str = ""
     content: str = ""
     created: datetime = datetime.now()
     postedBy: int | None

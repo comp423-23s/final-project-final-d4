@@ -15,11 +15,10 @@ export class CreatePostComponent {
 
 
   onPost(form: NgForm):void{
-
     let postedBy = parseInt(form.value.id ?? "");
     let title = (form.value.title ?? "");
-    let description = (form.value.description ?? "");
     let content = (form.value.content ?? "");
+    let description = (form.value.description ?? "");
     let time = (form.value.dateTime)
     let tag = (form.value.tag ?? "");
     // this.postService.addPost(form.value.id, form.value.title, form.value.descripiton, form.value.content, form.value.dateTime, form.value.tag);
