@@ -15,6 +15,7 @@ export class CreatePostComponent {
 
 
   onPost(form: NgForm):void{
+
     let postedBy = parseInt(form.value.id ?? "");
     let title = (form.value.title ?? "");
     let description = (form.value.description ?? "");

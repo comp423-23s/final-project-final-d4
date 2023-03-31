@@ -13,7 +13,6 @@ def get_posts(post_serv: PostService = Depends()) -> list[Post]:
 @api.post("", tags=["Post view"])
 def create_post(post: Post, post_serv: PostService = Depends()) -> Post:
     try:
-        return post_serv.create(post)
+        return post_serv.create_post(post)
     except Exception as e:
         raise HTTPException(status_code=422, detail=str(e))
-
