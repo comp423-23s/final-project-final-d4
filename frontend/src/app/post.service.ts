@@ -4,10 +4,10 @@ import { HttpClient } from "@angular/common/http";
 import { Observable, throwError } from "rxjs";
 
 export interface Post{
-    id: number;
+    postedBy: number;
     title: string;
-    description: string;
     content: string;
+    description: string;
     dateTime: Date;
     tag: string[];
 }
@@ -34,12 +34,12 @@ export class PostsService{
    * @param tag: tag of the post
    * @returns Obervable of Post that will error if there are issues with validation or persistence.
    */
-    addPost(id: number, title: string, description: string, content: string, dateTime: any, tag: string[]){
+    addPost(postedBy: number, title: string, content: string,  description: string, dateTime: any, tag: string[]){
         //make sure users fill in each input 
 
         let errors: string[] = [];
 
-        if(id.toString() === ""){
+        if(postedBy.toString() === ""){
             errors.push(`Username required.`);
         }
         if(title === ""){
@@ -57,7 +57,7 @@ export class PostsService{
         }
 
         //create post with the parameters
-        let post: Post = {id: id,title: title, description: description, content: content, dateTime: new Date(), tag: tag};
+        let post: Post = {postedBy: postedBy, title: title, content: content, description: description, dateTime: new Date(), tag: tag};
 
         //return post
         return this.http.post<Post>("/api/post", post);
