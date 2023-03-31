@@ -1,0 +1,86 @@
+<h1>Create a Post</h1>
+<mat-card>
+    <form (submit) = "onPost(postForm)" #postForm = "ngForm">
+        <mat-form-field>
+            <input type = "text"
+            matInput 
+            ngModel
+            name = "id"
+            placeholder= "Username"
+            >
+        </mat-form-field>
+        <mat-form-field>
+            <input type="text" 
+            matInput 
+            ngModel
+            name = "title"
+            placeholder = "Post Title"
+            required
+            #title = "ngModel"
+            >
+        </mat-form-field>
+        <mat-form-field>
+            <textarea rows = "2"
+            matInput 
+            ngModel
+            name = "description"
+            placeholder= "Description"
+            required
+            #description = "ngModel"
+            ></textarea>
+        </mat-form-field>
+        <mat-form-field>
+            <textarea rows = "10"
+            matInput 
+            ngModel
+            name = "content"
+            placeholder= "Content"
+            required
+            #content = "ngModel"
+            ></textarea>
+        </mat-form-field>
+        <mat-form-field>
+            <textarea rows = "1"
+            matInput 
+            ngModel
+            name = "tag"
+            placeholder= "tag"
+            required
+            #content = "ngModel"
+            ></textarea>
+        </mat-form-field>
+        <button 
+        mat-raised-button
+        color = "blue"
+        type="submit">Create Post</button>
+    </form>
+</mat-card>
+
+<!-- <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div>
+        <label for="id">Username</label>
+        <input id="id" type="text" formControlName="id">
+      </div>
+
+    <div>
+      <label for="title">Title</label>
+      <input id="title" type="text" formControlName="title">
+    </div>
+    
+    <div>
+      <label for="description">Description</label>
+      <input id="description" type="text" formControlName="description">
+    </div>
+
+    <div>
+        <label for="details">Details</label>
+        <input id="details" type="text" formControlName="details">
+    </div>
+
+    <div>
+        <label for="comments">Comments</label>
+        <input id="comments" type="text" formControlName="comments">
+    </div>
+
+    <button class="button" type="submit">Create Post</button>
+</form> -->
