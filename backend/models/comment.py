@@ -15,7 +15,7 @@ class Comment(BaseModel):
     post: int
     replies: list['Comment'] = []
     text: str = ""
-    created: datetime
+    created: datetime = datetime.now()
     # class Config:
     #     orm_mode = True
 
