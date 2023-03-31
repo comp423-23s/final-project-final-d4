@@ -13,10 +13,6 @@ export class CreatePostComponent {
     public postService: PostsService
   ) {}
 
-  ngOnInit(): void{
-
-  }
-  
 
   onPost(form: NgForm):void{
     let id = parseInt(form.value.id ?? "");
