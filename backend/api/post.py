@@ -8,11 +8,11 @@ api = APIRouter(prefix="/api/post")
 
 @api.get("", tags=["Post view"])
 def get_posts(post_serv: PostService = Depends()) -> list[Post]:
-    return post_serv.get()
+    return post_serv.get_posts()
 
 @api.post("", tags=["Post view"])
 def create_post(post: Post, post_serv: PostService = Depends()) -> Post:
     try:
-        return post_serv.create(post)
+        return post_serv.create_post(post)
     except Exception as e:
         raise HTTPException(status_code=422, detail=str(e))

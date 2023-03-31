@@ -24,9 +24,6 @@ class PostService:
         
     # Create new post
     def create_post(self, post: Post) -> Post | None:
-        # Check whether the post has content
-        if (post.content is None):
-            raise Exception(f"Post without content")
         
         post_entity = PostEntity.from_model(post)
         self._session.add(post_entity)
