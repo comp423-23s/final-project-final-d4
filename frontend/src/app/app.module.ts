@@ -33,6 +33,13 @@ import { ErrorDialogComponent } from './navigation/error-dialog/error-dialog.com
 import { HomeComponent } from './home/home.component';
 import { GateComponent } from './gate/gate.component';
 import { ProfileEditorComponent } from './profile/profile-editor/profile-editor.component';
+import { CreatePostComponent } from './create-post/create-post.component';
+
+const Ux_Modules = {
+  MatInputModule,
+  MatButtonModule,
+  MatCardModule
+}
 
 @NgModule({
   declarations: [
@@ -41,7 +48,8 @@ import { ProfileEditorComponent } from './profile/profile-editor/profile-editor.
     ErrorDialogComponent,
     HomeComponent,
     GateComponent,
-    ProfileEditorComponent
+    ProfileEditorComponent,
+    CreatePostComponent
   ],
   imports: [
     BrowserModule,

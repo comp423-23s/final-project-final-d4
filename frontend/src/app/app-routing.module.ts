@@ -4,6 +4,7 @@ import { AppTitleStrategy } from './app-title.strategy';
 import { GateComponent } from './gate/gate.component';
 import { HomeComponent } from './home/home.component';
 import { ProfileEditorComponent } from './profile/profile-editor/profile-editor.component';
+import { CreatePostComponent } from './create-post/create-post.component';
 
 
 const routes: Routes = [
@@ -11,6 +12,7 @@ const routes: Routes = [
   ProfileEditorComponent.Route,
   GateComponent.Route,
   { path: 'admin', title: 'Admin', loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule) },
+  { path: 'create', component: CreatePostComponent}
 ];
 
 @NgModule({
