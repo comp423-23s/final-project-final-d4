@@ -1,6 +1,6 @@
 <mat-card *ngFor= "let post of posts | async">
     <mat-card-header>
-      <mat-card-subtitle>Posted By: {{post.id}}</mat-card-subtitle>
+      <mat-card-subtitle>Posted By: {{post.postedBy}}</mat-card-subtitle>
       <mat-card-subtitle>Time: {{post.dateTime}}</mat-card-subtitle>
       <mat-card-title>{{post.title}}</mat-card-title>
     </mat-card-header>

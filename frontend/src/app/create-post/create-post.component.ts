@@ -15,7 +15,8 @@ export class CreatePostComponent {
 
 
   onPost(form: NgForm):void{
-    let id = parseInt(form.value.id ?? "");
+
+    let postedBy = parseInt(form.value.id ?? "");
     let title = (form.value.title ?? "");
     let description = (form.value.description ?? "");
     let content = (form.value.content ?? "");
@@ -25,7 +26,7 @@ export class CreatePostComponent {
     // 
 
     this.postService
-      .addPost(id, title, description, content, time, tag)
+      .addPost(postedBy, title, content, description, time, tag)
       .subscribe({
         next: (post) => this.onSuccess(post),
         error:(err) => this.onError(err)

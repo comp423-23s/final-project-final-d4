@@ -8,7 +8,7 @@ api = APIRouter(prefix="/api/post")
 
 @api.get("", tags=["Post view"])
 def get_posts(post_serv: PostService = Depends()) -> list[Post]:
-    return post_serv.get_posts()
+    return post_serv.get()
 
 @api.post("", tags=["Post view"])
 def create_post(post: Post, post_serv: PostService = Depends()) -> Post:
