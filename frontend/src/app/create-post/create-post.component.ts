@@ -13,7 +13,8 @@ export class CreatePostComponent {
     title: '',
     description: '',
     details: '',
-    comments: ''
+    comments: '',
+    tags:''
   });
 
   constructor(
@@ -26,7 +27,8 @@ export class CreatePostComponent {
       title: this.form.value.title ?? " ",
       description: this.form.value.description ?? " ",
       details: this.form.value.details ?? " ",
-      comments: this.form.value.comments ?? " "
+      comments: this.form.value.comments ?? " ",
+      tags: this.form.value.tags ?? " "
     };
     this.form.reset();
   }
