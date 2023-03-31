@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { NgForm } from '@angular/forms';
+import { PostsService } from '../post.service';
 
 @Component({
   selector: 'app-create-post',
@@ -8,27 +9,20 @@ import { FormBuilder } from '@angular/forms';
 })
 export class CreatePostComponent {
 
-  form = this.formBuilder.group({
-    id: '',
-    title: '',
-    description: '',
-    details: '',
-    comments: ''
-  });
-
   constructor(
-    private formBuilder: FormBuilder,
+    public postService: PostsService
   ) {}
 
-  onSubmit(){
-    const newuser = {
-      id:this.form.value.id ?? " ",
-      title: this.form.value.title ?? " ",
-      description: this.form.value.description ?? " ",
-      details: this.form.value.details ?? " ",
-      comments: this.form.value.comments ?? " "
-    };
-    this.form.reset();
+  ngOnInit(): void{
+
+  }
+
+  onPost(form: NgForm){
+    if(form.invalid){
+      return
+    }
+    this.postService.addPost(form.value.id, form.value.title, form.value.descripiton, form.value.content, form.value.dateTime, form.value.tag);
+    form.resetForm()
   }
 
 }

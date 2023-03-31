@@ -1,32 +1,52 @@
 <h1>Create a Post</h1>
 <mat-card>
-    <form (submit) = "onSubmit">
+    <form (submit) = "onPost(postForm)" #postForm = "ngForm">
         <mat-form-field>
-            <input type="text" 
+            <input type = "text"
             matInput 
-            name = "title"
-            placeholder = "Post Title"
-            >
-        </mat-form-field>
-        <mat-form-field>
-            <input type = "Text"
-            matInput 
+            ngModel
             name = "id"
             placeholder= "Username"
             >
         </mat-form-field>
         <mat-form-field>
+            <input type="text" 
+            matInput 
+            ngModel
+            name = "title"
+            placeholder = "Post Title"
+            required
+            #title = "ngModel"
+            >
+        </mat-form-field>
+        <mat-form-field>
             <textarea rows = "2"
             matInput 
+            ngModel
             name = "description"
-            placeholder= "description"
+            placeholder= "Description"
+            required
+            #description = "ngModel"
             ></textarea>
         </mat-form-field>
         <mat-form-field>
             <textarea rows = "10"
             matInput 
-            name = "details"
-            placeholder= "Post Content"
+            ngModel
+            name = "content"
+            placeholder= "Content"
+            required
+            #content = "ngModel"
+            ></textarea>
+        </mat-form-field>
+        <mat-form-field>
+            <textarea rows = "1"
+            matInput 
+            ngModel
+            name = "tag"
+            placeholder= "tag"
+            required
+            #content = "ngModel"
             ></textarea>
         </mat-form-field>
         <button 

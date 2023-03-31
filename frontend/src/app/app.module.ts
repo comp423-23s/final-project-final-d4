@@ -11,9 +11,11 @@ import { JwtModule } from '@auth0/angular-jwt';
 import { NgForOf } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { LayoutModule } from '@angular/cdk/layout';
+import { MatAccordion } from '@angular/material/expansion';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatDialogModule } from '@angular/material/dialog';
+import {MatExpansionModule} from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
@@ -34,11 +36,16 @@ import { HomeComponent } from './home/home.component';
 import { GateComponent } from './gate/gate.component';
 import { ProfileEditorComponent } from './profile/profile-editor/profile-editor.component';
 import { CreatePostComponent } from './create-post/create-post.component';
+import { PostListComponent } from './post-list/post-list.component';
+import { PostsService } from './post.service';
+import { FormsModule } from '@angular/forms';
 
 const Ux_Modules = {
   MatInputModule,
   MatButtonModule,
-  MatCardModule
+  MatCardModule,
+  MatExpansionModule,
+  MatAccordion
 }
 
 @NgModule({
@@ -49,7 +56,8 @@ const Ux_Modules = {
     HomeComponent,
     GateComponent,
     ProfileEditorComponent,
-    CreatePostComponent
+    CreatePostComponent,
+    PostListComponent
   ],
   imports: [
     BrowserModule,
@@ -72,6 +80,8 @@ const Ux_Modules = {
     MatSnackBarModule,
     MatTabsModule,
     MatToolbarModule,
+    MatExpansionModule,
+    FormsModule,
     JwtModule.forRoot({
       config: {
         tokenGetter: () => {
@@ -83,8 +93,9 @@ const Ux_Modules = {
   providers: [{
     provide: HTTP_INTERCEPTORS,
     useClass: HttpRequestInterceptor,
-    multi: true
-  }],
+    multi: true,
+  }, PostsService,],
+
   bootstrap: [AppComponent]
 })
 export class AppModule {}

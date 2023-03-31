@@ -1,0 +1,54 @@
+<mat-card *ngFor= "let post of posts">
+    <mat-card-header>
+      <mat-card-subtitle>Posted By: {{post.id}}</mat-card-subtitle>
+      <mat-card-subtitle>Time: {{post.dateTime}}</mat-card-subtitle>
+      <mat-card-title>{{post.title}}</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <p>{{post.description}}</p>
+      <p>{{post.content}}</p>
+      <mat-divider></mat-divider>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-button>Tags: {{post.tag}}</button>
+    </mat-card-actions>
+    <mat-card-footer>
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title>Comments</mat-panel-title>
+            </mat-expansion-panel-header>
+        <mat-form-field>
+            <textarea rows = "3" 
+            matInput 
+            name = "content"
+            placeholder= "Post Comments"
+            ></textarea>
+        </mat-form-field>
+        <mat-action-row>
+            <button mat-button color="primary">Add a Comment</button>
+        </mat-action-row>
+    </mat-expansion-panel>
+    </mat-card-footer>
+  </mat-card>
+
+
+<!-- <mat-accordion multi = "true">
+    <mat-expansion-panel *ngFor= "let post of posts">
+        <mat-expansion-panel-header>
+            <mat-panel-title>{{post.title}}</mat-panel-title>
+            <mat-panel-description>{{post.description}}</mat-panel-description>
+        </mat-expansion-panel-header>
+        <p>{{post.content}}</p>
+        <mat-form-field>
+            <textarea rows = "4" 
+            matInput 
+            name = "content"
+            placeholder= "Post Comments"
+            ></textarea>
+        </mat-form-field>
+        <mat-action-row>
+            <p class = "date">{{post.dateTime | date: 'MMM d, y, h:mm:ss a'}}</p>
+            <button mat-button color="primary">Comment</button>
+        </mat-action-row>
+    </mat-expansion-panel>
+</mat-accordion> -->
