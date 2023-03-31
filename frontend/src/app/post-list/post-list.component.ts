@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
+import { Observable } from 'rxjs';
 import { PostsService } from '../post.service';
-import { Post } from './post.module';
+import { Post } from '../post.service';
 
 
 @Component({
@@ -10,15 +11,25 @@ import { Post } from './post.module';
 })
 export class PostListComponent {
   
+  public posts: Observable<Post[]>;
+
   constructor(public postService: PostsService){
+    this.posts = postService.getPost()
 
   }
 
-  posts: Post[] = [];
- 
 
-  ngOnInit(){
-    this.posts = this.postService.getPost();
-  }
+  // private onSuccess(): void {
+  //   console.log("success")
+  //   this.posts = this.postService.getPost()
+  // }
+
+  // private onError(err: Error) {
+  //   if (err.message) {
+  //     window.alert(err.message);
+  //   } else {
+  //     window.alert("Unknown error: " + JSON.stringify(err));
+  //   }
+  // }
 
 }
