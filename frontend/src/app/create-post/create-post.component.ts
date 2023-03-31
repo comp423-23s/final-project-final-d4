@@ -17,15 +17,16 @@ export class CreatePostComponent {
   onPost(form: NgForm):void{
     let postedBy = parseInt(form.value.id ?? "");
     let title = (form.value.title ?? "");
-    let content = (form.value.content ?? "");
     let description = (form.value.description ?? "");
+    let content = (form.value.content ?? "");
     let time = (form.value.dateTime)
     let tag = (form.value.tag ?? "");
+    let comment = (form.value.comment ?? "");
     // this.postService.addPost(form.value.id, form.value.title, form.value.descripiton, form.value.content, form.value.dateTime, form.value.tag);
     // 
 
     this.postService
-      .addPost(postedBy, title, content, description, time, tag)
+      .addPost(postedBy, title, description, content, time, tag, comment)
       .subscribe({
         next: (post) => this.onSuccess(post),
         error:(err) => this.onError(err)

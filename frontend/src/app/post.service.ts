@@ -6,10 +6,11 @@ import { Observable, throwError } from "rxjs";
 export interface Post{
     postedBy: number;
     title: string;
-    content: string;
     description: string;
+    content: string;
     dateTime: Date;
     tag: string[];
+    comment: string[];
 }
 
 
@@ -32,9 +33,10 @@ export class PostsService{
    * @param description: description of the post 
    * @param dateTime: time when the post is made
    * @param tag: tag of the post
+   * @param comment: comment by other users 
    * @returns Obervable of Post that will error if there are issues with validation or persistence.
    */
-    addPost(postedBy: number, title: string, content: string,  description: string, dateTime: any, tag: string[]){
+    addPost(postedBy: number, title: string,  description: string, content: string,  dateTime: any, tag: string[], comment: string[]){
         //make sure users fill in each input 
 
         let errors: string[] = [];
@@ -57,7 +59,7 @@ export class PostsService{
         }
 
         //create post with the parameters
-        let post: Post = {postedBy: postedBy, title: title, content: content, description: description, dateTime: new Date(), tag: tag};
+        let post: Post = {postedBy: postedBy, title: title,  description: description, content: content, dateTime: new Date(), tag: tag, comment: comment};
 
         //return post
         return this.http.post<Post>("/api/post", post);
