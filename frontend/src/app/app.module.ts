@@ -34,6 +34,7 @@ import { HomeComponent } from './home/home.component';
 import { GateComponent } from './gate/gate.component';
 import { ProfileEditorComponent } from './profile/profile-editor/profile-editor.component';
 import { CreatePostComponent } from './create-post/create-post.component';
+import { SeePostComponent } from './see-post/see-post.component';
 
 const Ux_Modules = {
   MatInputModule,
@@ -49,7 +50,8 @@ const Ux_Modules = {
     HomeComponent,
     GateComponent,
     ProfileEditorComponent,
-    CreatePostComponent
+    CreatePostComponent,
+    SeePostComponent
   ],
   imports: [
     BrowserModule,
