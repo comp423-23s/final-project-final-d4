@@ -22,8 +22,8 @@ class PostEntity(EntityBase):
     content: Mapped[str] = mapped_column(String(64), unique=True, index=True, default='')
     tags: Mapped[list[str]] = mapped_column(MutableList.as_mutable(ARRAY(String(64))))
     created: Mapped[datetime] = mapped_column(DateTime)
-    title: Mapped[str] = mapped_column(String(64), unique=True, index=True, default='')
-    description: Mapped[str] = mapped_column(String(64), unique=True, index=True, default='')
+    # title: Mapped[str] = mapped_column(String(64),default='')
+    # description: Mapped[str] = mapped_column(String(64), unique=False, index=True, default='')
     
     user_id = mapped_column(ForeignKey("user.pid"))
 
@@ -40,8 +40,8 @@ class PostEntity(EntityBase):
             created=model.created,
             user_id=model.postedBy,
             comments=model.comments,
-            title=model.title,
-            description=model.description
+            # title=model.title,
+            # description=model.description
         )
 
     def to_model(self) -> Post:
@@ -52,8 +52,8 @@ class PostEntity(EntityBase):
             created=self.created,
             postedBy=self.user_id,
             comments=self.comments,
-            title=self.title,
-            description=self.description
+            # title=self.title,
+            # description=self.description
         )
 
     # not sure if necessary
