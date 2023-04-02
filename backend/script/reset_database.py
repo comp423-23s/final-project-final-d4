@@ -61,3 +61,12 @@ with Session(engine) as session:
         session.add(entity)
     session.execute(text(f'ALTER SEQUENCE permission_id_seq RESTART WITH {len(permissions.pairs) + 1}'))
     session.commit()
+
+# Add Posts to Post table
+with Session(engine) as session:
+    from ..entities import PostEntity
+    from .dev_data import post
+    to_entity = entities.PostEntity.from_model
+    session.add_all([to_entity(post) for post in post.post_models])
+    session.execute(text(f'ALTER SEQUENCE {entities.PostEntity.__table__}_id_seq RESTART WITH {len(post.post_models) + 1}'))
+    session.commit()
