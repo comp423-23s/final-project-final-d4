@@ -16,9 +16,11 @@ class Post(BaseModel):
     description: str = ""
     content: str = ""
     created: datetime = datetime.now()
-    postedBy: int | None
+    postedBy: int | None # postedBy = userID
     comments: list['Comment'] = []
     tags: list[str] = []
+    title: str = ""
+    description: str = ""
     # class Config:
     #     orm_mode = True
 
