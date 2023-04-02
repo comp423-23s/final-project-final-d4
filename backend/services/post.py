@@ -45,13 +45,14 @@ class PostService:
     def create_post(self, post: Post, session: Session = None) -> Post | None:
         if session is None:
             session = self.create_session()
-        stmt = select(UserEntity).where(UserEntity.pid == post.postedBy)
-        user_entity = session.scalar(stmt).one()
-
-        if user_entity:
-            post.postedby = user_entity.id
-        else:
-            raise Exception("User not found")
+        
+        if (len(str(post.postedBy)) != 9):
+            raise Exception(f"Invalid PID: {post.postedBy}")
+        
+        stmt = select(UserEntity).join(UserEntity.userPosts).where(UserEntity.pid == post.postedBy)
+        user = session.scalars(stmt).one_or_none()
+        if user is None:
+            raise Exception(f"User with PID: {post.postedBy} not existed")
     
         post_entity = PostEntity.from_model(post)
         self._session.add(post_entity)

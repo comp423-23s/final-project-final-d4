@@ -39,7 +39,8 @@ class PostEntity(EntityBase):
             tags=model.tags,
             created=model.created,
             user_id=model.postedBy,
-            comments=model.comments,
+            # Comments not in frontend post model
+            comments=model.comments, 
             # title=model.title,
             # description=model.description
         )
