@@ -19,17 +19,17 @@ class PostEntity(EntityBase):
     __tablename__ = 'post'
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
-    content: Mapped[str] = mapped_column(String(64), unique=True, index=True, default='')
+    content: Mapped[str] = mapped_column(String(64), unique=False, index=True, default='')
     tags: Mapped[list[str]] = mapped_column(MutableList.as_mutable(ARRAY(String(64))))
     created: Mapped[datetime] = mapped_column(DateTime)
-    title: Mapped[str] = mapped_column(String(64), unique=True, index=True, default='')
-    description: Mapped[str] = mapped_column(String(64), unique=True, index=True, default='')
+    title: Mapped[str] = mapped_column(String(64), unique=False, index=True, default='')
+    description: Mapped[str] = mapped_column(String(64), unique=False, index=True, default='')
     
     user_id = mapped_column(ForeignKey("user.pid"))
 
     postedBy: Mapped[list['UserEntity']] = relationship(back_populates="userPosts", post_update=True)
 
-    comments: Mapped[list['CommentEntity']] = relationship(back_populates='post')
+    # comments: Mapped[list['CommentEntity']] = relationship(back_populates='post')
 
     @classmethod
     def from_model(cls, model: Post) -> Self:
@@ -39,7 +39,7 @@ class PostEntity(EntityBase):
             tags=model.tags,
             created=model.created,
             user_id=model.postedBy,
-            comments=model.comments,
+            # comments=model.comments,
             title = model.title,
             description = model.description
         )
@@ -51,7 +51,7 @@ class PostEntity(EntityBase):
             tags=self.tags,
             created=self.created,
             postedBy=self.user_id,
-            comments=self.comments,
+            # comments=self.comments,
             title = self.title,
             description = self.description
         )
