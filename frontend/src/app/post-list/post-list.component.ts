@@ -17,8 +17,6 @@ export class PostListComponent {
     this.posts = postService.getPost()
 
   }
-
-
   // private onSuccess(): void {
   //   console.log("success")
   //   this.posts = this.postService.getPost()

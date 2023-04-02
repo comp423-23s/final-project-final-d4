@@ -17,17 +17,20 @@
             <mat-expansion-panel-header>
                 <mat-panel-title>Comments</mat-panel-title>
             </mat-expansion-panel-header>
+            <mat-card-content>
+                <p>{{post.comments}}</p>
+            </mat-card-content>
         <mat-form-field>
             <textarea rows = "3" 
             matInput 
-            name = "content"
+            name = "comment"
             placeholder= "Post Comments"
             ></textarea>
         </mat-form-field>
         <mat-action-row>
             <button mat-button color="primary">Add a Comment</button>
         </mat-action-row>
-    </mat-expansion-panel>
+        </mat-expansion-panel>
     </mat-card-footer>
   </mat-card>
 
