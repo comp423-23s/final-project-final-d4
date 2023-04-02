@@ -17,7 +17,7 @@ class Post(BaseModel):
     content: str = ""
     created: datetime = datetime.now()
     postedBy: int | None # postedBy = userID
-    comments: list['Comment'] = []
+    # comments: list['Comment'] = []
     tags: list[str] = []
     # class Config:
     #     orm_mode = True
