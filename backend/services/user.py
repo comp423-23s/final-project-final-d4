@@ -26,6 +26,12 @@ class UserService:
             model.permissions = self._permission.get_permissions(model)
             return model
 
+    def add(self, user: User) -> User:
+        user_entity = UserEntity.from_model(user)
+        self._session.add(user_entity)
+        self._session.flush()
+        self._session.commit()
+
     def search(self, subject: User, query: str) -> list[User]:
         statement = select(UserEntity)
         criteria = or_(
