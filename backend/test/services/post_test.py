@@ -14,7 +14,6 @@ sample_comment_1 = Comment(id=1, commenter=1, text="Hello", post=1, replies=[])
 # Model user
 user1 = User(id=1, pid=111111111, onyen='user', email='user@unc.edu')
 
-
 def create_session():
     with Session() as session:
         yield session
