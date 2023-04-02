@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Post, PostsService } from '../post.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-create-post',
@@ -15,17 +16,18 @@ export class CreatePostComponent {
 
 
   onPost(form: NgForm):void{
-    let postedBy = parseInt(form.value.id ?? "");
+    let postedBy = parseInt(form.value.postedBy ?? "");
     let title = (form.value.title ?? "");
-    let content = (form.value.content ?? "");
     let description = (form.value.description ?? "");
-    let time = (form.value.dateTime)
-    let tag = (form.value.tag ?? "");
+    let content = (form.value.content ?? "");
+    let created = (form.value.created);
+    let comments = (form.value.comments ?? "");
+    let tags = (form.value.tags ?? "");
     // this.postService.addPost(form.value.id, form.value.title, form.value.descripiton, form.value.content, form.value.dateTime, form.value.tag);
     // 
 
     this.postService
-      .addPost(postedBy, title, content, description, time, tag)
+      .addPost( title, description, content, created, postedBy, comments, tags)
       .subscribe({
         next: (post) => this.onSuccess(post),
         error:(err) => this.onError(err)
@@ -38,9 +40,9 @@ export class CreatePostComponent {
     window.alert(`Thanks for posting`);
   }
 
-  private onError(err: Error) {
+  private onError(err: HttpErrorResponse) {
     if (err.message) {
-      window.alert(err.message);
+      window.alert(err.error.detail);
     } else {
       window.alert("Unknown error: " + JSON.stringify(err));
     }
