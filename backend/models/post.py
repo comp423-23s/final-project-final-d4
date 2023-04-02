@@ -19,8 +19,6 @@ class Post(BaseModel):
     postedBy: int | None # postedBy = userID
     comments: list['Comment'] = []
     tags: list[str] = []
-    title: str = ""
-    description: str = ""
     # class Config:
     #     orm_mode = True
 
