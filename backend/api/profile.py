@@ -17,7 +17,6 @@ def read_profile(pid_onyen: tuple[int, str] = Depends(authenticated_pid), user_s
     else:
         return NewUser(pid=pid, onyen=onyen)
 
-
 @api.put("", response_model=User, tags=['profile'])
 def update_profile(
     profile: ProfileForm,

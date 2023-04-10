@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
-
-import { HttpClient } from "@angular/common/http";
 import { Observable, throwError } from "rxjs";
+import { HttpClient } from "@angular/common/http";
+import {ProfileService, Profile} from "./profile/profile.service"
 
 export interface Post{
     title: string;
@@ -25,7 +25,12 @@ export interface Post{
 
 @Injectable({providedIn: 'root'})
 export class PostsService{
-    constructor(private http: HttpClient) {}
+    private profile$: Observable<Profile | undefined>;
+    constructor(
+        private http: HttpClient, 
+        private profileService: ProfileService) {
+            this.profile$ = profileService.profile$
+        }
 
     //Retrieve all posts in the list .
     // @returns observable array of Post objects.
