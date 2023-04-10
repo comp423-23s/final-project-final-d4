@@ -35,3 +35,7 @@ def test_empty_post(post: PostService):
 #         post.create_post(sample_post)
     
 #     assert(len(post.get_posts()) == 0)
+
+def test_delete_post_valid(post: PostService):
+    post.delete_post(4)
+    assert(len(post.get_posts())==3)

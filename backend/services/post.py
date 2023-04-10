@@ -60,4 +60,18 @@ class PostService:
         self._session.commit()
         return post_entity.to_model()
     
+    # Delete post
+    def delete_post(self, id: int, session: Session=None) -> Post | None:
+        if session is None:
+            session = self.create_session()
+
+        for i in self.get_posts():
+            if i.id == id:
+                post_entity = session.query(PostEntity).filter(PostEntity.id == id).one()
+                session.delete(post_entity)
+                session.commit()
+                return post_entity
+        
+        raise ValueError("The user is not in the system.")
+    
     
