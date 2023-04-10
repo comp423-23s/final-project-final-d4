@@ -6,7 +6,6 @@
             matInput 
             ngModel
             name = "postedBy"
-
             placeholder= "Username"
             >
         </mat-form-field>
@@ -44,8 +43,18 @@
             <textarea rows = "1"
             matInput 
             ngModel
-            name = "tag"
-            placeholder= "tag"
+            name = "tags"
+            placeholder= "tags"
+            required
+            #content = "ngModel"
+            ></textarea>
+        </mat-form-field>
+        <mat-form-field>
+            <textarea rows = "1"
+            matInput 
+            ngModel
+            name = "comments"
+            placeholder= "Comment"
             required
             #content = "ngModel"
             ></textarea>

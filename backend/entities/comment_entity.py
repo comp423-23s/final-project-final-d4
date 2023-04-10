@@ -24,8 +24,8 @@ class CommentEntity(EntityBase):
     user_id = mapped_column(ForeignKey("user.pid"))
     commenter: Mapped['UserEntity'] = relationship(post_update=True)
 
-    post_id = mapped_column(ForeignKey("post.id"))
-    post: Mapped['PostEntity'] = relationship(back_populates="comments", post_update=True)
+    # post_id = mapped_column(ForeignKey("post.id"))
+    # post: Mapped['PostEntity'] = relationship(back_populates="comments", post_update=True)
 
     # not sure ifi this line is necessary, i am combining kris jordan's and my own code
     # replyTo_id = mapped_column(ForeignKey("comments.id"))
@@ -42,7 +42,7 @@ class CommentEntity(EntityBase):
             text=model.text,
             created=model.created,
             commenter=model.commenter,
-            post=model.post,
+            # post=model.post,
             replies=model.replies
         )
 
@@ -52,7 +52,7 @@ class CommentEntity(EntityBase):
             text=self.text,
             commenter=self.commenter,
             created=self.created,
-            post=self.post,
+            # post=self.post,
             replies=self.replies,
         )
 

@@ -64,7 +64,10 @@ with Session(engine) as session:
 
 # Add Posts to Post table
 with Session(engine) as session:
+<<<<<<< HEAD
     from ..entities import PostEntity
+=======
+>>>>>>> 0dbf8d6f87c63cab52d1d4cf3206b347951a8e82
     from .dev_data import post
     to_entity = entities.PostEntity.from_model
     session.add_all([to_entity(post) for post in post.post_models])
