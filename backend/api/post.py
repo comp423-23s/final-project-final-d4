@@ -16,3 +16,10 @@ def create_post(post: Post, post_serv: PostService = Depends()) -> Post:
         return post_serv.create_post(post)
     except Exception as e:
         raise HTTPException(status_code=422, detail=str(e))
+
+@api.delete("",tags=["Post"])
+def delete_post(id:int, post_serv: PostService = Depends()) -> Post:
+    try:
+        return post_serv.delete_post(id)
+    except Exception as e:
+        raise HTTPException(status_code=422, detail=str(e))
