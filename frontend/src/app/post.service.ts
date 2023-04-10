@@ -4,12 +4,22 @@ import { HttpClient } from "@angular/common/http";
 import {ProfileService, Profile} from "./profile/profile.service"
 
 export interface Post{
-    postedBy: number;
     title: string;
-    content: string;
     description: string;
-    dateTime: Date;
-    tag: string[];
+    content: string;
+    created: Date;
+    postedBy: number;
+    comments: string[];
+    tags: string[];
+
+    // id: int | None = None
+    // title: str = ""
+    // description: str = ""
+    // content: str = ""
+    // created: datetime = datetime.now()
+    // postedBy: int | None # postedBy = userID
+    // comments: list['Comment'] = []
+    // tags: list[str] = []
 }
 
 
@@ -39,12 +49,12 @@ export class PostsService{
    * @param tag: tag of the post
    * @returns Obervable of Post that will error if there are issues with validation or persistence.
    */
-    addPost(postedBy: number, title: string, content: string,  description: string, dateTime: any, tag: string[]){
+    addPost(title: string, description: string, content: string,  created: any, postedBy: number, comments: string[], tags: string[]){
         //make sure users fill in each input 
 
         let errors: string[] = [];
 
-        if(postedBy.toString() === ""){
+        if(postedBy.toString().length !== 9){
             errors.push(`Username required.`);
         }
         if(title === ""){
@@ -62,7 +72,7 @@ export class PostsService{
         }
 
         //create post with the parameters
-        let post: Post = {postedBy: postedBy, title: title, content: content, description: description, dateTime: new Date(), tag: tag};
+        let post: Post = {title: title, description: description, content: content,  created: new Date(), postedBy: postedBy, comments: comments, tags: tags};
 
         //return post
         return this.http.post<Post>("/api/post", post);

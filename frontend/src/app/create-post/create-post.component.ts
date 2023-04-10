@@ -3,6 +3,7 @@ import { NgForm } from '@angular/forms';
 import { Post, PostsService } from '../post.service';
 import { Observable, Subscription } from 'rxjs';
 import { ProfileService, Profile } from '../profile/profile.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-create-post',
@@ -24,17 +25,10 @@ export class CreatePostComponent {
     
     let postedBy = parseInt(form.value.id ?? "");
     let title = (form.value.title ?? "");
-    let content = (form.value.content ?? "");
     let description = (form.value.description ?? "");
     let time = (form.value.dateTime)
     let tag = (form.value.tag ?? "");
 
-    this.postService
-      .addPost(postedBy, title, content, description, time, tag)
-      .subscribe({
-        next: (post) => this.onSuccess(post),
-        error:(err) => this.onError(err)
-      });
     
     form.resetForm()
   }
@@ -43,9 +37,9 @@ export class CreatePostComponent {
     window.alert(`Thanks for posting`);
   }
 
-  private onError(err: Error) {
+  private onError(err: HttpErrorResponse) {
     if (err.message) {
-      window.alert(err.message);
+      window.alert(err.error.detail);
     } else {
       window.alert("Unknown error: " + JSON.stringify(err));
     }
