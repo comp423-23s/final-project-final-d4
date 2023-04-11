@@ -5,7 +5,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import {MatAutocompleteSelectedEvent} from '@angular/material/autocomplete';
 import {MatChipInputEvent} from '@angular/material/chips';
 import {FormControl} from '@angular/forms';
-import { Observable } from 'rxjs';
+import { Observable, map, startWith } from 'rxjs';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
 
 
@@ -18,16 +18,20 @@ import {COMMA, ENTER} from '@angular/cdk/keycodes';
 export class CreatePostComponent {
   separatorKeysCodes: number[] = [ENTER, COMMA];
   tagCtrl = new FormControl('');
-  filteredTags: Observable<string[]> | undefined;
-  tags: string[] = ['Lemon'];
-  allTags: string[] = ['Apple', 'Lemon', 'Lime', 'Orange', 'Strawberry'];
+  filteredTags!: Observable<string[]>;
+  tags: string[] = ['Share insights'];
+  allTags: string[] = ['Finding teammates', 'Project', 'Bug', 'Frontend', 'Backend'];
   @ViewChild('tagInput')
   tagInput!: ElementRef<HTMLInputElement>;
 
 
   constructor(
     public postService: PostsService
-  ) {}
+  ) {
+    this.filteredTags = this.tagCtrl.valueChanges.pipe(startWith(null), 
+    map((fruit: string | null) => (fruit ? this._filter(fruit) : this.allTags.slice())),
+  );
+}
 
 
   onPost(form: NgForm):void{
