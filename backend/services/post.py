@@ -4,20 +4,10 @@ from sqlalchemy import select, or_, func
 from sqlalchemy.orm import Session
 from ..database import db_session, _engine_str
 from .permission import PermissionService
-from ..models import Post
+from ..models import Post, User
 from ..entities.post_entity import PostEntity
 from ..entities import UserEntity
 from sqlalchemy import create_engine
-
-
-# class Post_raw(BaseModel):
-#     postedBy : int
-#     title : str = ""
-#     description: str = ""
-#     content: str = ""
-#     dateTime: datetime = datetime.now()
-#     tag: list[str] = []
-#     comment : list[comment] = []
 
 
 class PostService:
@@ -40,21 +30,30 @@ class PostService:
         query = session.query(PostEntity)
         entities = query.all()
         return [entity.to_model() for entity in entities]
-        
-    # Create new post
-    def create_post(self, post: Post, session: Session = None) -> Post | None:
+
+    # Search posts
+    def search_post(self, query: str, session: Session = None) -> list[Post] | None:
         if session is None:
             session = self.create_session()
         
-        if (len(str(post.postedBy)) != 9):
-            raise Exception(f"Invalid PID: {post.postedBy}")
-        
-        stmt = select(UserEntity).join(UserEntity.userPosts).where(UserEntity.pid == post.postedBy)
-        user = session.scalars(stmt).all()
-        if user is None:
-            raise Exception(f"User with PID: {post.postedBy} not existed")
+        statement = select(PostEntity)
+        criteria = or_(
+            PostEntity.content.ilike(f'%{query}%'),
+            PostEntity.title.ilike(f'%{query}%'),
+            UserEntity.description.ilike(f'%{query}%'),
+        )
+        statement = statement.where(criteria).limit(10)
+        entities = self._session.execute(statement).scalars()
+        return [entity.to_model() for entity in entities]
     
+    # Create new post
+    def create_post(self, post: Post, user: User, session: Session = None) -> Post | None:
+        if session is None:
+            session = self.create_session()
+        
+        userEntity = UserEntity.from_model(user)
         post_entity = PostEntity.from_model(post)
+        post_entity.postedBy = userEntity
         session.add(post_entity)
         session.flush()
         session.commit()
