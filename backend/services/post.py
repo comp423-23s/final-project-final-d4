@@ -78,7 +78,7 @@ class PostService:
                     session.commit()
                 else:
                     raise UserPermissionError('post.delete_post', f'post/{id}')
-                
+           
                 return post_entity
         
         raise ValueError("The post is not in the system.")
