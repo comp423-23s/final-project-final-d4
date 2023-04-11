@@ -1,6 +1,8 @@
 from fastapi import APIRouter, Depends, HTTPException
 from ..services.post import PostService
 from ..models.post import Post
+from ..models import User
+from .authentication import registered_user
 
 openapi_tags = {"name": "Post view", "description": "Post projects endpoints."}
 
@@ -17,9 +19,9 @@ def create_post(post: Post, post_serv: PostService = Depends()) -> Post:
     except Exception as e:
         raise HTTPException(status_code=422, detail=str(e))
 
-@api.delete("",tags=["Post"])
-def delete_post(id:int, post_serv: PostService = Depends()) -> Post:
+@api.delete("/{id}",tags=["Post"])
+def delete_post(id:int, post_serv: PostService = Depends(), subject: User = Depends(registered_user)) -> Post:
     try:
-        return post_serv.delete_post(id)
+        return post_serv.delete_post(id,subject)
     except Exception as e:
         raise HTTPException(status_code=422, detail=str(e))

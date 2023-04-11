@@ -6,6 +6,7 @@ from sqlalchemy.orm import Session
 from backend.services.permission import PermissionService
 from ...models import Post, Comment, User
 from ...services import PostService,UserService
+from ...script.dev_data import users
 
 # Model post 
 sample_post = Post(id=5, content="Welcome to csxl!", postedBy=100000000, title="test",description="test")
@@ -30,11 +31,10 @@ def post():
 def test_empty_post(post: PostService):
     assert(len(post.get_posts()) == 4)
 
-
 def test_add_post_valid_pid(post: PostService):
     post.create_post(sample_post)
     assert(len(post.get_posts()) == 5)
 
 def test_delete_post_valid(post: PostService):
-    post.delete_post(4)
+    post.delete_post(4,users.sol_student)
     assert(len(post.get_posts())==4)

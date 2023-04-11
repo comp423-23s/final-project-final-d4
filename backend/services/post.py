@@ -3,8 +3,8 @@ from pydantic import BaseModel
 from sqlalchemy import select, or_, func
 from sqlalchemy.orm import Session
 from ..database import db_session, _engine_str
-from .permission import PermissionService
-from ..models import Post
+from .permission import PermissionService, UserPermissionError
+from ..models import Post,User,Permission
 from ..entities.post_entity import PostEntity
 from ..entities import UserEntity
 from sqlalchemy import create_engine
@@ -61,15 +61,24 @@ class PostService:
         return post_entity.to_model()
     
     # Delete post
-    def delete_post(self, id: int, session: Session=None) -> Post | None:
+    def delete_post(self, id: int, subject: User, session: Session=None) -> Post | None:
         if session is None:
             session = self.create_session()
+
+        admin = False
+        perm = self._permission.get_permissions(subject)
+        if(Permission(action="admin.*", resource="*") in perm):
+            admin=True
 
         for i in self.get_posts():
             if i.id == id:
                 post_entity = session.query(PostEntity).filter(PostEntity.id == id).one()
-                session.delete(post_entity)
-                session.commit()
+                if((post_entity.postedBy == subject.pid) | admin):
+                    session.delete(post_entity)
+                    session.commit()
+                else:
+                    raise UserPermissionError('post.delete_post', f'post/{id}')
+                
                 return post_entity
         
         raise ValueError("The post is not in the system.")
