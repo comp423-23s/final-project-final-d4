@@ -75,6 +75,6 @@ def test_create_post(post: PostService, test_session: Session, users: UserServic
     post.create_post(sample_post, user)
     assert(len(post.get_posts()) == 1)
 
-def test_delete_post_valid(post: PostService):
-    post.delete_post(1)
+def test_delete_post_valid(post: PostService,users: UserService):
+    post.delete_post(1,user)
     assert(len(post.get_posts())==0)
