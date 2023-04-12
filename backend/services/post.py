@@ -51,9 +51,10 @@ class PostService:
         # if session is None:
         #     session = self.create_session()
         
-        userEntity = UserEntity.from_model(user)
+        query = select(UserEntity).where(UserEntity.pid == user.pid)
+        user_entity: UserEntity = self._session.scalar(query)
         post_entity = PostEntity.from_model(post)
-        post_entity.postedBy = userEntity
+        post_entity.postedBy = user_entity
         self._session.add(post_entity)
         self._session.flush()
         self._session.commit()
@@ -66,11 +67,14 @@ class PostService:
 
         for i in self.get_posts():
             if i.id == id:
-                post_entity = self._session.query(PostEntity).filter(PostEntity.id == id).one()
-                self._session.delete(post_entity)
-                self._session.commit()
-                return post_entity
+                query = select(PostEntity).where(PostEntity.id == id)
+                post_entity: PostEntity = self._session.scalar(query)
+                if post_entity is None:
+                    raise ValueError("The post is not in the system.")
+                else:
+                    self._session.delete(post_entity)
+                    self._session.commit()
+                    return post_entity
         
-        raise ValueError("The post is not in the system.")
     
     
