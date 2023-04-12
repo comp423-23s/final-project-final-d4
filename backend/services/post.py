@@ -18,10 +18,10 @@ class PostService:
         self._session = session
         self._permission = permission
 
-    @staticmethod
-    def create_session() -> Session:
-        engine = create_engine(_engine_str())
-        return Session(bind=engine)
+    # @staticmethod
+    # def create_session() -> Session:
+    #     engine = create_engine(_engine_str())
+    #     return Session(bind=engine)
 
     # Get all posts
     def get_posts(self) -> list[Post] | None:
@@ -61,9 +61,9 @@ class PostService:
         return post_entity.to_model()
     
     # Delete post
-    def delete_post(self, id: int, subject: User, session: Session=None) -> Post | None:
-        if session is None:
-            session = self.create_session()
+    def delete_post(self, id: int, subject: User) -> Post | None:
+        # if session is None:
+        #     session = self.create_session()
         admin = False
         perm = self._permission.get_permissions(subject)
         if(Permission(action="admin.*", resource="*") in perm):
@@ -71,10 +71,10 @@ class PostService:
 
         for i in self.get_posts():
             if i.id == id:
-                post_entity = session.query(PostEntity).filter(PostEntity.id == id).one()
+                post_entity = self._session.query(PostEntity).filter(PostEntity.id == id).one()
                 if((post_entity.postedBy == subject.pid) | admin):
-                    session.delete(post_entity)
-                    session.commit()
+                    self._session.delete(post_entity)
+                    self._session.commit()
                 else:
                     raise UserPermissionError('post.delete_post', f'post/{id}')
            
