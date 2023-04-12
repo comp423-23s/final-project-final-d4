@@ -1,6 +1,8 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Post, PostsService } from '../post.service';
+import { Observable, Subscription } from 'rxjs';
+import { ProfileService, Profile } from '../profile/profile.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import {MatAutocompleteSelectedEvent} from '@angular/material/autocomplete';
 import {MatChipInputEvent} from '@angular/material/chips';
@@ -23,34 +25,28 @@ export class CreatePostComponent {
   allTags: string[] = ['Finding teammates', 'Project', 'Bug', 'Frontend', 'Backend'];
   @ViewChild('tagInput')
   tagInput!: ElementRef<HTMLInputElement>;
-
+  
+  public profile$: Observable<Profile | undefined>;
 
   constructor(
-    public postService: PostsService
+    public postService: PostsService,
+    private profileService: ProfileService
   ) {
-    this.filteredTags = this.tagCtrl.valueChanges.pipe(startWith(null), 
+    this.profile$ = profileService.profile$,
+    this.filteredTags = this.tagCtrl.valueChanges.pipe(startWith(null),
     map((fruit: string | null) => (fruit ? this._filter(fruit) : this.allTags.slice())),
   );
 }
 
 
   onPost(form: NgForm):void{
-    let postedBy = parseInt(form.value.postedBy ?? "");
+    
+    let postedBy = parseInt(form.value.id ?? "");
     let title = (form.value.title ?? "");
     let description = (form.value.description ?? "");
-    let content = (form.value.content ?? "");
-    let created = (form.value.created);
-    let comments = (form.value.comments ?? "");
-    let tags = (form.value.tags ?? "");
-    // this.postService.addPost(form.value.id, form.value.title, form.value.descripiton, form.value.content, form.value.dateTime, form.value.tag);
-    // 
+    let time = (form.value.dateTime)
+    let tag = (form.value.tag ?? "");
 
-    this.postService
-      .addPost( title, description, content, created, postedBy, comments, tags)
-      .subscribe({
-        next: (post) => this.onSuccess(post),
-        error:(err) => this.onError(err)
-      });
     
     form.resetForm()
   }

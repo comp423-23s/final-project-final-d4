@@ -25,10 +25,8 @@ class PostEntity(EntityBase):
     title: Mapped[str] = mapped_column(String(64), unique=False, index=True, default='')
     description: Mapped[str] = mapped_column(String(64), unique=False, index=True, default='')
     
-    user_id = mapped_column(ForeignKey("user.pid"))
-
-    postedBy: Mapped[list['UserEntity']] = relationship(back_populates="userPosts", post_update=True)
-
+    user_id: Mapped[int] = mapped_column(ForeignKey('user.id'), nullable=True)
+    postedBy: Mapped['UserEntity'] = relationship(back_populates="userPosts", post_update=True)
     # comments: Mapped[list['CommentEntity']] = relationship(back_populates='post')
 
     @classmethod
@@ -38,8 +36,6 @@ class PostEntity(EntityBase):
             content=model.content,
             tags=model.tags,
             created=model.created,
-            user_id=model.postedBy,
-            # comments=model.comments,
             title = model.title,
             description = model.description
         )
@@ -50,8 +46,6 @@ class PostEntity(EntityBase):
             content=self.content,
             tags=self.tags,
             created=self.created,
-            postedBy=self.user_id,
-            # comments=self.comments,
             title = self.title,
             description = self.description
         )

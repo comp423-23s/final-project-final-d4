@@ -30,8 +30,8 @@ class UserEntity(EntityBase):
         String(64), nullable=False, default='')
     pronouns: Mapped[str] = mapped_column(
         String(32), nullable=False, default='')
-    year: Mapped[str] = mapped_column(
-        String(32), nullable=False, default='')
+    # year: Mapped[str] = mapped_column(
+    #     String(32), nullable=False, default='')
 
     roles: Mapped[list['RoleEntity']] = relationship(secondary=user_role_table, back_populates='users')
     permissions: Mapped['PermissionEntity'] = relationship(back_populates='user')
@@ -48,9 +48,9 @@ class UserEntity(EntityBase):
             first_name=model.first_name,
             last_name=model.last_name,
             pronouns=model.pronouns,
-            year=model.year,
-            userPosts=model.userPosts,
-            teams=model.teams
+            # year=model.year,
+            # userPosts=model.userPosts,
+            # teams=model.teams
         )
 
     def to_model(self) -> User:
@@ -62,9 +62,9 @@ class UserEntity(EntityBase):
             first_name=self.first_name,
             last_name=self.last_name,
             pronouns=self.pronouns,
-            year=self.year,
-            userPosts=self.userPosts,
-            teams=self.teams
+            # year=self.year,
+            # userPosts=self.userPosts,
+            # teams=self.teams
         )
 
     def update(self, model: User) -> None:
@@ -72,6 +72,6 @@ class UserEntity(EntityBase):
         self.first_name = model.first_name
         self.last_name = model.last_name
         self.pronouns = model.pronouns
-        self.year=model.year,
-        self.userPosts=model.userPosts,
-        self.teams=model.teams
+        # self.year=model.year,
+        # self.userPosts=model.userPosts,
+        # self.teams=model.teams

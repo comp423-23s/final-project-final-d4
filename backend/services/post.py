@@ -10,22 +10,12 @@ from ..entities import UserEntity
 from sqlalchemy import create_engine
 
 
-# class Post_raw(BaseModel):
-#     postedBy : int
-#     title : str = ""
-#     description: str = ""
-#     content: str = ""
-#     dateTime: datetime = datetime.now()
-#     tag: list[str] = []
-#     comment : list[comment] = []
-
-
 class PostService:
-    # _session: Session
+    _session: Session
     _permission: PermissionService
 
     def __init__(self, session: Session = Depends(db_session), permission: PermissionService = Depends()):
-        # self._session = session
+        self._session = session
         self._permission = permission
 
     @staticmethod
@@ -34,37 +24,46 @@ class PostService:
         return Session(bind=engine)
 
     # Get all posts
-    def get_posts(self, session: Session = None) -> list[Post] | None:
-        if session is None:
-            session = self.create_session()
-        query = session.query(PostEntity)
+    def get_posts(self) -> list[Post] | None:
+        # if session is None:
+        #     session = self.create_session()
+        query = self._session.query(PostEntity)
         entities = query.all()
         return [entity.to_model() for entity in entities]
+
+    # Search posts
+    def search_post(self, query: str) -> list[Post] | None:
+        # if session is None:
+        #     session = self.create_session()
         
-    # Create new post
-    def create_post(self, post: Post, session: Session = None) -> Post | None:
-        if session is None:
-            session = self.create_session()
-        
-        if (len(str(post.postedBy)) != 9):
-            raise Exception(f"Invalid PID: {post.postedBy}")
-        
-        stmt = select(UserEntity).join(UserEntity.userPosts).where(UserEntity.pid == post.postedBy)
-        user = session.scalars(stmt).all()
-        if user is None:
-            raise Exception(f"User with PID: {post.postedBy} not existed")
+        statement = select(PostEntity)
+        criteria = or_(
+            PostEntity.content.ilike(f'%{query}%'),
+            PostEntity.title.ilike(f'%{query}%'),
+            UserEntity.description.ilike(f'%{query}%'),
+        )
+        statement = statement.where(criteria).limit(10)
+        entities = self._session.execute(statement).scalars()
+        return [entity.to_model() for entity in entities]
     
+    # Create new post
+    def create_post(self, post: Post, user: User) -> Post | None:
+        # if session is None:
+        #     session = self.create_session()
+        
+        query = select(UserEntity).where(UserEntity.pid == user.pid)
+        user_entity: UserEntity = self._session.scalar(query)
         post_entity = PostEntity.from_model(post)
-        session.add(post_entity)
-        session.flush()
-        session.commit()
+        post_entity.postedBy = user_entity
+        self._session.add(post_entity)
+        self._session.flush()
+        self._session.commit()
         return post_entity.to_model()
     
     # Delete post
     def delete_post(self, id: int, subject: User, session: Session=None) -> Post | None:
         if session is None:
             session = self.create_session()
-
         admin = False
         perm = self._permission.get_permissions(subject)
         if(Permission(action="admin.*", resource="*") in perm):
@@ -80,7 +79,7 @@ class PostService:
                     raise UserPermissionError('post.delete_post', f'post/{id}')
            
                 return post_entity
+
         
-        raise ValueError("The post is not in the system.")
     
     
