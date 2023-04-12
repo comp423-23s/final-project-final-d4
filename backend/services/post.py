@@ -40,14 +40,14 @@ class PostService:
         criteria = or_(
             PostEntity.content.ilike(f'%{query}%'),
             PostEntity.title.ilike(f'%{query}%'),
-            UserEntity.description.ilike(f'%{query}%'),
+            PostEntity.description.ilike(f'%{query}%'),
         )
         statement = statement.where(criteria).limit(10)
         entities = self._session.execute(statement).scalars()
         return [entity.to_model() for entity in entities]
     
     # Create new post
-    def create_post(self, post: Post, user: User) -> Post | None:
+    def create_post(self, user: User, post: Post) -> Post | None:
         # if session is None:
         #     session = self.create_session()
         
