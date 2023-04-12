@@ -8,7 +8,8 @@ from ...models import Post, Comment, User
 from ...services import PostService,UserService
 
 # Model post 
-sample_post = Post(id=1, content="Welcome to csxl!", postedBy=111111111, comments=[], title="test",description="test")
+sample_post = Post(id=5, content="Welcome to csxl!", postedBy=100000000, title="test",description="test")
+
 # Model comment
 sample_comment_1 = Comment(id=1, commenter=1, text="Hello", post=1, replies=[])
 # Model user
@@ -30,8 +31,10 @@ def test_empty_post(post: PostService):
     assert(len(post.get_posts()) == 4)
 
 
-# def test_add_post_invalid_pid(post: PostService):
-#     with pytest.raises(Exception):
-#         post.create_post(sample_post)
-    
-#     assert(len(post.get_posts()) == 0)
+def test_add_post_valid_pid(post: PostService):
+    post.create_post(sample_post)
+    assert(len(post.get_posts()) == 5)
+
+def test_delete_post_valid(post: PostService):
+    post.delete_post(4)
+    assert(len(post.get_posts())==4)
