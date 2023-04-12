@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Post, PostsService } from '../post.service';
+import { Observable, Subscription } from 'rxjs';
+import { ProfileService, Profile } from '../profile/profile.service';
 import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
@@ -9,29 +11,24 @@ import { HttpErrorResponse } from '@angular/common/http';
   styleUrls: ['./create-post.component.css']
 })
 export class CreatePostComponent {
+  public profile$: Observable<Profile | undefined>;
 
   constructor(
-    public postService: PostsService
-  ) {}
+    public postService: PostsService,
+    private profileService: ProfileService
+  ) {
+    this.profile$ = profileService.profile$;
+  }
 
 
   onPost(form: NgForm):void{
-    let postedBy = parseInt(form.value.postedBy ?? "");
+    
+    let postedBy = parseInt(form.value.id ?? "");
     let title = (form.value.title ?? "");
     let description = (form.value.description ?? "");
-    let content = (form.value.content ?? "");
-    let created = (form.value.created);
-    let comments = (form.value.comments ?? "");
-    let tags = (form.value.tags ?? "");
-    // this.postService.addPost(form.value.id, form.value.title, form.value.descripiton, form.value.content, form.value.dateTime, form.value.tag);
-    // 
+    let time = (form.value.dateTime)
+    let tag = (form.value.tag ?? "");
 
-    this.postService
-      .addPost( title, description, content, created, postedBy, comments, tags)
-      .subscribe({
-        next: (post) => this.onSuccess(post),
-        error:(err) => this.onError(err)
-      });
     
     form.resetForm()
   }
