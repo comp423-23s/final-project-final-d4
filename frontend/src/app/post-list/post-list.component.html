@@ -10,7 +10,7 @@
 <mat-card *ngFor= "let post of posts | async">
 
     <mat-card-header>
-      <mat-card-subtitle>Posted By: {{post.postedBy}}</mat-card-subtitle>
+      <mat-card-subtitle>Posted By: {{post.pid}}</mat-card-subtitle>
       <mat-card-subtitle>Time: {{post.created}}</mat-card-subtitle>
       <mat-card-title>{{post.title}}</mat-card-title>
     </mat-card-header>
@@ -20,6 +20,9 @@
       <mat-divider></mat-divider>
     </mat-card-content>
     <mat-card-actions>
+        <button mat-icon-button color="warn" (click)="deletePost(post.id)">
+            <mat-icon>delete</mat-icon>
+        </button>
       <button mat-button>Tags: {{post.tags}}</button>
     </mat-card-actions>
     <mat-card-footer>

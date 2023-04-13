@@ -26,6 +26,8 @@ import { MatSliderModule } from '@angular/material/slider';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 /* Application Specific */
 import { AppRoutingModule } from './app-routing.module';
@@ -45,7 +47,9 @@ const Ux_Modules = {
   MatButtonModule,
   MatCardModule,
   MatExpansionModule,
-  MatAccordion
+  MatAccordion,
+  MatChipsModule,
+  MatAutocompleteModule
 }
 
 @NgModule({
@@ -82,6 +86,8 @@ const Ux_Modules = {
     MatToolbarModule,
     MatExpansionModule,
     FormsModule,
+    MatChipsModule,
+    MatAutocompleteModule,
     JwtModule.forRoot({
       config: {
         tokenGetter: () => {
