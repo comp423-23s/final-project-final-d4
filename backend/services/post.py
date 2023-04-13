@@ -73,7 +73,7 @@ class PostService:
                     else:
                         raise UserPermissionError('post.delete_post', f'post/{id}')
            
-                return post_entity
+                return post_entity.to_model()
 
                 
 

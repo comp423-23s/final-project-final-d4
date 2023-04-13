@@ -17,6 +17,7 @@ class Post(BaseModel):
     created: datetime = datetime.now()
     title: str = ""
     description: str = ""
+    pid: int | None = None
 
 class NewPost(BaseModel):
     content: str=""

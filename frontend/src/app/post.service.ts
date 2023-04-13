@@ -11,15 +11,18 @@ export interface Post{
     postedBy: number;
     comments: string[];
     tags: string[];
+}
 
-    // id: int | None = None
-    // title: str = ""
-    // description: str = ""
-    // content: str = ""
-    // created: datetime = datetime.now()
-    // postedBy: int | None # postedBy = userID
-    // comments: list['Comment'] = []
-    // tags: list[str] = []
+export interface PostView {
+    id: number;
+    content: string;
+    tags: string[]
+    created: Date;
+    title: string;
+    description: string;
+    pid: number;
+    // first_name: string;
+    // last_name: string;
 }
 
 // FYI:
@@ -33,7 +36,7 @@ export interface Post{
 //     title: str = ""
 //     description: str = ""
 
-// Backend NewPost Model:
+// Backend NewPost (PostRequest) Model:
 // class Post(BaseModel):
 //     content: str=""
 //     tags: list[str] = []
@@ -54,8 +57,8 @@ export class PostsService{
     //Retrieve all posts in the list .
     // @returns observable array of Post objects.
 
-    getPost(): Observable<Post[]> {
-        return this.http.get<Post[]>("/api/post");
+    getPost(): Observable<PostView[]> {
+        return this.http.get<PostView[]>("/api/post");
     }
 
     /**
@@ -96,5 +99,9 @@ export class PostsService{
         //return post
         return this.http.post<Post>("/api/post", post);
         
+    }
+
+    deletePost(postID: number): Observable<Post> {
+        return this.http.delete<Post>(`/api/post/${postID}`)
     }
 }
