@@ -66,7 +66,7 @@ class PostService:
                 if post_entity is None:
                     raise ValueError("The post is not in the system.")
                 else:
-                    if((post_entity.postedBy == subject.pid) | admin):
+                    if((post_entity.user_pid == subject.pid) | admin):
                         # Check for authorization
                         self._session.delete(post_entity)
                         self._session.commit()
