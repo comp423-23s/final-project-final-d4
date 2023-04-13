@@ -12,13 +12,18 @@ from datetime import datetime
 class Post(BaseModel):
     # this is the primary key
     id: int | None = None
-    content: str=""
-    tags: list[str] = []
-    created: datetime = datetime.now()
     title: str = ""
     description: str = ""
+    content: str = ""
+    created: datetime = datetime.now()
+    postedBy: int | None # postedBy = userID
+    #comments: list['Comment'] = []
+    tags: list[str] = []
+    # class Config:
+    #     orm_mode = True
 
 # copied fro professor's databse code at the end of User Model.. Assuming theres some importance here
 # Python... :sob:... necessary due to circularity (TODO: refactor to remove circularity)
-# from .comment import Comment
+from .user import User
+from .comment import Comment
 Post.update_forward_refs()
