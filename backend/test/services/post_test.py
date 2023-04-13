@@ -11,6 +11,7 @@ from ...entities import UserEntity, PostEntity, RoleEntity, PermissionEntity
 
 # Model post 
 sample_post = Post(id=1,content="Good Day", tags=["Daily"], title="Greeting", description="Good morrow students!")
+sample_post_2 = Post(id=2,content="Good Day", tags=["Daily"], title="Greeting", description="Good morrow students!")
 
 # Model user
 root = User(id=1, pid=999999999, onyen='root', email='root@unc.edu')
@@ -79,7 +80,7 @@ def test_empty_post(post: PostService):
     assert(len(post.get_posts()) == 0)
 
 def test_create_post(post: PostService, test_session: Session, users: UserService):
-    post.create_post(sample_post, user)
+    post.create_post(user, sample_post)
     assert(len(post.get_posts()) == 1)
 
 def test_delete_post_valid(post: PostService,users: UserService, test_session: Session):
@@ -91,3 +92,10 @@ def test_delete_post_valid_admin(post: PostService,users: UserService, test_sess
     assert(len(post.get_posts())==1)
     post.delete_post(1,root)
     assert(len(post.get_posts())==0)
+
+def test_search_post(post: PostService):
+    post.create_post(user, sample_post_2)
+    sample = post.search_post("greeting")
+    assert(len(sample) == 1)
+
+ 

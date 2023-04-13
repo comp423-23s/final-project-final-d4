@@ -13,7 +13,7 @@ const routes: Routes = [
   GateComponent.Route,
   { path: 'admin', title: 'Admin', loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule) },
   { path: 'create', component: CreatePostComponent},
-  {path: 'list', component: PostListComponent}
+  {path: 'projects', component: PostListComponent}
 ];
 
 @NgModule({

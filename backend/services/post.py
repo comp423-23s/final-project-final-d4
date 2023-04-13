@@ -27,7 +27,7 @@ class PostService:
         criteria = or_(
             PostEntity.content.ilike(f'%{query}%'),
             PostEntity.title.ilike(f'%{query}%'),
-            UserEntity.description.ilike(f'%{query}%'),
+            PostEntity.description.ilike(f'%{query}%'),
         )
         statement = statement.where(criteria).limit(10)
         entities = self._session.execute(statement).scalars()
