@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Observable } from 'rxjs';
 import { PostsService } from '../post.service';
-import { Post } from '../post.service';
+import { Post, PostView } from '../post.service';
 
 
 @Component({
@@ -11,11 +11,19 @@ import { Post } from '../post.service';
 })
 export class PostListComponent {
   
-  public posts: Observable<Post[]>;
+  public posts: Observable<PostView[]>;
 
   constructor(public postService: PostsService){
     this.posts = postService.getPost()
 
+  }
+
+  deletePost(postId: number) {
+    // Call a service method to delete the post with the given ID
+    this.postService.deletePost(postId).subscribe(() => {
+      // Refresh the post list after successful deletion
+      this.posts = this.postService.getPost();
+    });
   }
 
 
