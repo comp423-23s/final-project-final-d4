@@ -29,12 +29,6 @@ unregistered = User(id=4, pid=111111112, onyen='user2', email='user2@unc.edu')
 # Model comment
 sample_comment_1 = Comment(id=1, commenter=1, text="Hello", post=1, replies=[])
 
-# def create_session():
-#     with Session() as session:
-#         yield session
-
-# SessionDependency = Depends(create_session)
-
 @pytest.fixture(autouse=True)
 def setup_teardown(test_session: Session):
     # Bootstrap root User and Role
@@ -107,5 +101,3 @@ def test_search_post(post: PostService):
     post.create_post(sample_post_2, user)
     sample_2 = post.search_post("Greeting")
     assert(len(sample_2) == 2)
-
- 
