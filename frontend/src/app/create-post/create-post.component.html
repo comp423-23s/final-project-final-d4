@@ -1,3 +1,8 @@
+<nav mat-tab-nav-bar>
+    <a mat-tab-link routerLink="/projects">Project List</a>
+    <a mat-tab-link routerLink="/create">Create Post</a>
+</nav>
+
 <h1>Create a Post</h1>
 <mat-card>
     <form (submit) = "onPost(postForm)" #postForm = "ngForm" *ngIf="(profile$ | async) !== undefined">
