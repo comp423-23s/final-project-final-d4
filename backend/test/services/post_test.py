@@ -6,12 +6,13 @@ from sqlalchemy.orm import Session
 
 from ...services import PermissionService
 from ...models import Post, Comment, User, Role, Permission
+from ...models.post import NewPost
 from ...services import PostService,UserService
 from ...entities import UserEntity, PostEntity, RoleEntity, PermissionEntity
 
 # Model post 
-sample_post = Post(id=1,content="Good Day", tags=["Daily"], title="Greeting", description="Good morrow students!")
-sample_post_2 = Post(id=2,content="Good Day", tags=["Daily"], title="Greeting", description="Good morrow students!")
+sample_post = NewPost(content="Good Day", tags=["Daily"], title="Greeting", description="Good morrow students!")
+sample_post_2 = NewPost(content="Good Day", tags=["Daily"], title="Greeting", description="Good morrow students!")
 
 # Model user
 root = User(id=1, pid=999999999, onyen='root', email='root@unc.edu')
@@ -23,15 +24,10 @@ ambassador_role = Role(id=2, name='ambassadors')
 ambassador_permission: Permission
 
 user = User(id=3, pid=111111111, onyen='user', email='user@unc.edu')
+unregistered = User(id=4, pid=111111112, onyen='user2', email='user2@unc.edu')
 
 # Model comment
 sample_comment_1 = Comment(id=1, commenter=1, text="Hello", post=1, replies=[])
-
-# def create_session():
-#     with Session() as session:
-#         yield session
-
-# SessionDependency = Depends(create_session)
 
 @pytest.fixture(autouse=True)
 def setup_teardown(test_session: Session):
@@ -80,8 +76,12 @@ def test_empty_post(post: PostService):
     assert(len(post.get_posts()) == 0)
 
 def test_create_post(post: PostService, test_session: Session, users: UserService):
-    post.create_post(user, sample_post)
+    post.create_post(sample_post, user)
     assert(len(post.get_posts()) == 1)
+
+def test_create_post_invalid_user(post: PostService):
+    with pytest.raises(ValueError):
+        post.create_post(sample_post, unregistered)
 
 def test_delete_post_valid(post: PostService,users: UserService, test_session: Session):
     post.delete_post(1,user)
@@ -94,8 +94,10 @@ def test_delete_post_valid_admin(post: PostService,users: UserService, test_sess
     assert(len(post.get_posts())==0)
 
 def test_search_post(post: PostService):
-    post.create_post(user, sample_post_2)
+    post.create_post(sample_post, user)
     sample = post.search_post("greeting")
     assert(len(sample) == 1)
-
- 
+    
+    post.create_post(sample_post_2, user)
+    sample_2 = post.search_post("Greeting")
+    assert(len(sample_2) == 2)

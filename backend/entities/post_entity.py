@@ -25,7 +25,7 @@ class PostEntity(EntityBase):
     title: Mapped[str] = mapped_column(String(64), unique=False, index=True, default='')
     description: Mapped[str] = mapped_column(String(64), unique=False, index=True, default='')
     
-    user_id: Mapped[int] = mapped_column(ForeignKey('user.id'), nullable=True)
+    user_pid: Mapped[int] = mapped_column(ForeignKey('user.pid'), nullable=True)
     postedBy: Mapped['UserEntity'] = relationship(back_populates="userPosts", post_update=True)
     # comments: Mapped[list['CommentEntity']] = relationship(back_populates='post')
 
@@ -47,7 +47,8 @@ class PostEntity(EntityBase):
             tags=self.tags,
             created=self.created,
             title = self.title,
-            description = self.description
+            description = self.description,
+            pid = self.user_pid
         )
 
     # not sure if necessary

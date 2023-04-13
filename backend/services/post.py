@@ -3,7 +3,8 @@ from sqlalchemy import select, or_, func
 from sqlalchemy.orm import Session
 from ..database import db_session
 from .permission import PermissionService, UserPermissionError
-from ..models import Post,User,Permission
+from ..models import Post, User, permission
+from ..models.post import NewPost
 from ..entities.post_entity import PostEntity
 from ..entities import UserEntity
 
@@ -34,10 +35,21 @@ class PostService:
         return [entity.to_model() for entity in entities]
     
     # Create new post
-    def create_post(self, post: Post, user: User) -> Post | None:
+    def create_post(self, post: NewPost, user: User) -> Post | None:
         query = select(UserEntity).where(UserEntity.pid == user.pid)
         user_entity: UserEntity = self._session.scalar(query)
-        post_entity = PostEntity.from_model(post)
+        if (user_entity is None):
+            raise ValueError("User not registered")
+        
+        post_model = Post(
+            content=post.content,
+            tags = post.tags,
+            created=post.created,
+            title = post.title,
+            description=post.description
+        )
+        
+        post_entity = PostEntity.from_model(post_model)
         post_entity.postedBy = user_entity
         self._session.add(post_entity)
         self._session.flush()
@@ -54,14 +66,14 @@ class PostService:
                 if post_entity is None:
                     raise ValueError("The post is not in the system.")
                 else:
-                    if((post_entity.postedBy == subject.pid) | admin):
+                    if((post_entity.user_pid == subject.pid) | admin):
                         # Check for authorization
                         self._session.delete(post_entity)
                         self._session.commit()
                     else:
                         raise UserPermissionError('post.delete_post', f'post/{id}')
            
-                return post_entity
+                return post_entity.to_model()
 
                 
 
