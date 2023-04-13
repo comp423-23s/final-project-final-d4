@@ -1,5 +1,4 @@
 from fastapi import Depends
-from pydantic import BaseModel
 from sqlalchemy import select, or_, func
 from sqlalchemy.orm import Session
 from ..database import db_session
@@ -8,15 +7,13 @@ from ..models import Post,User,Permission
 from ..entities.post_entity import PostEntity
 from ..entities import UserEntity
 
-
-
 class PostService:
     _session: Session
     _permission: PermissionService
 
-    def __init__(self, session: Session = Depends(db_session), permission: PermissionService = Depends()):
+    def __init__(self, session: Session = Depends(db_session), permission: PermissionService=Depends()):
         self._session = session
-        self._permission = permission
+        self._permission = PermissionService(session)
 
     # Get all posts
     def get_posts(self) -> list[Post] | None:
@@ -49,22 +46,24 @@ class PostService:
     
     # Delete post
     def delete_post(self, id: int, subject: User) -> Post | None:
-        admin = False
-        perm = self._permission.get_permissions(subject)
-        if(Permission(action="admin.*", resource="*") in perm):
-            admin=True
-
+        subject.permissions = self._permission.get_permissions(subject)
+        admin = self._permission._has_permission(subject.permissions,"admin.*","*")
         for i in self.get_posts():
             if i.id == id:
                 post_entity = self._session.query(PostEntity).filter(PostEntity.id == id).one()
-                if((post_entity.postedBy == subject.pid) | admin):
-                    # Check for authorization
-                    self._session.delete(post_entity)
-                    self._session.commit()
+                if post_entity is None:
+                    raise ValueError("The post is not in the system.")
                 else:
-                    raise UserPermissionError('post.delete_post', f'post/{id}')
+                    if((post_entity.postedBy == subject.pid) | admin):
+                        # Check for authorization
+                        self._session.delete(post_entity)
+                        self._session.commit()
+                    else:
+                        raise UserPermissionError('post.delete_post', f'post/{id}')
            
                 return post_entity
+
+                
 
         
     
