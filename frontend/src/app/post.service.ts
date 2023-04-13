@@ -22,6 +22,25 @@ export interface Post{
     // tags: list[str] = []
 }
 
+// FYI:
+//  Backend Post Model
+// class Post(BaseModel):
+//     # this is the primary key
+//     id: int | None = None
+//     content: str=""
+//     tags: list[str] = []
+//     created: datetime = datetime.now()
+//     title: str = ""
+//     description: str = ""
+
+// Backend NewPost Model:
+// class Post(BaseModel):
+//     content: str=""
+//     tags: list[str] = []
+//     created: datetime = datetime.now()
+//     title: str = ""
+//     description: str = ""
+
 
 @Injectable({providedIn: 'root'})
 export class PostsService{
