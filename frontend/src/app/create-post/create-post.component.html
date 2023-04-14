@@ -5,13 +5,13 @@
 
 <h1>Create a Post</h1>
 <mat-card>
-    <form (submit) = "onPost(postForm)" #postForm = "ngForm" *ngIf="(profile$ | async) !== undefined">
+    <form (ngSubmit) = "onPost(postForm)" #postForm = "ngForm" *ngIf="(profile$ | async) !== undefined">
         <mat-form-field>
-            <input type = "text"
-            matInput 
-            ngModel
-            name = "postedBy"
-            placeholder= "Username"
+            <input type = "number"
+                matInput 
+                ngModel
+                name = "id"
+                placeholder= "Username"
             >
         </mat-form-field>
         <mat-form-field>
@@ -26,6 +26,7 @@
         </mat-form-field>
         <mat-form-field>
             <textarea rows = "2"
+            type="text" 
             matInput 
             ngModel
             name = "description"
@@ -36,6 +37,7 @@
         </mat-form-field>
         <mat-form-field>
             <textarea rows = "10"
+            type="text" 
             matInput 
             ngModel
             name = "content"
@@ -76,6 +78,7 @@
             <textarea rows = "1"
             matInput 
             ngModel
+            type="text" 
             name = "comments"
             placeholder= "Comment"
             required
