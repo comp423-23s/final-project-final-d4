@@ -20,13 +20,14 @@ export class PostListComponent {
 
   }
 
-
+  //search post from user input
   searchPost(search: string): void {
     this.postService.searchPost(search).subscribe(() => {
       this.posts = this.postService.searchPost(search);
     });
   }
 
+//reset the post list after search 
   resetSearch():void {
     this.postService.getPost().subscribe(() => {
       this.posts = this.postService.getPost();
