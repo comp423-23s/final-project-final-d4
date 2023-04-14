@@ -64,8 +64,19 @@ with Session(engine) as session:
 
 # Add Posts to Post table
 with Session(engine) as session:
+    from ..entities import PostEntity
     from .dev_data import post
     to_entity = entities.PostEntity.from_model
     session.add_all([to_entity(post) for post in post.post_models])
     session.execute(text(f'ALTER SEQUENCE {entities.PostEntity.__table__}_id_seq RESTART WITH {len(post.post_models) + 1}'))
+    session.commit()
+
+# Add Users to Posts
+with Session(engine) as session:
+    from ..entities import UserEntity, PostEntity
+    from .dev_data import user_posts
+    for user, post in user_posts.pairs:
+        user_entity = session.get(UserEntity, user.id)
+        post_entity = session.get(PostEntity, post.id)
+        user_entity.userPosts.append(post_entity)
     session.commit()

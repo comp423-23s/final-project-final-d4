@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
-
-import { HttpClient } from "@angular/common/http";
 import { Observable, throwError } from "rxjs";
+import { HttpClient } from "@angular/common/http";
+import {ProfileService, Profile} from "./profile/profile.service"
 
 export interface Post{
     title: string;
@@ -11,27 +11,54 @@ export interface Post{
     postedBy: number;
     comments: string[];
     tags: string[];
-
-    // id: int | None = None
-    // title: str = ""
-    // description: str = ""
-    // content: str = ""
-    // created: datetime = datetime.now()
-    // postedBy: int | None # postedBy = userID
-    // comments: list['Comment'] = []
-    // tags: list[str] = []
 }
+
+export interface PostView {
+    id: number;
+    content: string;
+    tags: string[]
+    created: Date;
+    title: string;
+    description: string;
+    pid: number;
+    // first_name: string;
+    // last_name: string;
+}
+
+// FYI:
+//  Backend Post Model
+// class Post(BaseModel):
+//     # this is the primary key
+//     id: int | None = None
+//     content: str=""
+//     tags: list[str] = []
+//     created: datetime = datetime.now()
+//     title: str = ""
+//     description: str = ""
+
+// Backend NewPost (PostRequest) Model:
+// class Post(BaseModel):
+//     content: str=""
+//     tags: list[str] = []
+//     created: datetime = datetime.now()
+//     title: str = ""
+//     description: str = ""
 
 
 @Injectable({providedIn: 'root'})
 export class PostsService{
-    constructor(private http: HttpClient) {}
+    private profile$: Observable<Profile | undefined>;
+    constructor(
+        private http: HttpClient, 
+        private profileService: ProfileService) {
+            this.profile$ = profileService.profile$
+        }
 
     //Retrieve all posts in the list .
     // @returns observable array of Post objects.
 
-    getPost(): Observable<Post[]> {
-        return this.http.get<Post[]>("/api/post");
+    getPost(): Observable<PostView[]> {
+        return this.http.get<PostView[]>("/api/post");
     }
 
     /**
@@ -72,5 +99,9 @@ export class PostsService{
         //return post
         return this.http.post<Post>("/api/post", post);
         
+    }
+
+    deletePost(postID: number): Observable<Post> {
+        return this.http.delete<Post>(`/api/post/${postID}`)
     }
 }
