@@ -13,6 +13,14 @@ export interface Post{
     tags: string[];
 }
 
+export interface NewPost {
+    content: string;
+    tags: string[]
+    created: Date;
+    title: string;
+    description: string;
+}
+
 export interface PostView {
     id: number;
     content: string;
@@ -94,14 +102,24 @@ export class PostsService{
         }
 
         //create post with the parameters
-        let post: Post = {title: title, description: description, content: content,  created: new Date(), postedBy: postedBy, comments: comments, tags: tags};
+        let post: NewPost = {
+            content: content,
+            tags: tags,
+            created: new Date(), 
+            title: title, 
+            description: description,  
+        };
 
         //return post
-        return this.http.post<Post>("/api/post", post);
+        return this.http.post<PostView>("/api/post", post);
         
     }
 
-    deletePost(postID: number): Observable<Post> {
-        return this.http.delete<Post>(`/api/post/${postID}`)
+    deletePost(postID: number): Observable<PostView> {
+        return this.http.delete<PostView>(`/api/post/${postID}`)
+    }
+
+    searchPost(searchText: string): Observable<PostView[]> {
+        return this.http.get<PostView[]>(`/api/post/${searchText}`);
     }
 }

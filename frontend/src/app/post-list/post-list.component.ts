@@ -10,6 +10,8 @@ import { Post, PostView } from '../post.service';
   styleUrls: ['./post-list.component.css']
 })
 export class PostListComponent {
+
+  search: string = " ";
   
   public posts: Observable<PostView[]>;
 
@@ -18,6 +20,19 @@ export class PostListComponent {
 
   }
 
+
+  searchPost(search: string): void {
+    this.postService.searchPost(search).subscribe(() => {
+      this.posts = this.postService.searchPost(search);
+    });
+  }
+
+  resetSearch():void {
+    this.postService.getPost().subscribe(() => {
+      this.posts = this.postService.getPost();
+    });
+  }
+  
   deletePost(postId: number) {
     // Call a service method to delete the post with the given ID
     this.postService.deletePost(postId).subscribe(() => {
