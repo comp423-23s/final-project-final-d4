@@ -1,4 +1,9 @@
-mat-form-field{
-    width: 50%;
-    margin-left:50%;
+mat-form-field.search{
+    width: 30%;
+    margin-left:65%;
+    margin-top: 20px;
+}
+mat-form-field.comment{
+    margin-top: 20px;
+    width: 100%;
 }

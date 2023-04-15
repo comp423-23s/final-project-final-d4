@@ -159,8 +159,3 @@ def test_delete_comment_invalid_notauthor(post: PostService, comment: CommentSer
     comment.create(sample_comment_1, user)
     with pytest.raises(UserPermissionError):
         comment.delete(1,1,ambassador)
-
-
-
-
-    

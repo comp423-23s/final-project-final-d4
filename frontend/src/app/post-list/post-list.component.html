@@ -3,10 +3,12 @@
     <a mat-tab-link routerLink="/create">Create Post</a>
 </nav>
 
-<mat-form-field>
+<mat-form-field class = "search">
     <input type="text" matInput placeholder="Search" name= "search">
     <!-- <input type="tel" matInput placeholder="Search" name= "search" [(ngModel)]= "search"> -->
     <button matSuffix mat-button><mat-icon >search</mat-icon></button>
+</mat-form-field>
+
 <mat-card *ngFor= "let post of posts | async">
 
     <mat-card-header>
@@ -23,14 +25,17 @@
         <button mat-icon-button color="warn" (click)="deletePost(post.id)">
             <mat-icon>delete</mat-icon>
         </button>
-      <button mat-button>Tags: {{post.tags}}</button>
+        <a>Tags:  </a>
+        <mat-chip>
+            {{post.tags}}
+        </mat-chip>
     </mat-card-actions>
     <mat-card-footer>
         <mat-expansion-panel>
             <mat-expansion-panel-header>
                 <mat-panel-title>Comments</mat-panel-title>
             </mat-expansion-panel-header>
-        <mat-form-field>
+        <mat-form-field class = "comment">
             <textarea rows = "3" 
             matInput 
             name = "content"
@@ -39,6 +44,7 @@
         </mat-form-field>
         <mat-action-row>
             <button mat-button color="primary">Add a Comment</button>
+            <button mat-button color="primary">Add a Private Comment</button>
         </mat-action-row>
     </mat-expansion-panel>
     </mat-card-footer>
