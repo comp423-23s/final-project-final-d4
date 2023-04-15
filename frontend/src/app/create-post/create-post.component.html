@@ -7,14 +7,6 @@
 <mat-card>
     <form (ngSubmit) = "onPost(postForm)" #postForm = "ngForm" *ngIf="(profile$ | async) !== undefined">
         <mat-form-field>
-            <input type = "number"
-                matInput 
-                ngModel
-                name = "id"
-                placeholder= "Username"
-            >
-        </mat-form-field>
-        <mat-form-field>
             <input type="text" 
             matInput 
             ngModel
@@ -65,16 +57,9 @@
                 {{tag}}
                 </mat-option>
             </mat-autocomplete>
-            <!-- <textarea rows = "1"
-            matInput 
-            ngModel
-            name = "tags"
-            placeholder= "tags"
-            required
-            #content = "ngModel"
-            ></textarea> -->
+
         </mat-form-field>
-        <mat-form-field>
+        <!-- <mat-form-field>
             <textarea rows = "1"
             matInput 
             ngModel
@@ -84,7 +69,7 @@
             required
             #content = "ngModel"
             ></textarea>
-        </mat-form-field>
+        </mat-form-field> -->
         <button 
         mat-raised-button
         color = "blue"

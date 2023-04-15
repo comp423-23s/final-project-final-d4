@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { Post, PostView, PostsService } from '../post.service';
+import { PostView, PostsService } from '../post.service';
 import { ProfileService, Profile } from '../profile/profile.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import {MatAutocompleteSelectedEvent} from '@angular/material/autocomplete';
@@ -42,16 +42,12 @@ export class CreatePostComponent {
 }
 
   onPost(form: NgForm):void{
-    
-    let id = parseInt(form.value.id ?? "");
-    let title = (form.value.title ?? "");
     let content = (form.value.content ?? "");
+    let title = (form.value.title ?? "");
     let description = (form.value.description ?? "");
-    let time = (form.value.dateTime);
-    let tag = (form.value.tag ?? "");
-    let comments = (form.value.comments ?? "");
 
-    this.postService.addPost(title, description, content, time, id, comments, tag).subscribe({
+    this.postService.addPost(title, description, content, this.tags)
+    .subscribe({
       next: (posts) => {
         console.log('Post added successfully: ', posts);
         form.resetForm();
