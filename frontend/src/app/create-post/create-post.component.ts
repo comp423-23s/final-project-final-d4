@@ -48,10 +48,15 @@ export class CreatePostComponent {
     let content = (form.value.content ?? "");
     let description = (form.value.description ?? "");
     let time = (form.value.dateTime);
-    let tag = (form.value.tag ?? "");
     let comments = (form.value.comments ?? "");
 
-    this.postService.addPost(title, description, content, time, id, comments, tag).subscribe({
+    // content: string;
+    // tags: string[]
+    // created: Date;
+    // title: string;
+    // description: string;
+
+    this.postService.addPost(content, this.tags, title, description).subscribe({
       next: (posts) => {
         console.log('Post added successfully: ', posts);
         form.resetForm();

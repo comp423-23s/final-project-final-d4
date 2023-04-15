@@ -79,11 +79,15 @@ export class PostsService{
    * @param tag: tag of the post
    * @returns Obervable of Post that will error if there are issues with validation or persistence.
    */
-    addPost(title: string, description: string, content: string, created: any, postedBy: number, comments: string[], tags: string[]) {
+
+    // content: string;
+    // tags: string[]
+    // created: Date;
+    // title: string;
+    // description: string;
+
+    addPost(content: string, tags: string[], title: string, description: string) {
         // Validate input
-        if (!postedBy || postedBy.toString().length !== 9) {
-          return throwError(() => new Error('Username required and must be 9 digits'));
-        }
         if (!title) {
           return throwError(() => new Error('Title required'));
         }
