@@ -3,15 +3,6 @@ import { Observable, catchError, throwError } from "rxjs";
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import {ProfileService, Profile} from "./profile/profile.service"
 
-export interface Post{
-    title: string;
-    description: string;
-    content: string;
-    created: Date;
-    postedBy: number;
-    comments: string[];
-    tags: string[];
-}
 
 export interface NewPost {
     content: string;
@@ -79,11 +70,13 @@ export class PostsService{
    * @param tag: tag of the post
    * @returns Obervable of Post that will error if there are issues with validation or persistence.
    */
-    addPost(title: string, description: string, content: string, created: any, postedBy: number, comments: string[], tags: string[]) {
+    addPost(
+      title: string, 
+      description: string, 
+      content: string, 
+      tags: string[]) 
+      {
         // Validate input
-        if (!postedBy || postedBy.toString().length !== 9) {
-          return throwError(() => new Error('Username required and must be 9 digits'));
-        }
         if (!title) {
           return throwError(() => new Error('Title required'));
         }
