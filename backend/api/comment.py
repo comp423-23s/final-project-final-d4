@@ -1,18 +1,19 @@
 from fastapi import APIRouter, HTTPException, Depends
 from ..services import CommentService
 from ..models import Comment
+from .authentication import registered_user
 
 
 api = APIRouter(prefix="/api/comment")
 
 #api route retrieces ALL comments
-@api.get("")
-def get_comments(comment_service: CommentService = Depends()) -> list[Comment]:
-    return comment_service.all()
+@api.get("/{post_id}", response_model=list[Comment])
+def get_comments(comment_service: CommentService = Depends(),post_id=int) -> list[Comment]:
+    return comment_service.all(post_id)
 
 #api route creates a new comment
 @api.post("")
-def new_comment(comment: Comment, comment_service: CommentService = Depends()) -> Comment:
+def new_comment(comment: Comment, comment_service: CommentService = Depends(), user = Depends(registered_user)) -> Comment:
         try:
             return comment_service.create(comment)
         except Exception as e:
