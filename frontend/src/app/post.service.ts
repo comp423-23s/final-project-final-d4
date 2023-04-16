@@ -12,6 +12,14 @@ export interface NewPost {
     description: string;
 }
 
+export interface NewPost {
+    content: string;
+    tags: string[]
+    created: Date;
+    title: string;
+    description: string;
+}
+
 export interface PostView {
     id: number;
     content: string;
@@ -70,6 +78,7 @@ export class PostsService{
    * @param tag: tag of the post
    * @returns Obervable of Post that will error if there are issues with validation or persistence.
    */
+   
     addPost(
       title: string, 
       description: string, 
