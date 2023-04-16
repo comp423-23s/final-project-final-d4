@@ -27,15 +27,15 @@ class PostEntity(EntityBase):
     
     user_pid: Mapped[int] = mapped_column(ForeignKey('user.pid'), nullable=True)
     postedBy: Mapped['UserEntity'] = relationship(back_populates="userPosts", post_update=True)
-    # comments: Mapped[list['CommentEntity']] = relationship(back_populates='post')
+    comments: Mapped[list['CommentEntity']] = relationship(back_populates='post')
 
     @classmethod
     def from_model(cls, model: Post) -> Self:
         return cls(
-            id=model.id,
-            content=model.content,
-            tags=model.tags,
-            created=model.created,
+            id = model.id,
+            content = model.content,
+            tags = model.tags,
+            created = model.created,
             title = model.title,
             description = model.description
         )
@@ -48,7 +48,7 @@ class PostEntity(EntityBase):
             created=self.created,
             title = self.title,
             description = self.description,
-            pid = self.user_pid
+            pid = self.user_pid,
         )
 
     # not sure if necessary

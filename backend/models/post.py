@@ -18,6 +18,7 @@ class Post(BaseModel):
     title: str = ""
     description: str = ""
     pid: int | None = None
+    # comment: list['comment'] = []
 
 class NewPost(BaseModel):
     content: str=""
