@@ -70,9 +70,8 @@ class PostService:
             query = select(UserEntity).where(UserEntity.pid == user_pid)
             user_entity: UserEntity = self._session.scalar(query)
             user = user_entity.to_model()
-            if subject != user:
+            if subject.pid != user.pid:
                 self._permission.enforce(subject, 'post.delete', f'post/{id}')
-            
             self._session.delete(post_entity)
             self._session.commit()
             return post_entity.to_model()
