@@ -1,11 +1,14 @@
+<!-- Added Project List and Create Post tabs in the navigation bar under the Project webpage -->
 <nav mat-tab-nav-bar>
     <a mat-tab-link routerLink="/projects">Project List</a>
     <a mat-tab-link routerLink="/create">Create Post</a>
 </nav>
 
+<!-- form for user input of the posts  -->
 <h1>Create a Post</h1>
 <mat-card>
     <form (ngSubmit) = "onPost(postForm)" #postForm = "ngForm" *ngIf="(profile$ | async) !== undefined">
+        <!-- project title -->
         <mat-form-field>
             <input type="text" 
             matInput 
@@ -16,6 +19,7 @@
             #title = "ngModel"
             >
         </mat-form-field>
+        <!-- project description -->
         <mat-form-field>
             <textarea rows = "2"
             type="text" 
@@ -27,6 +31,7 @@
             #description = "ngModel"
             ></textarea>
         </mat-form-field>
+        <!-- project detailed content -->
         <mat-form-field>
             <textarea rows = "10"
             type="text" 
@@ -38,6 +43,7 @@
             #content = "ngModel"
             ></textarea>
         </mat-form-field>
+        <!-- project tags  -->
         <mat-form-field class="chip-list" appearance="fill">
             <mat-label>Tags</mat-label>
             <mat-chip-grid #chipGrid aria-label="Tag selection">
@@ -70,38 +76,10 @@
             #content = "ngModel"
             ></textarea>
         </mat-form-field> -->
+        <!-- submit project button  -->
         <button 
         mat-raised-button
         color = "blue"
         type="submit">Create Post</button>
     </form>
 </mat-card>
-
-<!-- <form [formGroup]="form" (ngSubmit)="onSubmit()">
-    <div>
-        <label for="id">Username</label>
-        <input id="id" type="text" formControlName="id">
-      </div>
-
-    <div>
-      <label for="title">Title</label>
-      <input id="title" type="text" formControlName="title">
-    </div>
-    
-    <div>
-      <label for="description">Description</label>
-      <input id="description" type="text" formControlName="description">
-    </div>
-
-    <div>
-        <label for="details">Details</label>
-        <input id="details" type="text" formControlName="details">
-    </div>
-
-    <div>
-        <label for="comments">Comments</label>
-        <input id="comments" type="text" formControlName="comments">
-    </div>
-
-    <button class="button" type="submit">Create Post</button>
-</form> -->

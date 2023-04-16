@@ -18,6 +18,8 @@ import { FormBuilder } from '@angular/forms';
 })
 
 export class CreatePostComponent {
+
+  // project tags 
   separatorKeysCodes: number[] = [ENTER, COMMA];
   tagCtrl = new FormControl('');
   filteredTags!: Observable<string[]>;
@@ -26,41 +28,48 @@ export class CreatePostComponent {
   @ViewChild('tagInput')
   tagInput!: ElementRef<HTMLInputElement>;
   
-  
+  // declares a public property profile$ that holds an observable of either a Profile object or undefined
   public profile$: Observable<Profile | undefined>;
   
   
   constructor(
     public postService: PostsService,
     private profileService: ProfileService,
-    private formBuilder: FormBuilder,
   ) {
+    // Assigns the profile$ observable from the ProfileService to the component's profile$ property.
     this.profile$ = profileService.profile$,
+
+    // tag function 
     this.filteredTags = this.tagCtrl.valueChanges.pipe(startWith(null),
     map((fruit: string | null) => (fruit ? this._filter(fruit) : this.allTags.slice())),
   );
 }
 
+  // onPost function for the form that allows user input to converts to a post to the 
+  // project post list.
   onPost(form: NgForm):void{
     let content = (form.value.content ?? "");
     let title = (form.value.title ?? "");
     let description = (form.value.description ?? "");
 
+    // addPost function from the post.service.ts file that add posts to the project list 
     this.postService.addPost(title, description, content, this.tags)
     .subscribe({
       next: (posts) => {
+        //successfully posted 
         console.log('Post added successfully: ', posts);
         form.resetForm();
       },
       error: (err) => {
+        //error occurred
         console.error('Error creating post: ', err);
       }
     });
 
   }
   
-  // For tags part
 
+  // For tags part
   add(event: MatChipInputEvent): void {
     const value = (event.value || '').trim();
 
@@ -94,6 +103,5 @@ export class CreatePostComponent {
 
     return this.allTags.filter(tag => tag.toLowerCase().includes(filterValue));
   }
-
 
 }

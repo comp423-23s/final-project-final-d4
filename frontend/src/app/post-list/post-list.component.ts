@@ -11,11 +11,14 @@ import { PostView } from '../post.service';
 })
 export class PostListComponent {
 
+  // declare search as string and initialize as " "
   search: string = " ";
   
+  // declares a public property posts that holds an observable of PostView[]
   public posts: Observable<PostView[]>;
 
   constructor(public postService: PostsService){
+     // Assigns the posts observable from the PostService to the component's posts property.
     this.posts = postService.getPost()
 
   }
@@ -34,6 +37,7 @@ export class PostListComponent {
     });
   }
   
+  //deletePost from the post list
   deletePost(postId: number) {
     // Call a service method to delete the post with the given ID
     this.postService.deletePost(postId).subscribe(() => {
@@ -41,19 +45,5 @@ export class PostListComponent {
       this.posts = this.postService.getPost();
     });
   }
-
-
-  // private onSuccess(): void {
-  //   console.log("success")
-  //   this.posts = this.postService.getPost()
-  // }
-
-  // private onError(err: Error) {
-  //   if (err.message) {
-  //     window.alert(err.message);
-  //   } else {
-  //     window.alert("Unknown error: " + JSON.stringify(err));
-  //   }
-  // }
 
 }

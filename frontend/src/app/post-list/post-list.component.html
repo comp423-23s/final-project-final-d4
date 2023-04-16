@@ -1,34 +1,46 @@
+<!-- Added Project List and Create Post tabs in the navigation bar under the Project webpage -->
 <nav mat-tab-nav-bar>
+    <!-- added resetSearch function that when this router link is processed, the search result will reset -->
     <a mat-tab-link (click)="resetSearch()" routerLink="/projects">Project List</a>
-    <!--  -->
     <a mat-tab-link routerLink="/create">Create Post</a>
 </nav>
+
+<!-- search bar section -->
 <mat-form-field class="search">
     <input type="text" matInput placeholder="Search" [(ngModel)]="search" (keyup.enter)="searchPost(search)">
     <button matSuffix mat-button (click)="searchPost(search)"><mat-icon>search</mat-icon></button>
   </mat-form-field>
-<mat-card *ngFor= "let post of posts | async">
 
+<!-- display posts to users  -->
+<mat-card *ngFor= "let post of posts | async">
     <mat-card-header>
+        <!-- pid: username -->
       <mat-card-subtitle>Posted By: {{post.pid}}</mat-card-subtitle>
+      <!-- time -->
       <mat-card-subtitle>Time: {{post.created}}</mat-card-subtitle>
+      <!-- post title -->
       <mat-card-title>{{post.title}}</mat-card-title>
     </mat-card-header>
     <mat-card-content>
+        <!-- post description  -->
       <p>{{post.description}}</p>
+      <!-- post content  -->
       <p>{{post.content}}</p>
       <mat-divider></mat-divider>
     </mat-card-content>
     <mat-card-actions>
+        <!-- delete post function  -->
         <button mat-icon-button color="warn" (click)="deletePost(post.id)">
             <mat-icon>delete</mat-icon>
         </button>
+        <!-- tags -->
         <a>Tags:  </a>
         <mat-chip>
             {{post.tags}}
         </mat-chip>
     </mat-card-actions>
     <mat-card-footer>
+        <!-- comments -->
         <mat-expansion-panel>
             <mat-expansion-panel-header>
                 <mat-panel-title>Comments</mat-panel-title>
@@ -42,6 +54,7 @@
         </mat-form-field>
         <mat-action-row>
             <button mat-button color="primary">Add a Comment</button>
+            <!-- added a function for private comments -->
             <button mat-button color="primary">Add a Private Comment</button>
         </mat-action-row>
     </mat-expansion-panel>
