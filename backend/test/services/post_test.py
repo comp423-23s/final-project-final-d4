@@ -44,15 +44,9 @@ def setup_teardown(test_session: Session):
     test_session.add(root_role_entity)
     root_permission_entity = PermissionEntity(
         action='*', resource='*', role=root_role_entity)
-    root_permission_entity_temp = PermissionEntity(
-        action='admin.*', resource='*', role=root_role_entity)
-    root_permission_entity_comment = PermissionEntity(
-        action='comment.delete', resource='*', role=root_role_entity)
     root_permission_entity_post = PermissionEntity(
         action='post.delete', resource='*', role=root_role_entity)
     test_session.add(root_permission_entity)
-    test_session.add(root_permission_entity_temp)
-    test_session.add(root_permission_entity_comment)
     test_session.add(root_permission_entity_post)
 
     # Bootstrap user and ambassador without any special perms

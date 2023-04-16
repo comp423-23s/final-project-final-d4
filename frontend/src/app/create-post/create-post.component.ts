@@ -44,7 +44,6 @@ export class CreatePostComponent {
   onPost(form: NgForm):void{
     let content = (form.value.content ?? "");
     let title = (form.value.title ?? "");
-    let content = (form.value.content ?? "");
     let description = (form.value.description ?? "");
 
     this.postService.addPost(title, description, content, this.tags)

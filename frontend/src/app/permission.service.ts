@@ -26,6 +26,18 @@ export class PermissionService {
         );
     }
 
+    checkPID(postPID: number): Observable<boolean> {
+        return this.profile$.pipe(
+            map(profile => {
+                if (profile === undefined) {
+                    return false;
+                } else {
+                    return profile.pid === postPID
+                }
+            })
+        )
+    }
+
     private hasPermission(permissions: Permission[], action: string, resource: string) {
         let permission = permissions.find((p) => this.checkPermission(p, action, resource));
         return permission !== undefined;

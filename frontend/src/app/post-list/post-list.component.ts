@@ -1,7 +1,11 @@
 import { Component } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { PostsService } from '../post.service';
 import { PostView } from '../post.service';
+import { PermissionService } from '../permission.service';
+import { Profile, ProfileService } from '../profile/profile.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 
 @Component({
@@ -14,10 +18,18 @@ export class PostListComponent {
   search: string = " ";
   
   public posts: Observable<PostView[]>;
+  public deleteAdminPermission$: Observable<Boolean>;
 
-  constructor(public postService: PostsService){
+  constructor(
+    public postService: PostsService,
+    private permission: PermissionService,
+    ){
     this.posts = postService.getPost()
+    this.deleteAdminPermission$ = this.permission.check('delete.post', 'post/')
+  }
 
+  getDeleteUserPermission(postPID: number): Observable<boolean> {
+    return this.permission.checkPID(postPID);
   }
 
   //search post from user input
@@ -36,11 +48,25 @@ export class PostListComponent {
   
   deletePost(postId: number) {
     // Call a service method to delete the post with the given ID
-    this.postService.deletePost(postId).subscribe(() => {
+    this.postService.deletePost(postId)
+    .pipe(
+      catchError(this.onError)
+    )
+    .subscribe(() => {
       // Refresh the post list after successful deletion
       this.posts = this.postService.getPost();
     });
   }
+
+  private onError(err: HttpErrorResponse) {
+    if (err.message) {
+      window.alert(err.error.detail);
+    } else {
+      window.alert("Unknown error: " + JSON.stringify(err));
+    }
+    return throwError(err);
+  }
+
 
 
   // private onSuccess(): void {
