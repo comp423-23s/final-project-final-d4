@@ -17,14 +17,14 @@ class Comment(BaseModel):
     # replies: list['Comment'] = []
     text: str = ""
     created: datetime = datetime.now()
-    # class Config:
-    #     orm_mode = True
+    private: bool
 
 class NewComment(BaseModel):
     id: int | None = None
     post: int
     text: str = ""
     created: datetime = datetime.now()
+    private: bool
 
 # copied from professor's databse code at the end of User Model.. Assuming theres some importance here
 # Python... :sob:... necessary due to circularity (TODO: refactor to remove circularity)

@@ -8,22 +8,22 @@ api = APIRouter(prefix="/api/comment")
 
 #api route retrieces ALL comments
 @api.get("/{post_id}", response_model=list[Comment])
-def get_comments(comment_service: CommentService = Depends(),post_id=int) -> list[Comment]:
-    return comment_service.all(post_id)
+def get_comments(user = Depends(registered_user), comment_service: CommentService = Depends(),post_id=int) -> list[Comment]:
+    return comment_service.all(user,post_id)
 
 #api route creates a new comment
 @api.post("")
-def new_comment(comment: Comment, comment_service: CommentService = Depends(), user = Depends(registered_user)) -> Comment:
+def new_comment(comment: Comment, user = Depends(registered_user), comment_service: CommentService = Depends()) -> Comment:
         try:
-            return comment_service.create(comment)
+            return comment_service.create(user,comment)
         except Exception as e:
             raise HTTPException(status_code=422, detail=str(e))
         
 #api route deletes comment
 @api.delete("/{id}")
-def delete_comment(id: int, comment_service = Depends(CommentService)):
+def delete_comment(id: int, user = Depends(registered_user), comment_service = Depends(CommentService)):
     try:
-        return comment_service.delete(id)
+        return comment_service.delete(user,id)
     except Exception as e:
         raise HTTPException(status_code=404, detail=str(e))
     

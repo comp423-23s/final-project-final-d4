@@ -16,19 +16,36 @@ class CommentService:
         self._session = session
         self._permission = PermissionService(session)
 
-    # get comments given a post id
-    def all(self,post_id:int) -> list[Comment]:
+    # get comments given a post id and current user
+    def all(self,user:User,post_id:int) -> list[Comment]:
+        # Given a post id and the curren user, this would return a list of Comment that is visible to the user"
         post_query = select(PostEntity).where(PostEntity.id == post_id)
         post_entity: PostEntity = self._session.scalar(post_query)
         if (post_entity is None):
             raise ValueError(f"Post with id {post_id} does not exist")
         
-        query = select(CommentEntity).join(PostEntity).where(PostEntity.id == post_id)
+        admin = self._permission._has_permission(user.permissions,"admin.*","*")
+        if admin:
+            query = select(CommentEntity).join(PostEntity).where(
+                PostEntity.id == post_id)
+        else:
+            query = select(CommentEntity).join(PostEntity).where(
+            (PostEntity.id == post_id) &
+            (
+                ~CommentEntity.private |
+                (
+                    CommentEntity.private & (
+                        (PostEntity.user_pid == user.pid) |
+                        (CommentEntity.user_id == user.pid)
+                    )
+                )
+            )
+        )
         entities = self._session.execute(query).scalars().all()
         return [entity.to_model() for entity in entities]
     
     # create a comment to a post
-    def create(self, comment: NewComment, user: User) -> Comment:
+    def create(self, user: User, comment: NewComment) -> Comment:
         query = select(UserEntity).where(UserEntity.pid == user.pid)
         user_entity: UserEntity = self._session.scalar(query)
         if (user_entity is None):
@@ -43,7 +60,8 @@ class CommentService:
             commenter = user.pid,
             post = comment.post,
             text = comment.text,
-            created= comment.created
+            created= comment.created,
+            private = comment.private
         )
         
         comment_entity: CommentEntity = CommentEntity.from_model(comment_model)        
@@ -53,10 +71,10 @@ class CommentService:
         return comment_entity.to_model()
             
     # delete a comment
-    def delete(self, post_id: int, comment_id:int, user: User) -> None:
+    def delete(self, user: User, post_id: int, comment_id:int) -> None:
         user.permissions = self._permission.get_permissions(user)
         admin = self._permission._has_permission(user.permissions,"admin.*","*")
-        for i in self.all(post_id):
+        for i in self.all(user,post_id):
             if i.id == comment_id:
                 comment_entity = self._session.query(CommentEntity).filter(CommentEntity.id == comment_id).one()
                 if comment_entity is None:
