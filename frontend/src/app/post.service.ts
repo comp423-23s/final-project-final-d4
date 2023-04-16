@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Observable, catchError, throwError } from "rxjs";
+import { Observable, catchError, map, throwError } from "rxjs";
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import {ProfileService, Profile} from "./profile/profile.service"
 
@@ -12,21 +12,6 @@ export interface NewPost {
     description: string;
 }
 
-export interface NewPost {
-    content: string;
-    tags: string[]
-    created: Date;
-    title: string;
-    description: string;
-}
-
-export interface NewPost {
-    content: string;
-    tags: string[]
-    created: Date;
-    title: string;
-    description: string;
-}
 
 export interface PostView {
     id: number;
@@ -116,6 +101,12 @@ export class PostsService{
         return this.http.post<PostView>('/api/post', post);
       }
 
+    getPostById(postId: number): Observable<PostView> {
+        return this.http.get<PostView[]>(`/api/post`).pipe(
+          map((posts) => posts.find((post) => post.id === postId) as PostView)
+      );
+    }
+
     deletePost(postID: number): Observable<PostView> {
         return this.http.delete<PostView>(`/api/post/${postID}`)
     }
@@ -123,4 +114,6 @@ export class PostsService{
     searchPost(searchText: string): Observable<PostView[]> {
         return this.http.get<PostView[]>(`/api/post/${searchText}`);
     }
+
+  
 }

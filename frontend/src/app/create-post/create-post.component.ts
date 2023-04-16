@@ -50,7 +50,6 @@ export class CreatePostComponent {
     let time = (form.value.dateTime);
     let comments = (form.value.comments ?? "");
 
-
     this.postService.addPost(title, description, content, this.tags)
     .subscribe({
       next: (posts) => {

@@ -17,13 +17,15 @@
       <mat-card-subtitle>Posted By: {{post.pid}}</mat-card-subtitle>
       <!-- time -->
       <mat-card-subtitle>Time: {{post.created}}</mat-card-subtitle>
-      <mat-card-title>{{post.title}}</mat-card-title>
+      <mat-card-title>
+        <a [routerLink]="['/post-details', post.id]">{{ post.title }}</a>
+    </mat-card-title>
     </mat-card-header>
     <mat-card-content>
         <!-- post description -->
       <p>{{post.description}}</p>
       <!-- post content -->
-      <p>{{post.content}}</p>
+      <!-- <p>{{post.content}}</p> -->
       <mat-divider></mat-divider>
     </mat-card-content>
     <mat-card-actions>
@@ -37,9 +39,9 @@
             {{post.tags}}
         </mat-chip>
     </mat-card-actions>
-    <mat-card-footer>
+    <!-- <mat-card-footer> -->
     <!-- comments  -->
-        <mat-expansion-panel>
+        <!-- <mat-expansion-panel>
             <mat-expansion-panel-header>
                 <mat-panel-title>Comments</mat-panel-title>
             </mat-expansion-panel-header>
@@ -52,9 +54,9 @@
         </mat-form-field>
         <mat-action-row>
             <button mat-button color="primary" (click)="addComment()">Add a Comment</button>
-            <!-- add private comment -->
-            <button mat-button color="primary" (click)="addPrivateComment()">Add a Private Comment</button>
+                <!-- add private comment -->
+            <!-- <button mat-button color="primary" (click)="addPrivateComment()">Add a Private Comment</button>
         </mat-action-row>
     </mat-expansion-panel>
-    </mat-card-footer>
+    </mat-card-footer> --> 
   </mat-card>
