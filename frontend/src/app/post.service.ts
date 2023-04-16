@@ -12,14 +12,6 @@ export interface NewPost {
     description: string;
 }
 
-export interface NewPost {
-    content: string;
-    tags: string[]
-    created: Date;
-    title: string;
-    description: string;
-}
-
 export interface PostView {
     id: number;
     content: string;
@@ -31,26 +23,6 @@ export interface PostView {
     // first_name: string;
     // last_name: string;
 }
-
-// FYI:
-//  Backend Post Model
-// class Post(BaseModel):
-//     # this is the primary key
-//     id: int | None = None
-//     content: str=""
-//     tags: list[str] = []
-//     created: datetime = datetime.now()
-//     title: str = ""
-//     description: str = ""
-
-// Backend NewPost (PostRequest) Model:
-// class Post(BaseModel):
-//     content: str=""
-//     tags: list[str] = []
-//     created: datetime = datetime.now()
-//     title: str = ""
-//     description: str = ""
-
 
 @Injectable({providedIn: 'root'})
 export class PostsService{
