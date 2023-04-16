@@ -31,7 +31,8 @@ user = User(id=3, pid=111111111, onyen='user', email='user@unc.edu')
 unregistered = User(id=4, pid=111111112, onyen='user2', email='user2@unc.edu')
 
 # Model comment
-sample_comment_1 = NewComment(post=1,text="Hello")
+sample_comment_1 = NewComment(post=1,text="Hello",private=True)
+sample_comment_2 = NewComment(post=1,text="Hello2",private=False)
 
 @pytest.fixture(autouse=True)
 def setup_teardown(test_session: Session):
@@ -117,43 +118,63 @@ def test_search_post(post: PostService):
 # get comment test
 def test_get_comment(post: PostService, comment: CommentService):
     post.create_post(sample_post, user)
-    assert(len(comment.all(1)) == 0)
+    assert(len(comment.all(user,1)) == 0)
 
 # create comment test
-def test_create_comment(post: PostService, comment: CommentService):
-    post.create_post(sample_post, user)
-    comment.create(sample_comment_1, user)
-    assert(len(comment.all(1)) == 1)
+def test_create_comment_private(post: PostService, comment: CommentService):
+    post.create_post(sample_post,user)
+    comment.create(user,sample_comment_1)
+    assert(len(comment.all(user,1)) == 1)
+    assert(len(comment.all(ambassador,1)) == 0)
+
+def test_create_comment_notprivate(post: PostService, comment: CommentService):
+    post.create_post(sample_post,user)
+    comment.create(user,sample_comment_2)
+    assert(len(comment.all(user,1)) == 1)
+    assert(len(comment.all(ambassador,1)) == 1)
 
 def test_create_comment_invalid_postid(post: PostService, comment: CommentService):
-    post.create_post(sample_post, user)
-    sample_comment = NewComment(post=6,text="Hello")
+    post.create_post(sample_post,user)
+    sample_comment = NewComment(post=6,text="Hello",private=False)
     with pytest.raises(ValueError):
-        comment.create(sample_comment, user)
+        comment.create(user,sample_comment)
 
 # delete comment test
-def test_delete_comment_valid(post: PostService, comment: CommentService):
-    post.create_post(sample_post, user)
-    comment.create(sample_comment_1, user)
-    assert(len(comment.all(1)) == 1)
-    comment.delete(1,1,user)
-    assert(len(comment.all(1)) == 0)
+def test_delete_comment_valid_author_private(post: PostService, comment: CommentService):
+    post.create_post(sample_post,user)
+    comment.create(user,sample_comment_1)
+    assert(len(comment.all(user,1)) == 1)
+    comment.delete(user,1,1)
+    assert(len(comment.all(user,1)) == 0)
+
+def test_delete_comment_valid_author_notprivate(post: PostService, comment: CommentService):
+    post.create_post(sample_post,user)
+    comment.create(user,sample_comment_2)
+    assert(len(comment.all(user,1)) == 1)
+    comment.delete(user,1,1)
+    assert(len(comment.all(user,1)) == 0)
 
 def test_delete_comment_invalid_id(post: PostService, comment: CommentService):
-    post.create_post(sample_post, user)
-    comment.create(sample_comment_1, user)
+    post.create_post(sample_post,user)
+    comment.create(user,sample_comment_1)
     with pytest.raises(ValueError):
-        comment.delete(5,5,user)
+        comment.delete(user,5,5)
 
 def test_delete_comment_valid_admin(post: PostService, comment: CommentService):
-    post.create_post(sample_post, user)
-    comment.create(sample_comment_1, user)
-    comment.delete(1,1,root)
-    assert(len(comment.all(1)) == 0)
-
+    post.create_post(sample_post,user)
+    comment.create(user,sample_comment_1)
+    comment.delete(root,1,1)
+    assert(len(comment.all(user,1)) == 0)
 
 def test_delete_comment_invalid_notauthor(post: PostService, comment: CommentService):
-    post.create_post(sample_post, user)
-    comment.create(sample_comment_1, user)
+    post.create_post(sample_post,user)
+    comment.create(user,sample_comment_2)
     with pytest.raises(UserPermissionError):
-        comment.delete(1,1,ambassador)
+        comment.delete(ambassador,1,1)
+
+def test_delete_comment_invalid_private_notauthor(post: PostService, comment: CommentService):
+    post.create_post(sample_post,user)
+    comment.create(user,sample_comment_1)
+    comment.delete(ambassador,1,1)
+    assert(len(comment.all(user,1)) == 1)
+

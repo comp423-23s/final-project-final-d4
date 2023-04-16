@@ -75,31 +75,3 @@ class PostService:
             self._session.delete(post_entity)
             self._session.commit()
             return post_entity.to_model()
-        # subject.permissions = self._permission.get_permissions(subject)
-        # admin = self._permission._has_permission(subject.permissions,"admin.*","*")
-        # post_entity = self._session.query(PostEntity).filter(PostEntity.id == id).one()
-        # if post_entity is None:
-        #     raise ValueError("The post is not in the system.")
-        # else:
-        #     self._session.delete(post_entity)
-        #     self._session.commit()
-        #     return post_entity.to_model()
-        
-        # for i in self.get_posts():
-        #     if i.id == id:
-                
-        #         else:
-        #             if((post_entity.user_pid == subject.pid) | admin):
-        #                 # Check for authorization
-        #                 self._session.delete(post_entity)
-        #                 self._session.commit()
-        #             else:
-        #                 raise UserPermissionError('post.delete_post', f'post/{id}')
-           
-        #         return post_entity.to_model()
-
-                
-
-        
-    
-    
