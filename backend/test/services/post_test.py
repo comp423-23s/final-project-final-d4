@@ -44,26 +44,19 @@ def setup_teardown(test_session: Session):
     test_session.add(root_role_entity)
     root_permission_entity = PermissionEntity(
         action='*', resource='*', role=root_role_entity)
-    root_permission_entity_temp = PermissionEntity(
-        action='admin.*', resource='*', role=root_role_entity)
+    root_permission_entity_post = PermissionEntity(
+        action='post.delete', resource='*', role=root_role_entity)
     test_session.add(root_permission_entity)
-    test_session.add(root_permission_entity_temp)
+    test_session.add(root_permission_entity_post)
 
-    # Bootstrap ambassador and role
-    ambassador_entity = UserEntity.from_model(ambassador)
-    test_session.add(ambassador_entity)
-    ambassador_role_entity = RoleEntity.from_model(ambassador_role)
-    ambassador_role_entity.users.append(ambassador_entity)
-    test_session.add(ambassador_role_entity)
-    ambassador_permission_entity = PermissionEntity(
-        action='checkin.create', resource='checkin', role=ambassador_role_entity)
-    test_session.add(ambassador_permission_entity)
-
-    # Bootstrap user without any special perms
+    # Bootstrap user and ambassador without any special perms
     user_entity = UserEntity.from_model(user)
     test_session.add(user_entity)
+    ambassador_entity = UserEntity.from_model(ambassador)
+    test_session.add(ambassador_entity)
 
     test_session.commit()
+
 
 @pytest.fixture
 def post(test_session: Session):
@@ -82,7 +75,7 @@ def comment(test_session: Session):
     return CommentService(test_session)
 
 # get post test
-def test_empty_post(post: PostService):
+def test_get_post(post: PostService):
     assert(len(post.get_posts()) == 0)
 
 # creat post test
@@ -96,14 +89,19 @@ def test_create_post_invalid_user(post: PostService):
 
 # delete post test
 def test_delete_post_valid(post: PostService,users: UserService, test_session: Session):
-    post.delete_post(1,user)
+    post.create_post(sample_post, user)
+    post.delete_post(user, 1)
     assert(len(post.get_posts())==0)
 
 def test_delete_post_valid_admin(post: PostService,users: UserService, test_session: Session):
     post.create_post(sample_post, user)
-    assert(len(post.get_posts())==1)
-    post.delete_post(1,root)
+    post.delete_post(root, 1)
     assert(len(post.get_posts())==0)
+
+def test_delete_post_invalid_userpermission(post: PostService):
+    post.create_post(sample_post, user)
+    with pytest.raises(UserPermissionError):
+        post.delete_post(ambassador, 1)
 
 # search post test
 def test_search_post(post: PostService):
