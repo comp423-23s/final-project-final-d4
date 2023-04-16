@@ -4,7 +4,7 @@ This file includes basic features a comment should have, which are get comments:
 create comments: create(), and delete comments: delete(). We include a feature of private
 comments, which is only visible among the author of the post, the author of the comment, 
 and the administrator. And only the author of the comment of the administrator are able 
-to delet the comment.
+to delete the comment.
 """
 
 from fastapi import Depends
@@ -38,7 +38,7 @@ class CommentService:
           permission: Defines which permissionservice it uses
         """
         self._session = session
-        self._permission = PermissionService(session)
+        self._permission = permission
 
     # get comments given a post id and current user
     def all(self,subject:User,post_id:int) -> list[Comment]:
