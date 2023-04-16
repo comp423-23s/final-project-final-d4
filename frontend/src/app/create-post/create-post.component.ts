@@ -8,7 +8,6 @@ import {MatChipInputEvent} from '@angular/material/chips';
 import {FormControl} from '@angular/forms';
 import { Observable, catchError, map, startWith } from 'rxjs';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
-import { FormBuilder } from '@angular/forms';
 
 
 @Component({
@@ -26,42 +25,37 @@ export class CreatePostComponent {
   @ViewChild('tagInput')
   tagInput!: ElementRef<HTMLInputElement>;
   
-  
+  // declares a public property profile$ that holds an observable of either a Profile object or undefined
   public profile$: Observable<Profile | undefined>;
   
   
   constructor(
     public postService: PostsService,
     private profileService: ProfileService,
-    private formBuilder: FormBuilder,
   ) {
+    //Assigns the profile$ observable from the ProfileService to the component's profile$ property.
     this.profile$ = profileService.profile$,
+    //tag section
     this.filteredTags = this.tagCtrl.valueChanges.pipe(startWith(null),
     map((fruit: string | null) => (fruit ? this._filter(fruit) : this.allTags.slice())),
   );
 }
 
   onPost(form: NgForm):void{
-    
-    let id = parseInt(form.value.id ?? "");
     let title = (form.value.title ?? "");
     let content = (form.value.content ?? "");
     let description = (form.value.description ?? "");
     let time = (form.value.dateTime);
     let comments = (form.value.comments ?? "");
 
-    // content: string;
-    // tags: string[]
-    // created: Date;
-    // title: string;
-    // description: string;
-
     this.postService.addPost(content, this.tags, title, description).subscribe({
       next: (posts) => {
+        //post successfully created 
         console.log('Post added successfully: ', posts);
         form.resetForm();
       },
       error: (err) => {
+        //error occurred 
         console.error('Error creating post: ', err);
       }
     });
@@ -69,7 +63,6 @@ export class CreatePostComponent {
   }
   
   // For tags part
-
   add(event: MatChipInputEvent): void {
     const value = (event.value || '').trim();
 

@@ -1,34 +1,44 @@
+<!-- created routerlink tab of project list and create posts to the nav -->
 <nav mat-tab-nav-bar>
     <a mat-tab-link (click)="resetSearch()" routerLink="/projects">Project List</a>
-    <!--  -->
     <a mat-tab-link routerLink="/create">Create Post</a>
 </nav>
+
+<!-- search bar -->
 <mat-form-field class="search">
     <input type="text" matInput placeholder="Search" [(ngModel)]="search" (keyup.enter)="searchPost(search)">
     <button matSuffix mat-button (click)="searchPost(search)"><mat-icon>search</mat-icon></button>
   </mat-form-field>
-<mat-card *ngFor= "let post of posts | async">
 
+  <!-- user project post formate -->
+<mat-card *ngFor= "let post of posts | async">
     <mat-card-header>
+        <!-- pid -->
       <mat-card-subtitle>Posted By: {{post.pid}}</mat-card-subtitle>
+      <!-- time -->
       <mat-card-subtitle>Time: {{post.created}}</mat-card-subtitle>
       <mat-card-title>{{post.title}}</mat-card-title>
     </mat-card-header>
     <mat-card-content>
+        <!-- post description -->
       <p>{{post.description}}</p>
+      <!-- post content -->
       <p>{{post.content}}</p>
       <mat-divider></mat-divider>
     </mat-card-content>
     <mat-card-actions>
+        <!-- delete post -->
         <button mat-icon-button color="warn" (click)="deletePost(post.id)">
             <mat-icon>delete</mat-icon>
         </button>
+        <!-- tags -->
         <a>Tags:  </a>
         <mat-chip>
             {{post.tags}}
         </mat-chip>
     </mat-card-actions>
     <mat-card-footer>
+    <!-- comments  -->
         <mat-expansion-panel>
             <mat-expansion-panel-header>
                 <mat-panel-title>Comments</mat-panel-title>
@@ -42,30 +52,9 @@
         </mat-form-field>
         <mat-action-row>
             <button mat-button color="primary">Add a Comment</button>
+            <!-- add private comment -->
             <button mat-button color="primary">Add a Private Comment</button>
         </mat-action-row>
     </mat-expansion-panel>
     </mat-card-footer>
   </mat-card>
-
-
-<!-- <mat-accordion multi = "true">
-    <mat-expansion-panel *ngFor= "let post of posts">
-        <mat-expansion-panel-header>
-            <mat-panel-title>{{post.title}}</mat-panel-title>
-            <mat-panel-description>{{post.description}}</mat-panel-description>
-        </mat-expansion-panel-header>
-        <p>{{post.content}}</p>
-        <mat-form-field>
-            <textarea rows = "4" 
-            matInput 
-            name = "content"
-            placeholder= "Post Comments"
-            ></textarea>
-        </mat-form-field>
-        <mat-action-row>
-            <p class = "date">{{post.dateTime | date: 'MMM d, y, h:mm:ss a'}}</p>
-            <button mat-button color="primary">Comment</button>
-        </mat-action-row>
-    </mat-expansion-panel>
-</mat-accordion> -->

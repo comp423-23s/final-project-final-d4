@@ -1,3 +1,4 @@
+<!-- created routerlink tab of project list and create posts to the nav -->
 <nav mat-tab-nav-bar>
     <a mat-tab-link routerLink="/projects">Project List</a>
     <a mat-tab-link routerLink="/create">Create Post</a>
@@ -5,15 +6,9 @@
 
 <h1>Create a Post</h1>
 <mat-card>
+    <!-- form for user input  -->
     <form (ngSubmit) = "onPost(postForm)" #postForm = "ngForm" *ngIf="(profile$ | async) !== undefined">
-        <mat-form-field>
-            <input type = "number"
-                matInput 
-                ngModel
-                name = "id"
-                placeholder= "Username"
-            >
-        </mat-form-field>
+        <!-- title -->
         <mat-form-field>
             <input type="text" 
             matInput 
@@ -24,6 +19,7 @@
             #title = "ngModel"
             >
         </mat-form-field>
+        <!-- post description -->
         <mat-form-field>
             <textarea rows = "2"
             type="text" 
@@ -35,6 +31,7 @@
             #description = "ngModel"
             ></textarea>
         </mat-form-field>
+        <!-- post content -->
         <mat-form-field>
             <textarea rows = "10"
             type="text" 
@@ -46,6 +43,7 @@
             #content = "ngModel"
             ></textarea>
         </mat-form-field>
+        <!-- post tag -->
         <mat-form-field class="chip-list" appearance="fill">
             <mat-label>Tags</mat-label>
             <mat-chip-grid #chipGrid aria-label="Tag selection">
@@ -65,16 +63,8 @@
                 {{tag}}
                 </mat-option>
             </mat-autocomplete>
-            <!-- <textarea rows = "1"
-            matInput 
-            ngModel
-            name = "tags"
-            placeholder= "tags"
-            required
-            #content = "ngModel"
-            ></textarea> -->
         </mat-form-field>
-        <mat-form-field>
+        <!-- <mat-form-field>
             <textarea rows = "1"
             matInput 
             ngModel
@@ -84,39 +74,10 @@
             required
             #content = "ngModel"
             ></textarea>
-        </mat-form-field>
+        </mat-form-field> -->
         <button 
         mat-raised-button
         color = "blue"
         type="submit">Create Post</button>
     </form>
 </mat-card>
-
-<!-- <form [formGroup]="form" (ngSubmit)="onSubmit()">
-    <div>
-        <label for="id">Username</label>
-        <input id="id" type="text" formControlName="id">
-      </div>
-
-    <div>
-      <label for="title">Title</label>
-      <input id="title" type="text" formControlName="title">
-    </div>
-    
-    <div>
-      <label for="description">Description</label>
-      <input id="description" type="text" formControlName="description">
-    </div>
-
-    <div>
-        <label for="details">Details</label>
-        <input id="details" type="text" formControlName="details">
-    </div>
-
-    <div>
-        <label for="comments">Comments</label>
-        <input id="comments" type="text" formControlName="comments">
-    </div>
-
-    <button class="button" type="submit">Create Post</button>
-</form> -->
