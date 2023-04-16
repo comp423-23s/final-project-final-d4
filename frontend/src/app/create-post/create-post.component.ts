@@ -1,13 +1,15 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { Post, PostView, PostsService } from '../post.service';
+import { PostView, PostView, PostsService } from '../post.service';
 import { ProfileService, Profile } from '../profile/profile.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import {MatAutocompleteSelectedEvent} from '@angular/material/autocomplete';
 import {MatChipInputEvent} from '@angular/material/chips';
 import {FormControl} from '@angular/forms';
 import { Observable, catchError, map, startWith } from 'rxjs';
+import { Observable, catchError, map, startWith } from 'rxjs';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
+import { FormBuilder } from '@angular/forms';
 
 
 @Component({
@@ -25,13 +27,18 @@ export class CreatePostComponent {
   @ViewChild('tagInput')
   tagInput!: ElementRef<HTMLInputElement>;
   
+  
   // declares a public property profile$ that holds an observable of either a Profile object or undefined
   public profile$: Observable<Profile | undefined>;
+  
+  
   
   
   constructor(
     public postService: PostsService,
     private profileService: ProfileService,
+    private profileService: ProfileService,
+    private formBuilder: FormBuilder,
   ) {
     //Assigns the profile$ observable from the ProfileService to the component's profile$ property.
     this.profile$ = profileService.profile$,
@@ -42,6 +49,7 @@ export class CreatePostComponent {
 }
 
   onPost(form: NgForm):void{
+    let content = (form.value.content ?? "");
     let title = (form.value.title ?? "");
     let content = (form.value.content ?? "");
     let description = (form.value.description ?? "");
@@ -60,7 +68,19 @@ export class CreatePostComponent {
       }
     });
 
+    this.postService.addPost(title, description, content, this.tags)
+    .subscribe({
+      next: (posts) => {
+        console.log('Post added successfully: ', posts);
+        form.resetForm();
+      },
+      error: (err) => {
+        console.error('Error creating post: ', err);
+      }
+    });
+
   }
+  
   
   // For tags part
   add(event: MatChipInputEvent): void {

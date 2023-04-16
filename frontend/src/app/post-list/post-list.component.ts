@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Observable } from 'rxjs';
 import { PostsService } from '../post.service';
-import { Post, PostView } from '../post.service';
+import { PostView } from '../post.service';
 
 
 @Component({
@@ -36,8 +36,7 @@ export class PostListComponent {
       this.posts = this.postService.getPost();
     });
   }
-
-  //delete the project from post list 
+  
   deletePost(postId: number) {
     // Call a service method to delete the post with the given ID
     this.postService.deletePost(postId).subscribe(() => {
