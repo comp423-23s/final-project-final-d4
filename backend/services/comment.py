@@ -17,14 +17,13 @@ class CommentService:
         self._permission = PermissionService(session)
 
     # get comments given a post id and current user
-    def all(self,user:User,post_id:int) -> list[Comment]:
+    def all(self,subject:User,post_id:int) -> list[Comment]:
         # Given a post id and the curren user, this would return a list of Comment that is visible to the user"
         post_query = select(PostEntity).where(PostEntity.id == post_id)
         post_entity: PostEntity = self._session.scalar(post_query)
         if (post_entity is None):
             raise ValueError(f"Post with id {post_id} does not exist")
-        
-        admin = self._permission._has_permission(user.permissions,"admin.*","*")
+        admin = self._permission._has_permission(subject.permissions,"admin*","*")
         if admin:
             query = select(CommentEntity).join(PostEntity).where(
                 PostEntity.id == post_id)
@@ -35,8 +34,8 @@ class CommentService:
                 ~CommentEntity.private |
                 (
                     CommentEntity.private & (
-                        (PostEntity.user_pid == user.pid) |
-                        (CommentEntity.user_id == user.pid)
+                        (PostEntity.user_pid == subject.pid) |
+                        (CommentEntity.user_id == subject.pid)
                     )
                 )
             )
@@ -71,23 +70,24 @@ class CommentService:
         return comment_entity.to_model()
             
     # delete a comment
-    def delete(self, user: User, post_id: int, comment_id:int) -> None:
-        user.permissions = self._permission.get_permissions(user)
-        admin = self._permission._has_permission(user.permissions,"admin.*","*")
-        for i in self.all(user,post_id):
+    def delete(self, subject: User, post_id: int, comment_id:int) -> None:
+        # user.permissions = self._permission.get_permissions(user)
+        # admin = self._permission.enforce(user,"comment.delete","*")
+        for i in self.all(subject,post_id):
             if i.id == comment_id:
                 comment_entity = self._session.query(CommentEntity).filter(CommentEntity.id == comment_id).one()
                 if comment_entity is None:
                     raise ValueError("The comment is not in the system.")
                 else:
-                    print(comment_entity.commenter)
-                    if((i.commenter == user.pid) | admin):
-                        # Check for authorization
-                        self._session.delete(comment_entity)
-                        self._session.commit()
-                    else:
-                        raise UserPermissionError('comment.delete_comment', f'comment/{comment_id}')
-           
+                    user_pid = comment_entity.to_model().commenter
+                    query = select(UserEntity).where(UserEntity.pid == user_pid)
+                    user_entity: UserEntity = self._session.scalar(query)
+                    user = user_entity.to_model()
+                    if subject != user:
+                        self._permission.enforce(subject, "comment.delete", f"comment/{comment_id}")
+    
+                    self._session.delete(comment_entity)
+                    self._session.commit()
                 return comment_entity.to_model()
             
         

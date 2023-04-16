@@ -46,8 +46,11 @@ def setup_teardown(test_session: Session):
         action='*', resource='*', role=root_role_entity)
     root_permission_entity_temp = PermissionEntity(
         action='admin.*', resource='*', role=root_role_entity)
+    root_permission_entity_comment = PermissionEntity(
+        action='comment.delete', resource='*', role=root_role_entity)
     test_session.add(root_permission_entity)
     test_session.add(root_permission_entity_temp)
+    test_session.add(root_permission_entity_comment)
 
     # Bootstrap ambassador and role
     ambassador_entity = UserEntity.from_model(ambassador)
