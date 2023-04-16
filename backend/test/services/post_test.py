@@ -44,7 +44,7 @@ def setup_teardown(test_session: Session):
     root_permission_entity = PermissionEntity(
         action='*', resource='*', role=root_role_entity)
     root_permission_entity_post = PermissionEntity(
-        action='post.delete_post', resource='*', role=root_role_entity)
+        action='post.delete', resource='*', role=root_role_entity)
     test_session.add(root_permission_entity)
     test_session.add(root_permission_entity_post)
 
