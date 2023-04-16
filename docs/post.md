@@ -1,0 +1,24 @@
+# Post
+
+## Overview
+The post forum feature provides functionality including **create posts, delete posts, search posts and view posts** in the post forum. This feature achieves **4** stories in our project including view-post story, create-post story, search-post story, delete-post story. It primarily serves to **UNC students who are looking for potential projects to get involved in**, or **students who have some projects ideas in mind and are looking for teammates to build the project together**. This feature is the primary feature in our final project. It would make the UNC CS community more cooperative and innovative. 
+
+## Implementation Notes
+This feature associates with a post table(backend/entities/post_entities). Each post has features of content, tags, created time, title, and descriptions. The title can be simple, for example "Finding teammate: backend" or "Random thoughts about ChatGPT". And descriptions are a brief summary of the post, for example "I find this interesting paper on chatgpt talking about its possible application". 
+
+The interesting design point is tags. We thoughg about our experiences on other platforms. It is useful for viewers to find specific categories of posts they want if the author of a post can tag the post initially. For example, if a user wants to join an existing team for projects, the user can search for the tag: Finding teammates. And every post with this tag will come out, which make it easier for the user. We have some predefining tags such as "finding teammates", "share insights", "backend", "frontend". We choose to use tags instead of letting users search posts by contents or titles because we understand people would have different wordings for a same thing. The tag can unify the wording and make it easier for users to retrieve the information they want. 
+
+## Development Concerns
+**Please do not create post if not yet registered in CSXL!!!** The create-post would depend on registered user and the action should fail if the user is not yet registered!!
+
+Other than that, if a developer wanted to start working on your post feature, be aware of the following things:
+Backend: 
+1. The backend implementation of the post forum feature is in api/post.py and services/post.py. The create_post service function takes in a NewPost model from the frontend post form which only has content, tags, created, datetime, title, and description. The create_post function will takes in parameters from the NewPost model and construct a Post model for passing into the post table. The post model has information about the user who creates the post by extracting from the "/authentication/registered user". 
+2. There is a permission check in delete_post method. If the subject is not the user who creates the post, permissio service would check whether the subject has permission to delete the post. Only administrater who has 'post.delete' action permission would delete other users' posts.
+Frontend:
+1. The frontend implementation of the post feature is in the [post-list component](https://github.com/comp423-23s/final-project-final-d4/tree/stage/frontend/src/app/post-list), create-post component(https://github.com/comp423-23s/final-project-final-d4/tree/stage/frontend/src/app/create-post), and post.service.ts(https://github.com/comp423-23s/final-project-final-d4/blob/stage/frontend/src/app/post.service.ts). 
+2. There are 2 permission checks in the delete post sub-feature of the frontend. **deleteAdminPermission$** is an Observable<Boolean> checks whether the authenticated user has permission to delete user people's posts. It interacts with the check method of the permission service to fetch permission information. [The delete button for administrator only appears if the boolean variable is true](https://github.com/comp423-23s/final-project-final-d4/blob/02ac2feea0af519d223566723c4170c53cffb076/frontend/src/app/post-list/post-list.component.html#L23). The second permission check is implemented via **getDeleteUserPermission** function. It takes the pid associated with the specific post and calls [checkPID(PID: number)](https://github.com/comp423-23s/final-project-final-d4/blob/02ac2feea0af519d223566723c4170c53cffb076/frontend/src/app/permission.service.ts#L29) in the permission service. This method returns true if the postPID and the PID of the CSXL user are equal. 
+3. The create-post sub-feature sends the NewPost model to the backend via HTTP POST request. All methods with HTTP concerns in the post service takes PostView model as a return object. NewPost matches NewPost model in the backend while PostView Matches Post model in the backend. 
+
+## Future Work
+1. The create-post router-link should only appear if the user is registered via CSXL. If the user is not registered, clicking on the create-post button should redirect user to profile to create a new account. 
