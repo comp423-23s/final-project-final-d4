@@ -51,9 +51,9 @@
             ></textarea>
         </mat-form-field>
         <mat-action-row>
-            <button mat-button color="primary">Add a Comment</button>
+            <button mat-button color="primary" (click)="addComment()">Add a Comment</button>
             <!-- add private comment -->
-            <button mat-button color="primary">Add a Private Comment</button>
+            <button mat-button color="primary" (click)="addPrivateComment()">Add a Private Comment</button>
         </mat-action-row>
     </mat-expansion-panel>
     </mat-card-footer>

@@ -37,6 +37,7 @@ export class PostListComponent {
     });
   }
   
+  //delete post from project list
   deletePost(postId: number) {
     // Call a service method to delete the post with the given ID
     this.postService.deletePost(postId).subscribe(() => {
@@ -45,5 +46,12 @@ export class PostListComponent {
     });
   }
 
+  addComment(){
+
+  }
+
+  addPrivateComment(){
+    
+  }
 
 }

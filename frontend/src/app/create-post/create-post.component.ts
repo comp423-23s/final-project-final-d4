@@ -1,12 +1,11 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { PostView, PostView, PostsService } from '../post.service';
+import { PostView, PostsService } from '../post.service';
 import { ProfileService, Profile } from '../profile/profile.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import {MatAutocompleteSelectedEvent} from '@angular/material/autocomplete';
 import {MatChipInputEvent} from '@angular/material/chips';
 import {FormControl} from '@angular/forms';
-import { Observable, catchError, map, startWith } from 'rxjs';
 import { Observable, catchError, map, startWith } from 'rxjs';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import { FormBuilder } from '@angular/forms';
@@ -31,12 +30,8 @@ export class CreatePostComponent {
   // declares a public property profile$ that holds an observable of either a Profile object or undefined
   public profile$: Observable<Profile | undefined>;
   
-  
-  
-  
   constructor(
     public postService: PostsService,
-    private profileService: ProfileService,
     private profileService: ProfileService,
     private formBuilder: FormBuilder,
   ) {
@@ -49,24 +44,12 @@ export class CreatePostComponent {
 }
 
   onPost(form: NgForm):void{
-    let content = (form.value.content ?? "");
     let title = (form.value.title ?? "");
     let content = (form.value.content ?? "");
     let description = (form.value.description ?? "");
     let time = (form.value.dateTime);
     let comments = (form.value.comments ?? "");
 
-    this.postService.addPost(content, this.tags, title, description).subscribe({
-      next: (posts) => {
-        //post successfully created 
-        console.log('Post added successfully: ', posts);
-        form.resetForm();
-      },
-      error: (err) => {
-        //error occurred 
-        console.error('Error creating post: ', err);
-      }
-    });
 
     this.postService.addPost(title, description, content, this.tags)
     .subscribe({
