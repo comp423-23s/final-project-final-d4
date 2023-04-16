@@ -22,6 +22,7 @@ export class CommentService {
     return this.http.get<Comment[]>(`/api/comment/${projectId}`);
   }
 
+
   addComment(text: string, postId: number, isPrivate: boolean): Observable<Comment> {
     const comment: newComment = {
         post: postId,
