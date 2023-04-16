@@ -55,7 +55,6 @@ def setup_teardown(test_session: Session):
     test_session.add(root_permission_entity_comment)
     test_session.add(root_permission_entity_post)
 
-
     # Bootstrap user and ambassador without any special perms
     user_entity = UserEntity.from_model(user)
     test_session.add(user_entity)
