@@ -10,6 +10,7 @@ __license__ = "MIT"
 pairs = [
     (roles.sudoer, Permission(action="*", resource="*")),
     (roles.sudoer, Permission(action="comment.delete",resource="*")),
+    (roles.sudoer, Permission(action="post.delete", resource="*")),
     (roles.staff, Permission(action="admin.*", resource="*")),
     (roles.staff, Permission(action="user.*", resource="*")),
     (roles.staff, Permission(action="role.*", resource="*")),

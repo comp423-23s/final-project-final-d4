@@ -29,6 +29,6 @@ def create_post(post: NewPost, post_serv: PostService = Depends(), subject: User
 @api.delete("/{id}",tags=["Post"])
 def delete_post(id:int, post_serv: PostService = Depends(), subject: User = Depends(registered_user)) -> Post:
     try:
-        return post_serv.delete_post(id,subject)
+        return post_serv.delete_post(subject, id)
     except Exception as e:
         raise HTTPException(status_code=422, detail=str(e))
