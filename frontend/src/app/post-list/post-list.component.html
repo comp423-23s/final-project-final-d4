@@ -19,7 +19,9 @@
       <!-- time -->
       <mat-card-subtitle>Time: {{post.created}}</mat-card-subtitle>
       <!-- post title -->
-      <mat-card-title>{{post.title}}</mat-card-title>
+      <mat-card-title>
+        <a [routerLink]="['/post', post.id]">{{post.title}}</a>
+        </mat-card-title>
     </mat-card-header>
     <mat-card-content>
         <!-- post description  -->
