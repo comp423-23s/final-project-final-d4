@@ -31,7 +31,8 @@ user = User(id=3, pid=111111111, onyen='user', email='user@unc.edu')
 unregistered = User(id=4, pid=111111112, onyen='user2', email='user2@unc.edu')
 
 # Model comment
-sample_comment_1 = NewComment(post=1,text="Hello")
+sample_comment_1 = NewComment(post=1,text="Hello",private=True)
+sample_comment_2 = NewComment(post=1,text="Hello2",private=False)
 
 @pytest.fixture(autouse=True)
 def setup_teardown(test_session: Session):
@@ -43,26 +44,19 @@ def setup_teardown(test_session: Session):
     test_session.add(root_role_entity)
     root_permission_entity = PermissionEntity(
         action='*', resource='*', role=root_role_entity)
-    root_permission_entity_temp = PermissionEntity(
-        action='admin.*', resource='*', role=root_role_entity)
+    root_permission_entity_post = PermissionEntity(
+        action='post.delete', resource='*', role=root_role_entity)
     test_session.add(root_permission_entity)
-    test_session.add(root_permission_entity_temp)
+    test_session.add(root_permission_entity_post)
 
-    # Bootstrap ambassador and role
-    ambassador_entity = UserEntity.from_model(ambassador)
-    test_session.add(ambassador_entity)
-    ambassador_role_entity = RoleEntity.from_model(ambassador_role)
-    ambassador_role_entity.users.append(ambassador_entity)
-    test_session.add(ambassador_role_entity)
-    ambassador_permission_entity = PermissionEntity(
-        action='checkin.create', resource='checkin', role=ambassador_role_entity)
-    test_session.add(ambassador_permission_entity)
-
-    # Bootstrap user without any special perms
+    # Bootstrap user and ambassador without any special perms
     user_entity = UserEntity.from_model(user)
     test_session.add(user_entity)
+    ambassador_entity = UserEntity.from_model(ambassador)
+    test_session.add(ambassador_entity)
 
     test_session.commit()
+
 
 @pytest.fixture
 def post(test_session: Session):
@@ -81,7 +75,7 @@ def comment(test_session: Session):
     return CommentService(test_session)
 
 # get post test
-def test_empty_post(post: PostService):
+def test_get_post(post: PostService):
     assert(len(post.get_posts()) == 0)
 
 # creat post test
@@ -95,14 +89,19 @@ def test_create_post_invalid_user(post: PostService):
 
 # delete post test
 def test_delete_post_valid(post: PostService,users: UserService, test_session: Session):
-    post.delete_post(1,user)
+    post.create_post(sample_post, user)
+    post.delete_post(user, 1)
     assert(len(post.get_posts())==0)
 
 def test_delete_post_valid_admin(post: PostService,users: UserService, test_session: Session):
     post.create_post(sample_post, user)
-    assert(len(post.get_posts())==1)
-    post.delete_post(1,root)
+    post.delete_post(root, 1)
     assert(len(post.get_posts())==0)
+
+def test_delete_post_invalid_userpermission(post: PostService):
+    post.create_post(sample_post, user)
+    with pytest.raises(UserPermissionError):
+        post.delete_post(ambassador, 1)
 
 # search post test
 def test_search_post(post: PostService):
@@ -119,43 +118,63 @@ def test_search_post(post: PostService):
 # get comment test
 def test_get_comment(post: PostService, comment: CommentService):
     post.create_post(sample_post, user)
-    assert(len(comment.all(1)) == 0)
+    assert(len(comment.all(user,1)) == 0)
 
 # create comment test
-def test_create_comment(post: PostService, comment: CommentService):
-    post.create_post(sample_post, user)
-    comment.create(sample_comment_1, user)
-    assert(len(comment.all(1)) == 1)
+def test_create_comment_private(post: PostService, comment: CommentService):
+    post.create_post(sample_post,user)
+    comment.create(user,sample_comment_1)
+    assert(len(comment.all(user,1)) == 1)
+    assert(len(comment.all(ambassador,1)) == 0)
+
+def test_create_comment_notprivate(post: PostService, comment: CommentService):
+    post.create_post(sample_post,user)
+    comment.create(user,sample_comment_2)
+    assert(len(comment.all(user,1)) == 1)
+    assert(len(comment.all(ambassador,1)) == 1)
 
 def test_create_comment_invalid_postid(post: PostService, comment: CommentService):
-    post.create_post(sample_post, user)
-    sample_comment = NewComment(post=6,text="Hello")
+    post.create_post(sample_post,user)
+    sample_comment = NewComment(post=6,text="Hello",private=False)
     with pytest.raises(ValueError):
-        comment.create(sample_comment, user)
+        comment.create(user,sample_comment)
 
 # delete comment test
-def test_delete_comment_valid(post: PostService, comment: CommentService):
-    post.create_post(sample_post, user)
-    comment.create(sample_comment_1, user)
-    assert(len(comment.all(1)) == 1)
-    comment.delete(1,1,user)
-    assert(len(comment.all(1)) == 0)
+def test_delete_comment_valid_author_private(post: PostService, comment: CommentService):
+    post.create_post(sample_post,user)
+    comment.create(user,sample_comment_1)
+    assert(len(comment.all(user,1)) == 1)
+    comment.delete(user,1,1)
+    assert(len(comment.all(user,1)) == 0)
+
+def test_delete_comment_valid_author_notprivate(post: PostService, comment: CommentService):
+    post.create_post(sample_post,user)
+    comment.create(user,sample_comment_2)
+    assert(len(comment.all(user,1)) == 1)
+    comment.delete(user,1,1)
+    assert(len(comment.all(user,1)) == 0)
 
 def test_delete_comment_invalid_id(post: PostService, comment: CommentService):
-    post.create_post(sample_post, user)
-    comment.create(sample_comment_1, user)
+    post.create_post(sample_post,user)
+    comment.create(user,sample_comment_1)
     with pytest.raises(ValueError):
-        comment.delete(5,5,user)
+        comment.delete(user,5,5)
 
 def test_delete_comment_valid_admin(post: PostService, comment: CommentService):
-    post.create_post(sample_post, user)
-    comment.create(sample_comment_1, user)
-    comment.delete(1,1,root)
-    assert(len(comment.all(1)) == 0)
-
+    post.create_post(sample_post,user)
+    comment.create(user,sample_comment_1)
+    comment.delete(root,1,1)
+    assert(len(comment.all(user,1)) == 0)
 
 def test_delete_comment_invalid_notauthor(post: PostService, comment: CommentService):
-    post.create_post(sample_post, user)
-    comment.create(sample_comment_1, user)
+    post.create_post(sample_post,user)
+    comment.create(user,sample_comment_2)
     with pytest.raises(UserPermissionError):
-        comment.delete(1,1,ambassador)
+        comment.delete(ambassador,1,1)
+
+def test_delete_comment_invalid_private_notauthor(post: PostService, comment: CommentService):
+    post.create_post(sample_post,user)
+    comment.create(user,sample_comment_1)
+    comment.delete(ambassador,1,1)
+    assert(len(comment.all(user,1)) == 1)
+

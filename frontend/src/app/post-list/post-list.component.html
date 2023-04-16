@@ -31,8 +31,10 @@
       <mat-divider></mat-divider>
     </mat-card-content>
     <mat-card-actions>
-        <!-- delete post function  -->
-        <button mat-icon-button color="warn" (click)="deletePost(post.id)">
+        <button mat-icon-button *ngIf="deleteAdminPermission$ | async" (click)="deletePost(post.id)">
+            <mat-icon>delete</mat-icon>
+        </button>
+        <button mat-icon-button *ngIf="(getDeleteUserPermission(post.pid) | async)" color="warn" (click)="deletePost(post.id)">
             <mat-icon>delete</mat-icon>
         </button>
         <!-- tags -->

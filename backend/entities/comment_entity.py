@@ -1,7 +1,7 @@
 '''Comments for all registered users in the application.'''
 
 
-from sqlalchemy import Integer, String, DateTime, ForeignKey
+from sqlalchemy import Boolean, Integer, String, DateTime, ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 # from sqlalchemy.ext.mutable import MutableList
 from typing import Self
@@ -27,6 +27,8 @@ class CommentEntity(EntityBase):
     post_id = mapped_column(ForeignKey("post.id"))
     post: Mapped['PostEntity'] = relationship(back_populates="comments", post_update=True)
 
+    private : Mapped[bool] = mapped_column(Boolean)
+
     # not sure ifi this line is necessary, i am combining kris jordan's and my own code
     # replyTo_id = mapped_column(ForeignKey("comments.id"))
     # replies: Mapped[list["CommentEntity"]] = relationship(secondary="reply", primaryjoin=id==reply_table.c.comment_id,
@@ -42,7 +44,8 @@ class CommentEntity(EntityBase):
             text=model.text,
             created=model.created,
             user_id=model.commenter,
-            post_id=model.post
+            post_id=model.post,
+            private = model.private
             # replies=model.replies
         )
 
@@ -52,7 +55,8 @@ class CommentEntity(EntityBase):
             text=self.text,
             commenter=self.user_id,
             created=self.created,
-            post=self.post_id
+            post=self.post_id,
+            private=self.private
             # replies=self.replies,
         )
 

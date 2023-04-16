@@ -24,26 +24,6 @@ export interface PostView {
     // last_name: string;
 }
 
-// FYI:
-//  Backend Post Model
-// class Post(BaseModel):
-//     # this is the primary key
-//     id: int | None = None
-//     content: str=""
-//     tags: list[str] = []
-//     created: datetime = datetime.now()
-//     title: str = ""
-//     description: str = ""
-
-// Backend NewPost (PostRequest) Model:
-// class Post(BaseModel):
-//     content: str=""
-//     tags: list[str] = []
-//     created: datetime = datetime.now()
-//     title: str = ""
-//     description: str = ""
-
-
 @Injectable({providedIn: 'root'})
 export class PostsService{
     private profile$: Observable<Profile | undefined>;
@@ -70,6 +50,7 @@ export class PostsService{
    * @param tag: tag of the post
    * @returns Obervable of Post that will error if there are issues with validation or persistence.
    */
+   
     addPost(
       title: string, 
       description: string, 
