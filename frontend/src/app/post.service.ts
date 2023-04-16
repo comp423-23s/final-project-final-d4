@@ -1,16 +1,15 @@
 import { Injectable } from "@angular/core";
-import { Observable, throwError } from "rxjs";
-import { HttpClient } from "@angular/common/http";
+import { Observable, catchError, throwError } from "rxjs";
+import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import {ProfileService, Profile} from "./profile/profile.service"
 
-export interface Post{
+
+export interface NewPost {
+    content: string;
+    tags: string[]
+    created: Date;
     title: string;
     description: string;
-    content: string;
-    created: Date;
-    postedBy: number;
-    comments: string[];
-    tags: string[];
 }
 
 export interface PostView {
@@ -71,37 +70,40 @@ export class PostsService{
    * @param tag: tag of the post
    * @returns Obervable of Post that will error if there are issues with validation or persistence.
    */
-    addPost(title: string, description: string, content: string,  created: any, postedBy: number, comments: string[], tags: string[]){
-        //make sure users fill in each input 
-
-        let errors: string[] = [];
-
-        if(postedBy.toString().length !== 9){
-            errors.push(`Username required.`);
+    addPost(
+      title: string, 
+      description: string, 
+      content: string, 
+      tags: string[]) 
+      {
+        // Validate input
+        if (!title) {
+          return throwError(() => new Error('Title required'));
         }
-        if(title === ""){
-            errors.push(`Title required.`);
+        if (!description) {
+          return throwError(() => new Error('Description required'));
         }
-        if(description === ""){
-            errors.push(`Description required.`);
+        if (!content) {
+          return throwError(() => new Error('Content required'));
         }
-        if(content === ""){
-            errors.push(`Content required.`);
-        }
-
-        if (errors.length > 0) {
-            return throwError(() => { return new Error(errors.join("\n")) });
-        }
-
-        //create post with the parameters
-        let post: Post = {title: title, description: description, content: content,  created: new Date(), postedBy: postedBy, comments: comments, tags: tags};
-
-        //return post
-        return this.http.post<Post>("/api/post", post);
+      
+        // Create post with the parameters
+        const post: NewPost = {
+          content,
+          tags,
+          created: new Date(),
+          title,
+          description,
+        };
         
+        return this.http.post<PostView>('/api/post', post);
+      }
+
+    deletePost(postID: number): Observable<PostView> {
+        return this.http.delete<PostView>(`/api/post/${postID}`)
     }
 
-    deletePost(postID: number): Observable<Post> {
-        return this.http.delete<Post>(`/api/post/${postID}`)
+    searchPost(searchText: string): Observable<PostView[]> {
+        return this.http.get<PostView[]>(`/api/post/${searchText}`);
     }
 }

@@ -5,15 +5,7 @@
 
 <h1>Create a Post</h1>
 <mat-card>
-    <form (submit) = "onPost(postForm)" #postForm = "ngForm" *ngIf="(profile$ | async) !== undefined">
-        <mat-form-field>
-            <input type = "text"
-            matInput 
-            ngModel
-            name = "postedBy"
-            placeholder= "Username"
-            >
-        </mat-form-field>
+    <form (ngSubmit) = "onPost(postForm)" #postForm = "ngForm" *ngIf="(profile$ | async) !== undefined">
         <mat-form-field>
             <input type="text" 
             matInput 
@@ -26,6 +18,7 @@
         </mat-form-field>
         <mat-form-field>
             <textarea rows = "2"
+            type="text" 
             matInput 
             ngModel
             name = "description"
@@ -36,6 +29,7 @@
         </mat-form-field>
         <mat-form-field>
             <textarea rows = "10"
+            type="text" 
             matInput 
             ngModel
             name = "content"
@@ -63,25 +57,19 @@
                 {{tag}}
                 </mat-option>
             </mat-autocomplete>
-            <!-- <textarea rows = "1"
-            matInput 
-            ngModel
-            name = "tags"
-            placeholder= "tags"
-            required
-            #content = "ngModel"
-            ></textarea> -->
+
         </mat-form-field>
-        <mat-form-field>
+        <!-- <mat-form-field>
             <textarea rows = "1"
             matInput 
             ngModel
+            type="text" 
             name = "comments"
             placeholder= "Comment"
             required
             #content = "ngModel"
             ></textarea>
-        </mat-form-field>
+        </mat-form-field> -->
         <button 
         mat-raised-button
         color = "blue"

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Observable } from 'rxjs';
 import { PostsService } from '../post.service';
-import { Post, PostView } from '../post.service';
+import { PostView } from '../post.service';
 
 
 @Component({
@@ -10,6 +10,8 @@ import { Post, PostView } from '../post.service';
   styleUrls: ['./post-list.component.css']
 })
 export class PostListComponent {
+
+  search: string = " ";
   
   public posts: Observable<PostView[]>;
 
@@ -18,6 +20,20 @@ export class PostListComponent {
 
   }
 
+  //search post from user input
+  searchPost(search: string): void {
+    this.postService.searchPost(search).subscribe(() => {
+      this.posts = this.postService.searchPost(search);
+    });
+  }
+
+//reset the post list after search 
+  resetSearch():void {
+    this.postService.getPost().subscribe(() => {
+      this.posts = this.postService.getPost();
+    });
+  }
+  
   deletePost(postId: number) {
     // Call a service method to delete the post with the given ID
     this.postService.deletePost(postId).subscribe(() => {

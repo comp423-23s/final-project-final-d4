@@ -1,13 +1,14 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { Post, PostsService } from '../post.service';
+import { PostView, PostsService } from '../post.service';
 import { ProfileService, Profile } from '../profile/profile.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import {MatAutocompleteSelectedEvent} from '@angular/material/autocomplete';
 import {MatChipInputEvent} from '@angular/material/chips';
 import {FormControl} from '@angular/forms';
-import { Observable, map, startWith } from 'rxjs';
+import { Observable, catchError, map, startWith } from 'rxjs';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
+import { FormBuilder } from '@angular/forms';
 
 
 @Component({
@@ -25,11 +26,14 @@ export class CreatePostComponent {
   @ViewChild('tagInput')
   tagInput!: ElementRef<HTMLInputElement>;
   
+  
   public profile$: Observable<Profile | undefined>;
-
+  
+  
   constructor(
     public postService: PostsService,
-    private profileService: ProfileService
+    private profileService: ProfileService,
+    private formBuilder: FormBuilder,
   ) {
     this.profile$ = profileService.profile$,
     this.filteredTags = this.tagCtrl.valueChanges.pipe(startWith(null),
@@ -37,31 +41,24 @@ export class CreatePostComponent {
   );
 }
 
-
   onPost(form: NgForm):void{
-    
-    let postedBy = parseInt(form.value.id ?? "");
+    let content = (form.value.content ?? "");
     let title = (form.value.title ?? "");
     let description = (form.value.description ?? "");
-    let time = (form.value.dateTime)
-    let tag = (form.value.tag ?? "");
 
-    
-    form.resetForm()
+    this.postService.addPost(title, description, content, this.tags)
+    .subscribe({
+      next: (posts) => {
+        console.log('Post added successfully: ', posts);
+        form.resetForm();
+      },
+      error: (err) => {
+        console.error('Error creating post: ', err);
+      }
+    });
+
   }
-
-  private onSuccess(post: Post): void {
-    window.alert(`Thanks for posting`);
-  }
-
-  private onError(err: HttpErrorResponse) {
-    if (err.message) {
-      window.alert(err.error.detail);
-    } else {
-      window.alert("Unknown error: " + JSON.stringify(err));
-    }
-  }
-
+  
   // For tags part
 
   add(event: MatChipInputEvent): void {
