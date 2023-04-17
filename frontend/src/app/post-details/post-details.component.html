@@ -27,7 +27,8 @@
     <div *ngFor="let comment of comments">
       <div>
         {{ comment.text }} - {{ comment.created | date: 'short' }}
-        <button (click)="deleteComment(comment.id)">Delete</button>
+        <!-- <button (click)="deleteComment(comment.id)">Delete</button> -->
+        <button>Delete</button>
       </div>
     </div>
     <!-- <form (submit)="addComment(newComment.value, selectedValue)"> -->
