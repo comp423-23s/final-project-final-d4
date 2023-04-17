@@ -28,6 +28,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatRadioModule } from '@angular/material/radio';
 
 /* Application Specific */
 import { AppRoutingModule } from './app-routing.module';
@@ -41,6 +42,7 @@ import { CreatePostComponent } from './create-post/create-post.component';
 import { PostListComponent } from './post-list/post-list.component';
 import { PostsService } from './post.service';
 import { FormsModule } from '@angular/forms';
+import { PostDetailsComponent } from './post-details/post-details.component';
 
 const Ux_Modules = {
   MatInputModule,
@@ -49,7 +51,9 @@ const Ux_Modules = {
   MatExpansionModule,
   MatAccordion,
   MatChipsModule,
-  MatAutocompleteModule
+  MatAutocompleteModule,
+  MatRadioModule
+
 }
 
 @NgModule({
@@ -61,7 +65,8 @@ const Ux_Modules = {
     GateComponent,
     ProfileEditorComponent,
     CreatePostComponent,
-    PostListComponent
+    PostListComponent,
+    PostDetailsComponent
   ],
   imports: [
     BrowserModule,
@@ -85,6 +90,7 @@ const Ux_Modules = {
     MatTabsModule,
     MatToolbarModule,
     MatExpansionModule,
+    MatRadioModule,
     FormsModule,
     MatChipsModule,
     MatAutocompleteModule,

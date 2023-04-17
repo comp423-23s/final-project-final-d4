@@ -5,6 +5,7 @@ import { ActivatedRoute, Route } from '@angular/router';
 import { isAuthenticated } from 'src/app/gate/gate.guard';
 import { profileResolver } from '../profile.resolver';
 import { Profile, ProfileService } from '../profile.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-profile-editor',
@@ -30,7 +31,7 @@ export class ProfileEditorComponent implements OnInit {
     pronouns: ''
   });
 
-  constructor(route: ActivatedRoute, protected formBuilder: FormBuilder, protected profileService: ProfileService, protected snackBar: MatSnackBar) {
+  constructor(route: ActivatedRoute, protected formBuilder: FormBuilder, protected profileService: ProfileService, protected snackBar: MatSnackBar, private router: Router) {
     const form = this.profileForm;
     form.get('first_name')?.addValidators(Validators.required);
     form.get('lastname')?.addValidators(Validators.required);
@@ -66,6 +67,7 @@ export class ProfileEditorComponent implements OnInit {
 
   private onSuccess(profile: Profile) {
     this.snackBar.open("Profile Saved", "", { duration: 2000 })
+    this.router.navigate(['/projects']);
   }
 
   private onError(err: any) {

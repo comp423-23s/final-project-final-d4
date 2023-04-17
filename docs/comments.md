@@ -2,6 +2,7 @@
 
 ## Overview
 The comment feature provides functionality for creating, retrieving, and deleting comments on posts. It primarily serves for users who are interested in the post and wants to discuss with other users. This feature allows the community to be more interactive and friendly.
+
 This feature contains the following three operations.
 
 **View Comment**: Everyone can see public comments. If a comment is private, only the author of the post, the author of the comment, and the admin can see it.
@@ -31,5 +32,6 @@ You can also add reply to comments when you get started to make it more interact
 
 ## Future Work
 Currently, there is a 422 bug when creating a comment. It seems that the problem is the isPrivate argument is not transported to the backend properly. We need to work on this in the following days.
+
 The comment feature can be more interesting if we can add reactions such as like or dislike just like a forum. Given more time, we would add this feature in it.
 

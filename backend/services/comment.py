@@ -4,7 +4,7 @@ This file includes basic features a comment should have, which are get comments:
 create comments: create(), and delete comments: delete(). We include a feature of private
 comments, which is only visible among the author of the post, the author of the comment, 
 and the administrator. And only the author of the comment of the administrator are able 
-to delet the comment.
+to delete the comment.
 """
 
 from fastapi import Depends
@@ -38,7 +38,7 @@ class CommentService:
           permission: Defines which permissionservice it uses
         """
         self._session = session
-        self._permission = PermissionService(session)
+        self._permission = permission
 
     # get comments given a post id and current user
     def all(self,subject:User,post_id:int) -> list[Comment]:
@@ -83,7 +83,7 @@ class CommentService:
         return [entity.to_model() for entity in entities]
     
     # create a comment to a post
-    def create(self, user: User, comment: NewComment) -> Comment:
+    def create(self, user: User, comment: NewComment, post_id: int) -> Comment:
         """Create a comment under a post.
 
         Given necessary information about what the current user wants to post,
@@ -105,14 +105,14 @@ class CommentService:
         if (user_entity is None):
             raise ValueError("User not registered")
         
-        post_query = select(PostEntity).where(PostEntity.id == comment.post)
+        post_query = select(PostEntity).where(PostEntity.id == post_id)
         post_entity: PostEntity = self._session.scalar(post_query)
         if (post_entity is None):
-            raise ValueError(f"Post with id {comment.post} does not exist")
+            raise ValueError(f"Post with id {post_id} does not exist")
     
         comment_model = Comment(
             commenter = user.pid,
-            post = comment.post,
+            post = post_id,
             text = comment.text,
             created= comment.created,
             private = comment.private
