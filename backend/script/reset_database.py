@@ -81,4 +81,21 @@ with Session(engine) as session:
         user_entity.userPosts.append(post_entity)
     session.commit()
 
+# Add Comments to Comment table
+with Session(engine) as session:
+    from ..entities import CommentEntity
+    from .dev_data import comments
+    to_entity = entities.CommentEntity.from_model
+    session.add_all([to_entity(comment) for comment in comments.comment_models])
+    session.execute(text(f'ALTER SEQUENCE {entities.CommentEntity.__table__}_id_seq RESTART WITH {len(comments.comment_models) + 1}'))
+    session.commit()
+
 # Add Comments to Posts
+with Session(engine) as session:
+    from ..entities import CommentEntity, PostEntity
+    from .dev_data import post_comments, comments
+    for comments, post in post_comments.pairs:
+        comment_entity = session.get(CommentEntity, comments.id)
+        post_entity = session.get(PostEntity, post.id)
+        post_entity.comments.append(comment_entity)
+    session.commit()
