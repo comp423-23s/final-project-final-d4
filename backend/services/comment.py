@@ -45,20 +45,20 @@ class CommentService:
         return [entity.to_model() for entity in entities]
     
     # create a comment to a post
-    def create(self, user: User, comment: NewComment) -> Comment:
+    def create(self, user: User, comment: NewComment, post_id: int) -> Comment:
         query = select(UserEntity).where(UserEntity.pid == user.pid)
         user_entity: UserEntity = self._session.scalar(query)
         if (user_entity is None):
             raise ValueError("User not registered")
         
-        post_query = select(PostEntity).where(PostEntity.id == comment.post)
+        post_query = select(PostEntity).where(PostEntity.id == post_id)
         post_entity: PostEntity = self._session.scalar(post_query)
         if (post_entity is None):
-            raise ValueError(f"Post with id {comment.post} does not exist")
+            raise ValueError(f"Post with id {post_id} does not exist")
     
         comment_model = Comment(
             commenter = user.pid,
-            post = comment.post,
+            post = post_id,
             text = comment.text,
             created= comment.created,
             private = comment.private

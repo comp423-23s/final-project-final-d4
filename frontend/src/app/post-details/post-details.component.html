@@ -33,7 +33,7 @@
     <form (submit)="addComment(newComment.value, selectedValue)">
       <mat-form-field appearance="outline">
         <mat-label>Add a comment...</mat-label>
-        <input matInput #newComment type="text" />
+        <input matInput #newComment type="text" name="comment"/>
       </mat-form-field>
       <mat-radio-group [(ngModel)]="selectedValue" #isPrivate="ngModel">
         <mat-radio-button value="true">Private</mat-radio-button>

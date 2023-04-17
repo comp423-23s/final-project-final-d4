@@ -21,7 +21,6 @@ class Comment(BaseModel):
 
 class NewComment(BaseModel):
     id: int | None = None
-    post: int
     text: str = ""
     created: datetime = datetime.now()
     private: bool

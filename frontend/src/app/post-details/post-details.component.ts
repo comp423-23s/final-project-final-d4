@@ -28,6 +28,7 @@ export class PostDetailsComponent {
       this.post = post;
     });
     this.projectId = postId; 
+    console.log(this.comments);
     this.getComments();
   }
 
@@ -39,6 +40,7 @@ export class PostDetailsComponent {
 
   addComment(text: string, isPrivate: string): void {
     this.commentService.addComment(text, this.post.id, isPrivate === 'true').subscribe((comment: Comment) => {
+      console.log(comment);
       this.comments.push(comment);
     });
   }

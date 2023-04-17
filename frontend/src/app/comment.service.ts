@@ -5,7 +5,6 @@ import { Observable } from 'rxjs';
 import { Comment } from './comment.model';
 
 export interface newComment {
-    post: number;
     text: string;
     created: Date;
     isPrivate: boolean;
@@ -25,13 +24,12 @@ export class CommentService {
 
   addComment(text: string, postId: number, isPrivate: boolean): Observable<Comment> {
     const comment: newComment = {
-        post: postId,
-        text,
+        text: text,
         created: new Date(),
         isPrivate:isPrivate
       };
 
-    return this.http.post<Comment>(`/api/comment`, comment);
+    return this.http.post<Comment>(`/api/comment/${postId}`, comment);
   }
 
   deleteComment(id: number): Observable<void> {
