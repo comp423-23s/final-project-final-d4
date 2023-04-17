@@ -19,8 +19,6 @@ import { Router } from '@angular/router';
 })
 
 export class CreatePostComponent {
-
-  // project tags 
   separatorKeysCodes: number[] = [ENTER, COMMA];
   tagCtrl = new FormControl('');
   filteredTags!: Observable<string[]>;
@@ -28,6 +26,7 @@ export class CreatePostComponent {
   allTags: string[] = ['Finding teammates', 'Project', 'Bug', 'Frontend', 'Backend'];
   @ViewChild('tagInput')
   tagInput!: ElementRef<HTMLInputElement>;
+  
   
   // declares a public property profile$ that holds an observable of either a Profile object or undefined
   public profile$: Observable<Profile | undefined>;
@@ -46,25 +45,20 @@ export class CreatePostComponent {
   );
 }
 
-  // onPost function for the form that allows user input to converts to a post to the 
-  // project post list.
   onPost(form: NgForm):void{
     let title = (form.value.title ?? "");
     let description = (form.value.description ?? "");
     let time = (form.value.dateTime);
-    let comments = (form.value.comments ?? "");
+    let content = (form.value.content ?? "");
 
-    // addPost function from the post.service.ts file that add posts to the project list 
     this.postService.addPost(title, description, content, this.tags)
     .subscribe({
       next: (posts) => {
-        //successfully posted 
         console.log('Post added successfully: ', posts);
         form.resetForm();
         this.router.navigate(['/projects']);
       },
       error: (err) => {
-        //error occurred
         console.error('Error creating post: ', err);
       }
     });
@@ -106,5 +100,6 @@ export class CreatePostComponent {
 
     return this.allTags.filter(tag => tag.toLowerCase().includes(filterValue));
   }
+
 
 }
