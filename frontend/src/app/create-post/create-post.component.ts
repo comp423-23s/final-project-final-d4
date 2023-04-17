@@ -9,6 +9,7 @@ import {FormControl} from '@angular/forms';
 import { Observable, catchError, map, startWith } from 'rxjs';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import { FormBuilder } from '@angular/forms';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -35,6 +36,8 @@ export class CreatePostComponent {
   constructor(
     public postService: PostsService,
     private profileService: ProfileService,
+    private formBuilder: FormBuilder,
+    private router: Router
   ) {
     // Assigns the profile$ observable from the ProfileService to the component's profile$ property.
     this.profile$ = profileService.profile$,
@@ -59,6 +62,7 @@ export class CreatePostComponent {
         //successfully posted 
         console.log('Post added successfully: ', posts);
         form.resetForm();
+        this.router.navigate(['/projects']);
       },
       error: (err) => {
         //error occurred
