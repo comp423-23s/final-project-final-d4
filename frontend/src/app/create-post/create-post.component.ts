@@ -50,7 +50,7 @@ export class CreatePostComponent {
     let description = (form.value.description ?? "");
     let content = (form.value.content ?? "");
     let time = (form.value.dateTime);
-    let content = (form.value.content ?? "");
+
 
     this.postService.addPost(title, description, content, this.tags)
     .subscribe({

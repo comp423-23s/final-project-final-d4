@@ -38,9 +38,9 @@ export class PostDetailsComponent {
   }
 
   addComment(text: string, isPrivate: string): void {
-    this.commentService.addComment(text, this.post.id, isPrivate).subscribe((comment: Comment) => {
-      this.comments.push(comment);
-    });
+    // this.commentService.addComment(text, this.post.id, isPrivate).subscribe((comment: Comment) => {
+    //   this.comments.push(comment);
+    // });
   }
 
   deleteComment(id: number): void {
