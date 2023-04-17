@@ -80,3 +80,5 @@ with Session(engine) as session:
         post_entity = session.get(PostEntity, post.id)
         user_entity.userPosts.append(post_entity)
     session.commit()
+
+# Add Comments to Posts
