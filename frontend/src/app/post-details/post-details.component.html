@@ -1,0 +1,44 @@
+<!-- created routerlink tab of project list and create posts to the nav -->
+<nav mat-tab-nav-bar>
+    <a mat-tab-link routerLink="/projects">Project List</a>
+    <a mat-tab-link routerLink="/create">Create Post</a>
+</nav>
+
+
+<mat-card *ngIf="post">
+    <mat-card-header>
+      <mat-card-subtitle>Posted By: {{ post.pid }}</mat-card-subtitle>
+      <mat-card-subtitle>Time: {{ post.created }}</mat-card-subtitle>
+      <mat-card-title>{{ post.title }}</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <p>{{ post.description }}</p>
+      <p>{{ post.content }}</p>
+    </mat-card-content>
+    <mat-card-actions>
+      <a>Tags: </a>
+      <mat-chip>{{ post.tags }}</mat-chip>
+    </mat-card-actions>
+    <!-- Add comments and other sections as required -->
+  </mat-card>
+
+
+  <div class="comments-container">
+    <div *ngFor="let comment of comments">
+      <div>
+        {{ comment.text }} - {{ comment.created | date: 'short' }}
+        <button (click)="deleteComment(comment.id)">Delete</button>
+      </div>
+    </div>
+    <form (submit)="addComment(newComment.value, selectedValue)">
+      <mat-form-field appearance="outline">
+        <mat-label>Add a comment...</mat-label>
+        <input matInput #newComment type="text" name="comment"/>
+      </mat-form-field>
+      <mat-radio-group [(ngModel)]="selectedValue" #isPrivate="ngModel">
+        <mat-radio-button value="true">Private</mat-radio-button>
+        <mat-radio-button value="false">Public</mat-radio-button>
+      </mat-radio-group>
+      <button mat-raised-button type="submit">Add Comment</button>
+    </form>
+  </div>

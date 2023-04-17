@@ -32,17 +32,15 @@ export class CreatePostComponent {
   // declares a public property profile$ that holds an observable of either a Profile object or undefined
   public profile$: Observable<Profile | undefined>;
   
-  
   constructor(
     public postService: PostsService,
     private profileService: ProfileService,
     private formBuilder: FormBuilder,
     private router: Router
   ) {
-    // Assigns the profile$ observable from the ProfileService to the component's profile$ property.
+    //Assigns the profile$ observable from the ProfileService to the component's profile$ property.
     this.profile$ = profileService.profile$,
-
-    // tag function 
+    //tag section
     this.filteredTags = this.tagCtrl.valueChanges.pipe(startWith(null),
     map((fruit: string | null) => (fruit ? this._filter(fruit) : this.allTags.slice())),
   );
@@ -51,9 +49,10 @@ export class CreatePostComponent {
   // onPost function for the form that allows user input to converts to a post to the 
   // project post list.
   onPost(form: NgForm):void{
-    let content = (form.value.content ?? "");
     let title = (form.value.title ?? "");
     let description = (form.value.description ?? "");
+    let time = (form.value.dateTime);
+    let comments = (form.value.comments ?? "");
 
     // addPost function from the post.service.ts file that add posts to the project list 
     this.postService.addPost(title, description, content, this.tags)
@@ -72,7 +71,7 @@ export class CreatePostComponent {
 
   }
   
-
+  
   // For tags part
   add(event: MatChipInputEvent): void {
     const value = (event.value || '').trim();

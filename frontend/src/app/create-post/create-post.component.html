@@ -1,4 +1,4 @@
-<!-- Added Project List and Create Post tabs in the navigation bar under the Project webpage -->
+<!-- created routerlink tab of project list and create posts to the nav -->
 <nav mat-tab-nav-bar>
     <a mat-tab-link routerLink="/projects">Project List</a>
     <a mat-tab-link routerLink="/create">Create Post</a>
@@ -7,8 +7,9 @@
 <!-- form for user input of the posts  -->
 <h1>Create a Post</h1>
 <mat-card>
+    <!-- form for user input  -->
     <form (ngSubmit) = "onPost(postForm)" #postForm = "ngForm" *ngIf="(profile$ | async) !== undefined">
-        <!-- project title -->
+        <!-- title -->
         <mat-form-field>
             <input type="text" 
             matInput 
@@ -19,7 +20,7 @@
             #title = "ngModel"
             >
         </mat-form-field>
-        <!-- project description -->
+        <!-- post description -->
         <mat-form-field>
             <textarea rows = "2"
             type="text" 
@@ -31,7 +32,7 @@
             #description = "ngModel"
             ></textarea>
         </mat-form-field>
-        <!-- project detailed content -->
+        <!-- post content -->
         <mat-form-field>
             <textarea rows = "10"
             type="text" 
@@ -43,7 +44,7 @@
             #content = "ngModel"
             ></textarea>
         </mat-form-field>
-        <!-- project tags  -->
+        <!-- post tag -->
         <mat-form-field class="chip-list" appearance="fill">
             <mat-label>Tags</mat-label>
             <mat-chip-grid #chipGrid aria-label="Tag selection">
@@ -63,7 +64,6 @@
                 {{tag}}
                 </mat-option>
             </mat-autocomplete>
-
         </mat-form-field>
         <!-- <mat-form-field>
             <textarea rows = "1"
