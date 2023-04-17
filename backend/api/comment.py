@@ -42,8 +42,8 @@ def get_comments(user = Depends(registered_user), comment_service: CommentServic
 
 #api route creates a new comment
 @api.post("/{post_id}")
-def new_comment(comment: NewComment, user = Depends(registered_user), comment_service: CommentService = Depends(),post_id=int) -> Comment:
-  """API endpoint for creating a new comment.
+def new_comment(comment: NewComment, user = Depends(registered_user), comment_service: CommentService = Depends(), post_id=int) -> Comment:
+    """API endpoint for creating a new comment.
 
     Parameters:
     - comment (Comment): the Comment object representing the new comment to create
@@ -61,10 +61,10 @@ def new_comment(comment: NewComment, user = Depends(registered_user), comment_se
     - Returns the newly created Comment object if successful
     - Raises an HTTPException with status code 422 and a detailed error message if the creation fails
     """
-        try:
-            return comment_service.create(user,comment,post_id)
-        except Exception as e:
-            raise HTTPException(status_code=422, detail=str(e)
+    try:
+        return comment_service.create(user,comment,post_id)
+    except Exception as e:
+        raise HTTPException(status_code=422, detail=str(e))
         
 #api route deletes comment
 @api.delete("/{id}")
