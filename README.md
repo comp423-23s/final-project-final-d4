@@ -25,3 +25,9 @@ Our post so far include these elements:
     tags: list[str] = []
     title: str = ""
     description: str = ""
+
+## Sprint 01:
+For this sprint, we continue to improve the post feature and add a comment feature. Detailed documentation is in the docs folder. After logging in to the CSXL system, users will be redirected to the project list page. They could join the post forum by creating posts, search posts, and delete posts. Users could also interact with each other by commenting the posts. 
+
+* [Post Forum Feature](docs/post.md)
+* [Comment Feature](docs/comments.md)
