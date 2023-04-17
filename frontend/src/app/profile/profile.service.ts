@@ -51,4 +51,6 @@ export class ProfileService {
     return this.http.get<Profile[]>(`/api/user?q=${encodedQuery}`);
   }
 
+  
+
 }
