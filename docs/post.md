@@ -4,10 +4,11 @@
 The post forum feature provides functionality for viewing posts, creating posts, searching for posts, and deleting posts in the post forum. This feature fulfills **four** stories in our project, including view-post story, create-post story, search-post story, and delete-post story. It primarily serves to **UNC students who are looking for potential projects to get involved in or students who have project ideas in mind and are looking for teammates to build the project together**. 
 
 This feature is the primary feature in our final project and would make the UNC CS community more cooperative and innovative. The four primary functions in this feature is:
-**View post**: All people can browse the post forum in the post tab after authentication. 
-**Create post**: A CSXL user could create a post by navigating to create-post in the post forum. The user should enter the post title, description, content, and choose tags to create a post. (Warning: only registered users can create post! This feature would be improved in the future.)
-**Search post**: CSXL user could search specific posts using the search bar on the top. 
-**Delete post**: CSXL users could delete their own posts in the post forum if they click on the red delete button. Administrator could delete all users' posts by clicking the gray delete button.
+
+* **View post**: All people can browse the post forum in the post tab after authentication. 
+* **Create post**: A CSXL user could create a post by navigating to create-post in the post forum. The user should enter the post title, description, content, and choose tags to create a post. (Warning: only registered users can create post! This feature would be improved in the future.)
+* **Search post**: CSXL user could search specific posts using the search bar on the top. 
+* **Delete post**: CSXL users could delete their own posts in the post forum if they click on the red delete button. Administrator could delete all users' posts by clicking the gray delete button.
 
 ## Implementation Notes
 This feature is associated with a post table (backend/entities/post_entities). Each post has features such as content, tags, created time, title, and descriptions. The title can be simple, such as "Finding teammate: backend" or "Random thoughts about ChatGPT". The descriptions are a brief summary of the post, for example, "I found this interesting paper on ChatGPT talking about its possible applications".
