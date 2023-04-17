@@ -48,6 +48,7 @@ export class CreatePostComponent {
   onPost(form: NgForm):void{
     let title = (form.value.title ?? "");
     let description = (form.value.description ?? "");
+    let content = (form.value.content ?? "");
     let time = (form.value.dateTime);
     let comments = (form.value.comments ?? "");
 
