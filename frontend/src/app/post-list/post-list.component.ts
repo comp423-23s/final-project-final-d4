@@ -15,11 +15,13 @@ import { HttpErrorResponse } from '@angular/common/http';
 })
 export class PostListComponent {
 
+  //declare search as string and initialize it as " "
   search: string = " ";
   
+  // declares a public property posts that holds an observable of either a PostView[]
   public posts: Observable<PostView[]>;
   public deleteAdminPermission$: Observable<Boolean>;
-
+  
   constructor(
     public postService: PostsService,
     private permission: PermissionService,
@@ -46,6 +48,7 @@ export class PostListComponent {
     });
   }
   
+  //delete post from project list
   deletePost(postId: number) {
     // Call a service method to delete the post with the given ID
     this.postService.deletePost(postId)
@@ -58,6 +61,8 @@ export class PostListComponent {
     });
   }
 
+  addComment(){}
+
   private onError(err: HttpErrorResponse) {
     if (err.message) {
       window.alert(err.error.detail);
@@ -66,20 +71,9 @@ export class PostListComponent {
     }
     return throwError(err);
   }
-
-
-
-  // private onSuccess(): void {
-  //   console.log("success")
-  //   this.posts = this.postService.getPost()
-  // }
-
-  // private onError(err: Error) {
-  //   if (err.message) {
-  //     window.alert(err.message);
-  //   } else {
-  //     window.alert("Unknown error: " + JSON.stringify(err));
-  //   }
-  // }
+  
+  addPrivateComment(){
+    
+  }
 
 }
