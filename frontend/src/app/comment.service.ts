@@ -22,11 +22,11 @@ export class CommentService {
   }
 
 
-  addComment(text: string, postId: number, isPrivate: boolean): Observable<Comment> {
+  addComment(text: string, postId: number, isPrivate: string): Observable<Comment> {
     const comment: newComment = {
         text: text,
         created: new Date(),
-        isPrivate:isPrivate
+        isPrivate:isPrivate==='true'
       };
 
     return this.http.post<Comment>(`/api/comment/${postId}`, comment);
