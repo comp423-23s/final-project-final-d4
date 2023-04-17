@@ -27,7 +27,18 @@ Our post so far include these elements:
     description: str = ""
 
 ## Sprint 01:
-For this sprint, we continue to improve the post feature and add a comment feature. Detailed documentation is in the docs folder. After logging in to the CSXL system, users will be redirected to the project list page. They could join the post forum by creating posts, search posts, and delete posts. Users could also interact with each other by commenting the posts. 
+For this sprint, we continue to improve the post feature and add a comment feature. Detailed documentation is in the docs folder. After logging in to the CSXL system, users will be redirected to the project list page. They could join the post forum by creating posts, search posts, and delete posts. Users could also interact with each other by commenting the posts. But currently, we completed the view comment and still needed to work on creating comments.
 
+For Sprint 1 Expectations 1 & 2, we added documentation for features as below:
 * [Post Forum Feature](docs/post.md)
 * [Comment Feature](docs/comments.md)
+And we added docstring as well
+
+For Expectation 3:
+We complete the story of creating a post, which result in a change in the database. And registered CSXL user can create a post by typing in the information and click the button to make it public. Everyone can see the post.
+
+For Expectation 4:
+For the admin-only story, we completed the story of deleting posts. Only the administrator and the author of a post are allowed to delete the post. We check for user permission in the backend. Only user with permission "post.delete" can execute the operation. In the frontend, users who do not have the permission to delete a certain post can not see a delete button, while users who have the permission (including admin) can see the button and click the button.
+    
+For Expectation 5:
+Other than the story we mentioned before, we also completed the story of searching posts. There is a search bar at the top of the page. Users can search for posts containing specific keywords. And all related posts would come out.
