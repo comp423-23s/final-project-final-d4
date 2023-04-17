@@ -9,6 +9,7 @@ import {FormControl} from '@angular/forms';
 import { Observable, catchError, map, startWith } from 'rxjs';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import { FormBuilder } from '@angular/forms';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -34,6 +35,7 @@ export class CreatePostComponent {
     public postService: PostsService,
     private profileService: ProfileService,
     private formBuilder: FormBuilder,
+    private router: Router
   ) {
     this.profile$ = profileService.profile$,
     this.filteredTags = this.tagCtrl.valueChanges.pipe(startWith(null),
@@ -51,6 +53,7 @@ export class CreatePostComponent {
       next: (posts) => {
         console.log('Post added successfully: ', posts);
         form.resetForm();
+        this.router.navigate(['/projects']);
       },
       error: (err) => {
         console.error('Error creating post: ', err);
