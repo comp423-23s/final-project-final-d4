@@ -19,13 +19,14 @@ One of the interesting design points is tags. We thought about our experiences o
 **Please do not create a post if you have not yet registered in CSXL!** The create-post function depends on a registered user, and the action should result in a HTTP error if the user is not yet registered!
 
 Other than that, if a developer wanted to start working on your post feature, be aware of the following things:
-Backend: 
+* Backend: 
 1. The backend implementation of the post forum feature is in api/post.py and services/post.py. The create_post service function takes a NewPost model from the frontend post form, which only has content, tags, created, datetime, title, and description. The create_post function will take parameters from the NewPost model and construct a Post model for passing into the post table. The Post model has information about the user who creates the post by extracting from the /authentication/registered user.
 2. There is a permission check in the delete_post method. If the subject is not the user who created the post, the permission service would check whether the subject has permission to delete the post. Only the administrator who has the post.delete action permission would delete other users' posts.
-Frontend:
+* Frontend:
 1. The frontend implementation of the post feature is in the [post-list component](https://github.com/comp423-23s/final-project-final-d4/tree/stage/frontend/src/app/post-list), create-post component(https://github.com/comp423-23s/final-project-final-d4/tree/stage/frontend/src/app/create-post), and post.service.ts(https://github.com/comp423-23s/final-project-final-d4/blob/stage/frontend/src/app/post.service.ts). 
 2. There are 2 permission checks in the delete post sub-feature of the frontend. **deleteAdminPermission$** is an Observable<Boolean> checks whether the authenticated user has permission to delete user people's posts. It interacts with the check method of the permission service to fetch permission information. [The delete button for administrator only appears if the boolean variable is true](https://github.com/comp423-23s/final-project-final-d4/blob/02ac2feea0af519d223566723c4170c53cffb076/frontend/src/app/post-list/post-list.component.html#L23). The second permission check is implemented via **getDeleteUserPermission** function. It takes the pid associated with the specific post and calls [checkPID(PID: number)](https://github.com/comp423-23s/final-project-final-d4/blob/02ac2feea0af519d223566723c4170c53cffb076/frontend/src/app/permission.service.ts#L29) in the permission service. This method returns true if the postPID and the PID of the CSXL user are equal. 
 3. The create-post sub-feature sends the NewPost model to the backend via HTTP POST request. All methods with HTTP concerns in the post service takes PostView model as a return object. NewPost matches NewPost model in the backend while PostView Matches Post model in the backend. 
 
 ## Future Work
 1. The create-post router-link should only appear if the user is registered via CSXL. If the user is not registered, clicking on the create-post button should redirect user to profile to create a new account. 
+2. Implement edit-post story. Only the user who creates the post or the administrator can edit it.
