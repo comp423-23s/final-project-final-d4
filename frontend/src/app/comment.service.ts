@@ -7,7 +7,7 @@ import { Comment } from './comment.model';
 export interface newComment {
     text: string;
     created: Date;
-    isPrivate: boolean;
+    private: boolean;
 }
 
 @Injectable({
@@ -26,10 +26,11 @@ export class CommentService {
     const comment: newComment = {
         text: text,
         created: new Date(),
-        isPrivate:isPrivate==='true'
+        private: isPrivate === 'true'
       };
+      console.log(comment)
 
-    return this.http.post<Comment>(`/api/comment/${postId}`, comment);
+      return this.http.post<Comment>(`/api/comment/${postId}`, comment);
   }
 
   deleteComment(id: number): Observable<void> {

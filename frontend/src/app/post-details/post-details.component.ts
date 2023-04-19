@@ -39,6 +39,7 @@ export class PostDetailsComponent {
 
   addComment(text: string, isPrivate: string): void {
     this.commentService.addComment(text, this.post.id, isPrivate).subscribe((comment: Comment) => {
+      console.log("passed from service, in component fie");
       this.comments.push(comment);
     });
   }
