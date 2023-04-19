@@ -1,7 +1,7 @@
 // comment.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { Comment } from './comment.model';
 
 export interface newComment {
@@ -23,18 +23,22 @@ export class CommentService {
 
 
   addComment(text: string, postId: number, isPrivate: string): Observable<Comment> {
+    if (!text) {
+      return throwError(() => new Error('Content required'));
+    }
+    if (!isPrivate) {
+      return throwError(() => new Error('Status required'));
+    }
     const comment: newComment = {
         text: text,
         created: new Date(),
         private: isPrivate === 'true'
       };
-      console.log(comment)
-
       return this.http.post<Comment>(`/api/comment/${postId}`, comment);
   }
 
-  deleteComment(id: number): Observable<void> {
-    return this.http.delete<void>(`/api/comment/${id}`);
+  deleteComment(post_id: number, comment_id: number): Observable<void> {
+    return this.http.delete<void>(`/api/comment/${post_id}/${comment_id}`);
   }
 
 }
