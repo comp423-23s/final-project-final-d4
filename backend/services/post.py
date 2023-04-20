@@ -30,7 +30,7 @@ class PostService:
 
     def __init__(self, session: Session = Depends(db_session), permission: PermissionService=Depends()):
         self._session = session
-        self._permission = permission
+        self._permission = PermissionService(session)
 
     # Get all posts
     def get_posts(self) -> list[Post] | None:
