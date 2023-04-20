@@ -119,8 +119,29 @@ def update_user(id: int,
                 title: str | None, 
                 description: str | None, 
                 tags: list[str] | None,
-                post_service: PostService = Depends()) -> Post:
+                post_serv: PostService = Depends()) -> Post:
+    """
+    API endpoint for updating a post.
+    
+    Parameters:
+    - id: the id of the post to update
+    - content: optional new content for post
+    - title: optional new title for post
+    - description: optional description for post
+    - tags: optional new tags for post
+    - post_serv: dependency injection from the post service
+
+    Returns:
+    - Post: the updated Post object
+
+    HTTP Methods:
+    - PUT
+
+    Usage:
+    - Send a PUT request to the endpoint api/post/{id}
+    - Returns the updated Post object if successful
+    """
     try:
-        return post_service.update(id=id, content=content, title=title, description=description, tags=tags)
+        return post_serv.update(id=id, content=content, title=title, description=description, tags=tags)
     except Exception as e:
         raise HTTPException(status_code=422, detail=str(e))

@@ -149,6 +149,25 @@ class PostService:
                 title: str | None, 
                 description: str | None, 
                 tags: list[str] | None,) -> Post:
+        """Update a post.
+
+        Given a post id, update the post in the database. 
+        TODO: The post can only be updated by the author of the post or the administrator.
+
+        Args:
+            id: An integer that is the id of the post that the user wants to delete.
+            content: An optional string that is the new content for the post that the user wants to update
+            title: An optional string that is the new title for the post that the user wants to update
+            description: An optional string that is the new description for the post that the user wants to update
+            tags:  An optional lit of strings that is the new tags for the post that the user wants to update
+        
+        Returns:
+            The updated Post object.
+            Throws error if the post is not in the database.
+        
+        Raises:
+            ValueError: If the post associated with the id is not in the database.
+        """
         temp = self._session.get(PostEntity, id)
         if temp:
             if content != None:
