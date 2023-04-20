@@ -111,3 +111,38 @@ def delete_post(id:int, post_serv: PostService = Depends(), subject: User = Depe
         return post_serv.delete_post(subject, id)
     except Exception as e:
         raise HTTPException(status_code=422, detail=str(e))
+    
+#api route to update user info
+@api.put("/{id}", tags=["Post"])
+def update_post(id: int, 
+                content: str | None,
+                title: str | None, 
+                description: str | None, 
+                tags: list[str] | None,
+                post_serv: PostService = Depends(),
+                subject: User = Depends(registered_user)) -> Post:
+    """
+    API endpoint for updating a post.
+    
+    Parameters:
+    - id: the id of the post to update
+    - content: optional new content for post
+    - title: optional new title for post
+    - description: optional description for post
+    - tags: optional new tags for post
+    - post_serv: dependency injection from the post service
+
+    Returns:
+    - Post: the updated Post object
+
+    HTTP Methods:
+    - PUT
+
+    Usage:
+    - Send a PUT request to the endpoint api/post/{id}
+    - Returns the updated Post object if successful
+    """
+    try:
+        return post_serv.update(subject=subject, id=id, content=content, title=title, description=description, tags=tags)
+    except Exception as e:
+        raise HTTPException(status_code=422, detail=str(e))
