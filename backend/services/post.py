@@ -144,7 +144,8 @@ class PostService:
             return post_entity.to_model()
         
     # update post
-    def update(self, id: int, 
+    def update(self, subject: User,
+                id: int, 
                 content: str | None,
                 title: str | None, 
                 description: str | None, 
@@ -170,6 +171,13 @@ class PostService:
         """
         temp = self._session.get(PostEntity, id)
         if temp:
+            user_pid = temp.to_model().pid
+            query = select(UserEntity).where(UserEntity.pid == user_pid)
+            user_entity: UserEntity = self._session.scalar(query)
+            user = user_entity.to_model()
+            if subject.pid != user.pid:
+                self._permission.enforce(subject, 'post.update', f'post/{id}')
+
             if content != None:
                 temp.content = content
             if title != None:
@@ -181,4 +189,4 @@ class PostService:
             self._session.commit()
             return temp.to_model()
         else:
-            raise ValueError(f"No post found with id: {temp.id}") 
+            raise ValueError("The post is not in the system.") 
