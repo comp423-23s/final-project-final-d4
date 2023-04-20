@@ -142,3 +142,24 @@ class PostService:
             self._session.delete(post_entity)
             self._session.commit()
             return post_entity.to_model()
+        
+    # update post
+    def update(self, id: int, 
+                content: str | None,
+                title: str | None, 
+                description: str | None, 
+                tags: list[str] | None,) -> Post:
+        temp = self._session.get(PostEntity, id)
+        if temp:
+            if content != None:
+                temp.content = content
+            if title != None:
+                temp.title = title
+            if description != None:
+                temp.description = description
+            if tags != None:
+                temp.tags = tags
+            self._session.commit()
+            return temp.to_model()
+        else:
+            raise ValueError(f"No post found with id: {temp.id}") 
