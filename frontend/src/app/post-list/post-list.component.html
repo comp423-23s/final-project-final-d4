@@ -7,9 +7,10 @@
 
 <!-- search bar -->
 <mat-form-field class="search">
-    <input type="text" matInput placeholder="Search" [(ngModel)]="search" (keyup.enter)="searchPost(search)">
+    <input type="text" matInput placeholder="Search" [(ngModel)]="search" name="search" required (keyup.enter)="searchPost(search)">
     <button matSuffix mat-button (click)="searchPost(search)"><mat-icon>search</mat-icon></button>
-  </mat-form-field>
+</mat-form-field>
+  
 
   <!-- user project post formate -->
 <mat-card *ngFor= "let post of posts | async">
@@ -17,7 +18,7 @@
         <!-- pid -->
       <mat-card-subtitle>Posted By: {{post.pid}}</mat-card-subtitle>
       <!-- time -->
-      <mat-card-subtitle>Time: {{post.created}}</mat-card-subtitle>
+      <mat-card-subtitle>Time: {{post.created | date: 'yyyy/MM/dd @hh:mm aaa'}}</mat-card-subtitle>
       <mat-card-title>
         <a [routerLink]="['/post-details', post.id]">{{ post.title }}</a>
     </mat-card-title>
