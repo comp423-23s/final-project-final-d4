@@ -113,6 +113,11 @@ def test_search_post(post: PostService):
     sample_2 = post.search_post("Greeting")
     assert(len(sample_2) == 2)
 
+def test_update_post(post: PostService):
+    post.create_post(sample_post, user)
+    newPost = post.update(user, 1, "test", "test", "test", ["test"])
+    savedPost = post.get_posts()[0]
+    assert(savedPost.content == newPost.content)
 # Test for comment part
 
 # get comment test
@@ -177,4 +182,3 @@ def test_delete_comment_invalid_private_notauthor(post: PostService, comment: Co
     comment.create(user,sample_comment_1,1)
     comment.delete(ambassador,1,1)
     assert(len(comment.all(user,1)) == 1)
-
