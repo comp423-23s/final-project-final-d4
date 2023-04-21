@@ -46,7 +46,7 @@ export class PostsService{
                 ...post,
                 created: new Date(post.created)
               }
-            })
+            }).sort((a, b) => b.created.getTime() - a.created.getTime())
           }
           )
         )
@@ -112,9 +112,8 @@ export class PostsService{
               ...post,
               created: new Date(post.created)
             }
-          })
-        }
-        )
+          }).sort((a, b) => b.created.getTime() - a.created.getTime())
+        })
       )
       return new_posts;
     }
