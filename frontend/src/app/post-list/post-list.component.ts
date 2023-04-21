@@ -8,6 +8,7 @@ import { Profile, ProfileService } from '../profile/profile.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MatDialog } from '@angular/material/dialog';
 import { NoSearchResultComponent } from '../no-search-result/no-search-result.component';
+import { NoSearchStringComponent } from '../no-search-string/no-search-string.component';
 
 
 @Component({
@@ -39,8 +40,11 @@ export class PostListComponent {
 
   //search post from user input
   searchPost(search: string): void {
-    this.posts = this.postService.searchPost(search);
-    this.posts.subscribe({
+    if (search === ""){
+      this.dialog.open(NoSearchStringComponent);
+    } else {
+      this.posts = this.postService.searchPost(search);
+      this.posts.subscribe({
       next: (results: PostView[]) => {
         if (results.length === 0) {
           this.dialog.open(NoSearchResultComponent);
@@ -48,7 +52,9 @@ export class PostListComponent {
         } 
       },
       error: (err) => this.searchError(err)
-    })
+      })
+    }
+    
   }
 
   private searchError(err: HttpErrorResponse): void{

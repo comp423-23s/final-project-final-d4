@@ -44,6 +44,7 @@ import { PostsService } from './post.service';
 import { FormsModule } from '@angular/forms';
 import { PostDetailsComponent } from './post-details/post-details.component';
 import { NoSearchResultComponent } from './no-search-result/no-search-result.component';
+import { NoSearchStringComponent } from './no-search-string/no-search-string.component';
 
 const Ux_Modules = {
   MatInputModule,
@@ -68,7 +69,8 @@ const Ux_Modules = {
     CreatePostComponent,
     PostListComponent,
     PostDetailsComponent,
-    NoSearchResultComponent
+    NoSearchResultComponent,
+    NoSearchStringComponent
   ],
   imports: [
     BrowserModule,
