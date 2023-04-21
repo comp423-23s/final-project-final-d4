@@ -43,6 +43,7 @@ import { PostListComponent } from './post-list/post-list.component';
 import { PostsService } from './post.service';
 import { FormsModule } from '@angular/forms';
 import { PostDetailsComponent } from './post-details/post-details.component';
+import { NoSearchResultComponent } from './no-search-result/no-search-result.component';
 
 const Ux_Modules = {
   MatInputModule,
@@ -66,7 +67,8 @@ const Ux_Modules = {
     ProfileEditorComponent,
     CreatePostComponent,
     PostListComponent,
-    PostDetailsComponent
+    PostDetailsComponent,
+    NoSearchResultComponent
   ],
   imports: [
     BrowserModule,
