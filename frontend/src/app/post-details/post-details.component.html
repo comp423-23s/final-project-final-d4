@@ -27,15 +27,20 @@
     <div *ngFor="let comment of comments">
       <div>
         {{ comment.text }} - {{ comment.created | date: 'short' }}
-        <!-- <button (click)="deleteComment(comment.id)">Delete</button> -->
-        <button>Delete</button>
+        <button *ngIf="(deleteAdminPermission$ | async) || (getDeleteUserPermission(comment.commenter) | async)" (click)="deleteComment(comment.id)">
+          Delete
+        </button>
+        <p>
+          you are {{deleteAdminPermission$ || (getDeleteUserPermission(comment.commenter)) ? '' : 'not' }} allowed to delete this comment
+        </p>
+        <!-- <button>Delete</button> -->
       </div>
     </div>
-    <!-- <form (submit)="addComment(newComment.value, selectedValue)"> -->
-    <form>
+    <form (submit)="addComment(newComment.value, selectedValue)">
+    <!-- <form> -->
       <mat-form-field appearance="outline">
         <mat-label>Add a comment...</mat-label>
-        <input matInput #newComment type="text" name="comment"/>
+        <input matInput #newComment type="text" name="text"/>
       </mat-form-field>
       <mat-radio-group [(ngModel)]="selectedValue" #isPrivate="ngModel">
         <mat-radio-button value="true">Private</mat-radio-button>

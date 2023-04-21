@@ -38,7 +38,7 @@ class CommentService:
           permission: Defines which permissionservice it uses
         """
         self._session = session
-        self._permission = permission
+        self._permission = PermissionService(session)
 
     # get comments given a post id and current user
     def all(self,subject:User,post_id:int) -> list[Comment]:
@@ -62,8 +62,7 @@ class CommentService:
         post_entity: PostEntity = self._session.scalar(post_query)
         if (post_entity is None):
             raise ValueError(f"Post with id {post_id} does not exist")
-        admin = self._permission._has_permission(subject.permissions,"admin*","*")
-        if admin:
+        if self._permission.check(subject,"admin*","*"):
             query = select(CommentEntity).join(PostEntity).where(
                 PostEntity.id == post_id)
         else:
