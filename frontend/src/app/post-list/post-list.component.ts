@@ -40,12 +40,23 @@ export class PostListComponent {
   //search post from user input
   searchPost(search: string): void {
     this.posts = this.postService.searchPost(search);
-    this.posts.subscribe((results: PostView[]) => {
-      if (results.length === 0) {
-        const dialogRef = this.dialog.open(NoSearchResultComponent);
-        this.posts = this.postService.getPost()
-      }
+    this.posts.subscribe({
+      next: (results: PostView[]) => {
+        if (results.length === 0) {
+          this.dialog.open(NoSearchResultComponent);
+          this.posts = this.postService.getPost()
+        } 
+      },
+      error: (err) => this.searchError(err)
     })
+  }
+
+  private searchError(err: HttpErrorResponse): void{
+    if (err.message) {
+      window.alert(err.error.detail);
+    } else {
+      window.alert("Unknown error: " + JSON.stringify(err));
+    }
   }
 
 //reset the post list after search 
