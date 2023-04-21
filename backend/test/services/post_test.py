@@ -132,10 +132,10 @@ def test_update_post_someoptions(post: PostService):
     assert(savedPost.content == newPost.content
            and savedPost.tags == newPost.tags)
 
-def test_update_post_permissions_unregistered(post: PostService):
+def test_update_post_permissions_otheruser(post: PostService):
     post.create_post(sample_post, user)
     with pytest.raises(UserPermissionError):
-        post.update(unregistered, 1, "test", "test", "test", ["test"])
+        post.update(ambassador, 1, "test", "test", "test", ["test"])
 
 def test_update_post_permissions_admin(post: PostService):
     post.create_post(sample_post, user)
