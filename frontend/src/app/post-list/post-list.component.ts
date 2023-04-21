@@ -6,8 +6,6 @@ import { PostView } from '../post.service';
 import { PermissionService } from '../permission.service';
 import { Profile, ProfileService } from '../profile/profile.service';
 import { HttpErrorResponse } from '@angular/common/http';
-import { MatDialog } from '@angular/material/dialog';
-import { NoSearchResultComponent } from '../no-search-result/no-search-result.component';
 
 
 @Component({
@@ -18,7 +16,7 @@ import { NoSearchResultComponent } from '../no-search-result/no-search-result.co
 export class PostListComponent {
 
   //declare search as string and initialize it as " "
-  public search: string = "";
+  search: string = " ";
   
   // declares a public property posts that holds an observable of either a PostView[]
   public posts: Observable<PostView[]>;
@@ -27,7 +25,6 @@ export class PostListComponent {
   constructor(
     public postService: PostsService,
     private permission: PermissionService,
-    public dialog: MatDialog,
     ){
     this.posts = postService.getPost()
     this.deleteAdminPermission$ = this.permission.check('delete.post', 'post/')
@@ -39,29 +36,16 @@ export class PostListComponent {
 
   //search post from user input
   searchPost(search: string): void {
-    this.posts = this.postService.searchPost(search);
-    this.posts.subscribe({
-      next: (results: PostView[]) => {
-        if (results.length === 0) {
-          this.dialog.open(NoSearchResultComponent);
-          this.posts = this.postService.getPost()
-        } 
-      },
-      error: (err) => this.searchError(err)
-    })
-  }
-
-  private searchError(err: HttpErrorResponse): void{
-    if (err.message) {
-      window.alert(err.error.detail);
-    } else {
-      window.alert("Unknown error: " + JSON.stringify(err));
-    }
+    this.postService.searchPost(search).subscribe(() => {
+      this.posts = this.postService.searchPost(search);
+    });
   }
 
 //reset the post list after search 
   resetSearch():void {
-    this.posts = this.postService.getPost();
+    this.postService.getPost().subscribe(() => {
+      this.posts = this.postService.getPost();
+    });
   }
   
   //delete post from project list

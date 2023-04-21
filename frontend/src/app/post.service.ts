@@ -38,19 +38,7 @@ export class PostsService{
     // @returns observable array of Post objects.
 
     getPost(): Observable<PostView[]> {
-        let original_posts$: Observable<PostView[]> = this.http.get<PostView[]>("/api/post");
-        let new_posts = original_posts$.pipe(
-          map((posts: PostView[]) => {
-            return posts.map((post: PostView) => {
-              return {
-                ...post,
-                created: new Date(post.created)
-              }
-            }).sort((a, b) => b.created.getTime() - a.created.getTime())
-          }
-          )
-        )
-      return new_posts;
+        return this.http.get<PostView[]>("/api/post");
     }
 
     /**
@@ -104,18 +92,7 @@ export class PostsService{
     }
 
     searchPost(searchText: string): Observable<PostView[]> {
-      let original_posts$: Observable<PostView[]> = this.http.get<PostView[]>(`/api/post/${searchText}`);
-      let new_posts = original_posts$.pipe(
-        map((posts: PostView[]) => {
-          return posts.map((post: PostView) => {
-            return {
-              ...post,
-              created: new Date(post.created)
-            }
-          }).sort((a, b) => b.created.getTime() - a.created.getTime())
-        })
-      )
-      return new_posts;
+        return this.http.get<PostView[]>(`/api/post/${searchText}`);
     }
 
   

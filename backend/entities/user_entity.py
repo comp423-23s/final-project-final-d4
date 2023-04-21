@@ -30,6 +30,8 @@ class UserEntity(EntityBase):
         String(64), nullable=False, default='')
     pronouns: Mapped[str] = mapped_column(
         String(32), nullable=False, default='')
+    # year: Mapped[str] = mapped_column(
+    #     String(32), nullable=False, default='')
 
     roles: Mapped[list['RoleEntity']] = relationship(secondary=user_role_table, back_populates='users')
     permissions: Mapped['PermissionEntity'] = relationship(back_populates='user')
