@@ -2,10 +2,6 @@
 
 from . import users, post
 
-__authors__ = ["Kris Jordan"]
-__copyright__ = "Copyright 2023"
-__license__ = "MIT"
-
 pairs = [
     (users.sol_student, post.post_1),
     (users.merritt_manager, post.post_2),
