@@ -116,11 +116,27 @@ def test_search_post(post: PostService):
     sample_2 = post.search_post("Greeting")
     assert(len(sample_2) == 2)
 
-def test_update_post(post: PostService):
+def test_update_post_alloptions(post: PostService):
     post.create_post(sample_post, user)
     newPost = post.update(user, 1, "test", "test", "test", ["test"])
     savedPost = post.get_posts()[0]
-    assert(savedPost.content == newPost.content)
+    assert(savedPost.content == newPost.content
+           and savedPost.title == newPost.title
+           and savedPost.description == newPost.description
+           and savedPost.tags == newPost.tags)
+
+def test_update_post_someoptions(post: PostService):
+    post.create_post(sample_post, user)
+    newPost = post.update(user, 1, content="test", tags=["test"])
+    savedPost = post.get_posts()[0]
+    assert(savedPost.content == newPost.content
+           and savedPost.tags == newPost.tags)
+
+def test_update_post_permissions(post: PostService):
+    post.create_post(sample_post, user)
+    with pytest.raises(UserPermissionError):
+        post.update(unregistered, 1, "test", "test", "test", ["test"])
+    
 # Test for comment part
 
 # get comment test
