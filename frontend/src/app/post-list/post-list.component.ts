@@ -8,7 +8,7 @@ import { Profile, ProfileService } from '../profile/profile.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MatDialog } from '@angular/material/dialog';
 import { NoSearchResultComponent } from '../no-search-result/no-search-result.component';
-import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-post-list',
@@ -28,7 +28,6 @@ export class PostListComponent {
     public postService: PostsService,
     private permission: PermissionService,
     public dialog: MatDialog,
-    private router: Router
     ){
     this.posts = postService.getPost()
     this.deleteAdminPermission$ = this.permission.check('delete.post', 'post/')
@@ -51,9 +50,6 @@ export class PostListComponent {
 
 //reset the post list after search 
   resetSearch():void {
-    // this.postService.getPost().subscribe(() => {
-    //   this.posts = this.postService.getPost();
-    // });
     this.posts = this.postService.getPost();
   }
   
