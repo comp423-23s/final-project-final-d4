@@ -30,7 +30,7 @@ class PostService:
 
     def __init__(self, session: Session = Depends(db_session), permission: PermissionService=Depends()):
         self._session = session
-        self._permission = permission
+        self._permission = PermissionService(session)
 
     # Get all posts
     def get_posts(self) -> list[Post] | None:
@@ -142,3 +142,51 @@ class PostService:
             self._session.delete(post_entity)
             self._session.commit()
             return post_entity.to_model()
+        
+    # update post
+    def update(self, subject: User,
+                id: int, 
+                content: str | None,
+                title: str | None, 
+                description: str | None, 
+                tags: list[str] | None,) -> Post:
+        """Update a post.
+
+        Given a post id, update the post in the database. 
+        TODO: The post can only be updated by the author of the post or the administrator.
+
+        Args:
+            id: An integer that is the id of the post that the user wants to delete.
+            content: An optional string that is the new content for the post that the user wants to update
+            title: An optional string that is the new title for the post that the user wants to update
+            description: An optional string that is the new description for the post that the user wants to update
+            tags:  An optional lit of strings that is the new tags for the post that the user wants to update
+        
+        Returns:
+            The updated Post object.
+            Throws error if the post is not in the database.
+        
+        Raises:
+            ValueError: If the post associated with the id is not in the database.
+        """
+        temp = self._session.get(PostEntity, id)
+        if temp:
+            user_pid = temp.to_model().pid
+            query = select(UserEntity).where(UserEntity.pid == user_pid)
+            user_entity: UserEntity = self._session.scalar(query)
+            user = user_entity.to_model()
+            if subject.pid != user.pid:
+                self._permission.enforce(subject, 'post.update', f'post/{id}')
+
+            if content != None:
+                temp.content = content
+            if title != None:
+                temp.title = title
+            if description != None:
+                temp.description = description
+            if tags != None:
+                temp.tags = tags
+            self._session.commit()
+            return temp.to_model()
+        else:
+            raise ValueError("The post is not in the system.") 
