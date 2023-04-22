@@ -26,7 +26,7 @@ export class CommentService {
     if (!text) {
       return throwError(() => new Error('Content required'));
     }
-    if (!isPrivate) {
+    if (isPrivate === null) {
       return throwError(() => new Error('Status required'));
     }
     const comment: newComment = {
