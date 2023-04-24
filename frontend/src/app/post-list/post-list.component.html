@@ -16,7 +16,7 @@
 <mat-card *ngFor= "let post of posts | async">
     <mat-card-header>
         <!-- pid -->
-      <mat-card-subtitle>Posted By: {{post.pid}}</mat-card-subtitle>
+      <mat-card-subtitle>Posted By: {{getUserFullName(post) | async}}</mat-card-subtitle>
       <!-- time -->
       <mat-card-subtitle>Time: {{post.created | date: 'yyyy/MM/dd @hh:mm aaa'}}</mat-card-subtitle>
       <mat-card-title>
