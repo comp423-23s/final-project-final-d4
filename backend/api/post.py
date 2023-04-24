@@ -115,10 +115,10 @@ def delete_post(id:int, post_serv: PostService = Depends(), subject: User = Depe
 #api route to update user info
 @api.put("/{id}", tags=["Post"])
 def update_post(id: int, 
-                content: str | None,
-                title: str | None, 
-                description: str | None, 
-                tags: list[str] | None,
+                content: str | None = None,
+                title: str | None = None, 
+                description: str | None = None, 
+                tags: list[str] | None = None,
                 post_serv: PostService = Depends(),
                 subject: User = Depends(registered_user)) -> Post:
     """
