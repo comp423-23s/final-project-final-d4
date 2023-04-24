@@ -28,7 +28,6 @@ export class PostDetailsComponent {
     private commentService: CommentService,
     private permission: PermissionService) {
       this.deleteAdminPermission$ = this.permission.check('comment.delete', 'comment/')
-      // postService.getUserInfo(this.post.pid).subscribe(user => this.user = user)
     }
 
   ngOnInit(): void {
@@ -37,8 +36,6 @@ export class PostDetailsComponent {
       this.post = post;
       this.postService.getUserInfo(this.post.pid).subscribe((user) => {this.user = user;});
     });
-    // this.postService.getUserInfo(this.post?.pid).subscribe((user) => {this.user = user;});
-    // console.log(this.post)
     this.projectId = postId;
     this.getComments();
   }
