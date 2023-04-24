@@ -22,7 +22,7 @@ def new_comment(comment: NewComment, post_id: int, user = Depends(registered_use
             raise HTTPException(status_code=422, detail=str(e))
         
 #api route deletes comment
-@api.delete("/{post_id}/{comment_id}}")
+@api.delete("/{post_id}/{comment_id}")
 def delete_comment(post_id: int, comment_id: int, user = Depends(registered_user), comment_service = Depends(CommentService)) -> None:
     try:
         return comment_service.delete(user,post_id,comment_id)
