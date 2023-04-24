@@ -7,6 +7,7 @@ import { newComment } from '../comment.service';
 import { PermissionService } from '../permission.service';
 import { Observable, catchError, throwError } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Profile } from '../profile/profile.service';
 
 @Component({
   selector: 'app-post-details',
@@ -15,6 +16,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 })
 export class PostDetailsComponent {
   post!: PostView;
+  user!: Profile;
   comments: Comment[] = [];
   projectId!: number;
   selectedValue!: string;
@@ -26,14 +28,18 @@ export class PostDetailsComponent {
     private commentService: CommentService,
     private permission: PermissionService) {
       this.deleteAdminPermission$ = this.permission.check('comment.delete', 'comment/')
+      // postService.getUserInfo(this.post.pid).subscribe(user => this.user = user)
     }
 
   ngOnInit(): void {
     const postId = Number(this.route.snapshot.paramMap.get('id'));
     this.postService.getPostById(postId).subscribe((post) => {
       this.post = post;
+      this.postService.getUserInfo(this.post.pid).subscribe((user) => {this.user = user;});
     });
-    this.projectId = postId; 
+    // this.postService.getUserInfo(this.post?.pid).subscribe((user) => {this.user = user;});
+    // console.log(this.post)
+    this.projectId = postId;
     this.getComments();
   }
 
