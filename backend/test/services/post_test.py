@@ -139,8 +139,10 @@ def test_update_post_permissions_otheruser(post: PostService):
 
 def test_update_post_permissions_admin(post: PostService):
     post.create_post(sample_post, user)
-    with pytest.raises(UserPermissionError):
-        post.update(root, 1, "test", "test", "test", ["test"])
+    newPost = post.update(subject=root, id=1, content="test", tags=["test"])
+    savedPost = post.get_posts()[0]
+    assert(savedPost.content == newPost.content
+           and savedPost.tags == newPost.tags)
     
 # Test for comment part
 
