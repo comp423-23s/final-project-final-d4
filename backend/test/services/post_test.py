@@ -127,7 +127,7 @@ def test_update_post_alloptions(post: PostService):
 
 def test_update_post_someoptions(post: PostService):
     post.create_post(sample_post, user)
-    newPost = post.update(user, 1, content="test", tags=["test"])
+    newPost = post.update(subject=user, id=1, content="test", tags=["test"])
     savedPost = post.get_posts()[0]
     assert(savedPost.content == newPost.content
            and savedPost.tags == newPost.tags)
