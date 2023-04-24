@@ -146,10 +146,10 @@ class PostService:
     # update post
     def update(self, subject: User,
                 id: int, 
-                content: str | None,
-                title: str | None, 
-                description: str | None, 
-                tags: list[str] | None,) -> Post:
+                content: str | None = None,
+                title: str | None = None, 
+                description: str | None = None, 
+                tags: list[str] | None = None) -> Post:
         """Update a post.
 
         Given a post id, update the post in the database. 
