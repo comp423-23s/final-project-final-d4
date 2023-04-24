@@ -116,6 +116,34 @@ def test_search_post(post: PostService):
     sample_2 = post.search_post("Greeting")
     assert(len(sample_2) == 2)
 
+def test_update_post_alloptions(post: PostService):
+    post.create_post(sample_post, user)
+    newPost = post.update(user, 1, "test", "test", "test", ["test"])
+    savedPost = post.get_posts()[0]
+    assert(savedPost.content == newPost.content
+           and savedPost.title == newPost.title
+           and savedPost.description == newPost.description
+           and savedPost.tags == newPost.tags)
+
+def test_update_post_someoptions(post: PostService):
+    post.create_post(sample_post, user)
+    newPost = post.update(subject=user, id=1, content="test", tags=["test"])
+    savedPost = post.get_posts()[0]
+    assert(savedPost.content == newPost.content
+           and savedPost.tags == newPost.tags)
+
+def test_update_post_permissions_otheruser(post: PostService):
+    post.create_post(sample_post, user)
+    with pytest.raises(UserPermissionError):
+        post.update(ambassador, 1, "test", "test", "test", ["test"])
+
+def test_update_post_permissions_admin(post: PostService):
+    post.create_post(sample_post, user)
+    newPost = post.update(subject=root, id=1, content="test", tags=["test"])
+    savedPost = post.get_posts()[0]
+    assert(savedPost.content == newPost.content
+           and savedPost.tags == newPost.tags)
+    
 # Test for comment part
 
 # get comment test
@@ -180,4 +208,3 @@ def test_delete_comment_invalid_private_notauthor(post: PostService, comment: Co
     comment.create(user,sample_comment_1,1)
     comment.delete(ambassador,1,1)
     assert(len(comment.all(user,1)) == 1)
-
