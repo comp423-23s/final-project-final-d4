@@ -22,7 +22,7 @@
             <mat-grid-tile *ngFor="let post of posts | async">
                 <mat-card class="post-card">
                     <mat-card-header>
-                        <mat-card-subtitle class="post-header">Posted By: {{ post.pid }}</mat-card-subtitle>
+                        <mat-card-subtitle class="post-header">Posted By: {{getUserFullName(post) | async}}</mat-card-subtitle>
                         <mat-card-subtitle class="post-header">Time: {{ post.created | date: 'yyyy/MM/dd @hh:mm aaa' }}</mat-card-subtitle>
                         <mat-card-title class="post-title">
                             <a [routerLink]="['/post-details', post.id]" style="text-decoration: none">{{ post.title }}</a>

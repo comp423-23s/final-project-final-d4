@@ -118,5 +118,7 @@ export class PostsService{
       return new_posts;
     }
 
-  
+  getUserInfo(pid: number) {
+    return this.http.get<Profile>(`/api/user/${pid}`);
+  }
 }

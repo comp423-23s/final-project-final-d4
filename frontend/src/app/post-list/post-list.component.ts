@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { Observable, throwError, map } from 'rxjs';
+import { catchError, shareReplay } from 'rxjs/operators';
 import { PostsService } from '../post.service';
 import { PostView } from '../post.service';
 import { PermissionService } from '../permission.service';
@@ -96,6 +96,21 @@ export class PostListComponent {
   
   getRandomInt(min: number, max: number): number {
     return Math.floor(Math.random() * (max - min + 1) + min);
+  }
+
+  private userCache: { [key: string]: Observable<string> } = {};
+
+  getUserFullName(post: PostView): Observable<string> {
+    const cachedValue = this.userCache[post.pid];
+    if (cachedValue) {
+      return cachedValue;
+    }
+    const newValue = this.postService.getUserInfo(post.pid).pipe(
+      map(user => user ? `${user.first_name} ${user.last_name}` : ''),
+      shareReplay(1) // cache the result
+    );
+    this.userCache[post.pid] = newValue;
+    return newValue;
   }
 
 }
