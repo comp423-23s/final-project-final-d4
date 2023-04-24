@@ -26,7 +26,7 @@
   <div class="comments-container">
     <div *ngFor="let comment of comments">
       <div>
-        {{ comment.text }} - {{ comment.created | date: 'short' }}
+        {{getUserFullName(comment) | async}} : {{ comment.text }} - {{ comment.created | date: 'short' }}
         <button *ngIf="(deleteAdminPermission$ | async) || (getDeleteUserPermission(comment.commenter) | async)" (click)="deleteComment(comment.id)">
           Delete
         </button>
