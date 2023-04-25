@@ -5,8 +5,9 @@ import { CommentService } from '../comment.service';
 import { Comment } from '../comment.model';
 import { newComment } from '../comment.service';
 import { PermissionService } from '../permission.service';
-import { Observable, catchError, throwError } from 'rxjs';
+import { Observable, catchError, throwError, map, shareReplay } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Profile } from '../profile/profile.service';
 
 @Component({
   selector: 'app-post-details',
@@ -15,6 +16,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 })
 export class PostDetailsComponent {
   post!: PostView;
+  user!: Profile;
   comments: Comment[] = [];
   projectId!: number;
   selectedValue!: string;
@@ -32,8 +34,9 @@ export class PostDetailsComponent {
     const postId = Number(this.route.snapshot.paramMap.get('id'));
     this.postService.getPostById(postId).subscribe((post) => {
       this.post = post;
+      this.postService.getUserInfo(this.post.pid).subscribe((user) => {this.user = user;});
     });
-    this.projectId = postId; 
+    this.projectId = postId;
     this.getComments();
   }
 
@@ -78,4 +81,21 @@ export class PostDetailsComponent {
     }
     return throwError(err);
   }
+
+  private userCache: { [key: string]: Observable<string> } = {};
+
+  getUserFullName(comment: Comment): Observable<string> {
+    const cachedValue = this.userCache[comment.commenter];
+    if (cachedValue) {
+      return cachedValue;
+    }
+    const newValue = this.postService.getUserInfo(comment.commenter).pipe(
+      map(user => user ? `${user.first_name} ${user.last_name}` : ''),
+      shareReplay(1) // cache the result
+    );
+    this.userCache[comment.commenter] = newValue;
+    return newValue;
+  }
+
+
 }
