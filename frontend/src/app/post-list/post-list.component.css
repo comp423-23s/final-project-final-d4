@@ -72,35 +72,35 @@ mat-form-field.comment{
   }
 
   .mat-mdc-standard-chip {
-    --mdc-chip-label-text-color: white;
+    --mdc-chip-label-text-color: rgba(10, 10, 10, 0.732);
   }
 
   .post-chip.insights{
-    background-color: skyblue;
+    background-color: #b2ebcca8;
   }
 
   .post-chip.project {
-    background-color: rgb(77, 77, 180);
+    background-color: #b2d6f7;
   }
 
   .post-chip.bug {
-    background-color:crimson;
+    background-color:#eff7f6;
   }
 
   .post-chip.frontend {
-    background-color:blueviolet;
+    background-color:rgb(247,214,224);
   }
 
   .post-chip.backend {
-    background-color:cadetblue;
+    background-color:#f58dc1;
   }
 
   .post-chip.teammates {
-    background-color:orange;
+    background-color:rgb(244, 205, 133);
   }
 
   .post-chip.other {
-    background-color:grey;
+    background-color:rgb(231, 169, 243);
   }
 
   .post-actions button {
