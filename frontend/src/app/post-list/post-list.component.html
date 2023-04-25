@@ -25,7 +25,7 @@
                         <mat-card-subtitle class="post-header">Posted By: {{getUserFullName(post) | async}}</mat-card-subtitle>
                         <mat-card-subtitle class="post-header">Time: {{ post.created | date: 'yyyy/MM/dd @hh:mm aaa' }}</mat-card-subtitle>
                         <mat-card-title class="post-title">
-                            <a [routerLink]="['/post-details', post.id]" style="text-decoration: none">{{ post.title }}</a>
+                            <a [routerLink]="['/post-details', post.id]" style="text-decoration: none; color:darkblue">{{ post.title }}</a>
                             </mat-card-title>
                     </mat-card-header>
                     <mat-card-content class="post-content">
@@ -34,7 +34,7 @@
                     <mat-card-actions class="post-actions">
                         <div class="post-tags">
                             <a>Tags: </a>
-                            <mat-chip class="post-chip">{{ post.tags }}</mat-chip>
+                            <mat-chip [ngClass]="getPostTagClass(tag)" class="post-chip" *ngFor="let tag of post.tags">{{ tag }}</mat-chip>
                         </div>
                         <button mat-icon-button *ngIf="(deleteAdminPermission$ | async) || (getDeleteUserPermission(post.pid) | async)" (click)="deletePost(post.id)">
                              <mat-icon>delete</mat-icon>

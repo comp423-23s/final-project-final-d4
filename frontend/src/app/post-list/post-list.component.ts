@@ -113,4 +113,22 @@ export class PostListComponent {
     return newValue;
   }
 
+  getPostTagClass(tag: string): string {
+    switch (tag) {
+      case 'Finding teammates':
+        return 'teammates';
+      case 'Project':
+        return 'project';
+      case 'Bug':
+        return 'bug';
+      case 'Frontend':
+        return 'frontend';
+      case 'Backend':
+        return 'backend';
+      case 'Share insights':
+        return 'insights';
+      default:
+        return 'other';
+    }
+  }
 }
