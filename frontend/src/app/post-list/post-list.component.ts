@@ -11,6 +11,7 @@ import { NoSearchResultComponent } from '../no-search-result/no-search-result.co
 import { NoSearchStringComponent } from '../no-search-string/no-search-string.component';
 
 
+
 @Component({
   selector: 'app-post-list',
   templateUrl: './post-list.component.html',

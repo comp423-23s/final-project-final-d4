@@ -3,7 +3,7 @@
     <div>
         <mat-grid-list cols="2" rowHeight="48px">
             <mat-grid-tile class="create">
-                <button mat-button routerLink="/create">
+                <button mat-raised-button routerLink="/create" color="lightblue">
                     <mat-icon>add</mat-icon>
                     Create Post
                   </button>
@@ -30,6 +30,7 @@
                     </mat-card-header>
                     <mat-card-content class="post-content">
                         <p>{{ post.description }}</p>
+                        
                     </mat-card-content>
                     <mat-card-actions class="post-actions">
                         <div class="post-tags">
@@ -43,5 +44,5 @@
                 </mat-card>
             </mat-grid-tile>
         </mat-grid-list>
-    </div>
+    >
 </div>

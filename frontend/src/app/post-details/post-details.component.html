@@ -20,6 +20,9 @@
       <mat-chip>{{ post.tags }}</mat-chip>
     </mat-card-actions>
     <!-- Add comments and other sections as required -->
+    <button *ngIf="(editAdminPermission$ | async) || (getEditUserPermission(post.pid) | async)" (click)="editPost(post.id)">
+      Edit
+    </button>
   </mat-card>
 
 
@@ -30,7 +33,6 @@
         <button *ngIf="(deleteAdminPermission$ | async) || (getDeleteUserPermission(comment.commenter) | async)" (click)="deleteComment(comment.id)">
           Delete
         </button>
-        <!-- <button>Delete</button> -->
       </div>
     </div>
     <form (submit)="addComment(newComment.value, selectedValue)">

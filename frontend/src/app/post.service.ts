@@ -121,4 +121,22 @@ export class PostsService{
   getUserInfo(pid: number) {
     return this.http.get<Profile>(`/api/user/${pid}`);
   }
+
+  // updatePost(
+  //   id: number,
+  //   content: string | null = null,
+  //   title: string | null = null,
+  //   description: string | null = null,
+  //   tags: string[] | null = null
+  // ): Observable<PostView> {
+  //   const updatedPost = {
+  //     id,
+  //     content,
+  //     tags,
+  //     created: new Date(),
+  //     title,
+  //     description,
+  //   };
+  //   return this.http.put<PostView>(`/api/post/${id}`, updatedPost);
+  // }
 }
