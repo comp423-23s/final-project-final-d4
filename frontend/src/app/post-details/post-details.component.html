@@ -46,32 +46,45 @@
 </div>
 
 <br>
-<br>
 
 <!-- Comments section -->
 <div class="comments-container">
-  <h3 class="comment-title">Comments</h3>
-  <div class="new-comment">
-    <form (submit)="addComment(newComment.value, selectedValue)">
-      <mat-form-field appearance="outline">
-        <mat-label>Add a comment...</mat-label>
-        <input matInput #newComment type="text" name="text"/>
-      </mat-form-field>
-      <mat-radio-group [(ngModel)]="selectedValue" #isPrivate="ngModel">
-        <mat-radio-button value="true">Private</mat-radio-button>
-        <mat-radio-button value="false">Public</mat-radio-button>
-      </mat-radio-group>
-      <button class = "comment" mat-raised-button color="lightblue" type="submit">Add Comment</button>
-    </form>
-  </div>
-  <div class="comment" *ngFor="let comment of comments">
-    <div class="comment-text">
-      <span class="comment-author">{{getUserFullName(comment) | async}}:</span> {{ comment.text }}
-    </div>
-    <div class="comment-metadata">
-      <button *ngIf="(deleteAdminPermission$ | async) || (getDeleteUserPermission(comment.commenter) | async)" mat-icon-button color="warn" (click)="deleteComment(comment.id)">
-        <mat-icon>delete</mat-icon>
-      </button>
-    </div>
-  </div>
+  <mat-card>
+    <mat-card-content>
+      <div class="new-comment">
+        <form (submit)="addComment(newComment.value, selectedValue)">
+          <mat-form-field appearance="outline">
+            <mat-label>Add a comment...</mat-label>
+            <input matInput #newComment type="text" name="text"/>
+          </mat-form-field>
+          <mat-radio-group [(ngModel)]="selectedValue" #isPrivate="ngModel">
+            <mat-radio-button value="true">Private</mat-radio-button>
+            <mat-radio-button value="false">Public</mat-radio-button>
+          </mat-radio-group>
+          <button mat-raised-button color="lightblue" type="submit">Add Comment</button>
+        </form>
+      </div>
+    </mat-card-content>
+  </mat-card>
+  <br>
+  <mat-card *ngFor="let comment of comments" class="comment">
+    <mat-card-header>
+      <mat-card-subtitle>
+        {{getUserFullName(comment) | async}}
+      </mat-card-subtitle>
+      <mat-card-subtitle>
+        {{comment.created | date: 'short'}}
+      </mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      {{comment.text}}
+    </mat-card-content>
+    <mat-card-actions>
+      <div class="comment-metadata">
+        <button *ngIf="(deleteAdminPermission$ | async) || (getDeleteUserPermission(comment.commenter) | async)" mat-icon-button color="warn" (click)="deleteComment(comment.id)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
+    </mat-card-actions>
+  </mat-card>
 </div>
