@@ -114,11 +114,8 @@ def delete_post(id:int, post_serv: PostService = Depends(), subject: User = Depe
     
 #api route to update user info
 @api.put("/{id}", tags=["Post"])
-def update_post(id: int, 
-                content: str | None = None,
-                title: str | None = None, 
-                description: str | None = None, 
-                tags: list[str] | None = None,
+def update_post(update_post: NewPost,
+                id: int,
                 post_serv: PostService = Depends(),
                 subject: User = Depends(registered_user)) -> Post:
     """
@@ -143,6 +140,6 @@ def update_post(id: int,
     - Returns the updated Post object if successful
     """
     try:
-        return post_serv.update(subject=subject, id=id, content=content, title=title, description=description, tags=tags)
+        return post_serv.update(subject=subject, id=id, update_post=update_post)
     except Exception as e:
         raise HTTPException(status_code=422, detail=str(e))

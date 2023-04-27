@@ -146,10 +146,7 @@ class PostService:
     # update post
     def update(self, subject: User,
                 id: int, 
-                content: str | None = None,
-                title: str | None = None, 
-                description: str | None = None, 
-                tags: list[str] | None = None) -> Post:
+                update_post: NewPost) -> Post:
         """Update a post.
 
         Given a post id, update the post in the database. 
@@ -178,14 +175,14 @@ class PostService:
             if subject.pid != user.pid:
                 self._permission.enforce(subject, 'post.update', f'post/{id}')
 
-            if content != None:
-                temp.content = content
-            if title != None:
-                temp.title = title
-            if description != None:
-                temp.description = description
-            if tags != None:
-                temp.tags = tags
+            if update_post.content != None:
+                temp.content = update_post.content
+            if update_post.title != None:
+                temp.title = update_post.title
+            if update_post.description != None:
+                temp.description = update_post.description
+            if update_post.tags != None:
+                temp.tags = update_post.tags
             self._session.commit()
             return temp.to_model()
         else:

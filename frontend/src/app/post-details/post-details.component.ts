@@ -8,6 +8,8 @@ import { PermissionService } from '../permission.service';
 import { Observable, catchError, throwError, map, shareReplay } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Profile } from '../profile/profile.service';
+import { MatDialog } from '@angular/material/dialog';
+import { PostEditDialogComponent, UpdatedPost } from '../post-edit-dialog/post-edit-dialog.component';
 
 @Component({
   selector: 'app-post-details',
@@ -21,13 +23,17 @@ export class PostDetailsComponent {
   projectId!: number;
   selectedValue!: string;
   deleteAdminPermission$: Observable<Boolean>;
+  editAdminPermission$: Observable<Boolean>;
+  
 
   constructor(
     private route: ActivatedRoute,
     private postService: PostsService,
     private commentService: CommentService,
-    private permission: PermissionService) {
+    private permission: PermissionService,
+    public dialog: MatDialog) {
       this.deleteAdminPermission$ = this.permission.check('comment.delete', 'comment/')
+      this.editAdminPermission$ = this.permission.check('edit.post', 'post/')
     }
 
   ngOnInit(): void {
@@ -38,6 +44,7 @@ export class PostDetailsComponent {
     });
     this.projectId = postId;
     this.getComments();
+    console.log(this.projectId);
   }
 
   getComments(): void {
@@ -60,6 +67,39 @@ export class PostDetailsComponent {
     .subscribe(() => {
       console.log("deleting from frontend");
       this.comments = this.comments.filter((comment) => comment.id !== comment_id);
+    });
+  }
+  getEditUserPermission(postId: number): Observable<boolean> {
+    return this.permission.checkPID(postId);
+  }
+
+  
+  editPost(postId: number): void {
+    const dialogRef = this.dialog.open(PostEditDialogComponent, {
+      width: '70%',
+      height: '90%',
+      data: {
+        id: postId,
+        title: this.post.title,
+        description: this.post.description,
+        content: this.post.content,
+        tags: this.post.tags,
+      },
+    });
+  
+    dialogRef.afterClosed().subscribe((result: UpdatedPost | undefined) => {
+      if (result) {
+        this.postService.updatePost(
+            result.id,
+            result.title,
+            result.description,
+            result.content,
+            result.tags
+          )
+          .subscribe((updatedPost) => {
+            this.post = updatedPost;
+          });
+      }
     });
   }
 
@@ -97,5 +137,23 @@ export class PostDetailsComponent {
     return newValue;
   }
 
+  getPostTagClass(tag: string): string {
+    switch (tag) {
+      case 'Finding teammates':
+        return 'teammates';
+      case 'Project':
+        return 'project';
+      case 'Bug':
+        return 'bug';
+      case 'Frontend':
+        return 'frontend';
+      case 'Backend':
+        return 'backend';
+      case 'Share insights':
+        return 'insights';
+      default:
+        return 'other';
+    }
+  }
 
 }

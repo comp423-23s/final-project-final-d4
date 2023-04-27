@@ -2,84 +2,49 @@
 <nav mat-tab-nav-bar>
     <a mat-tab-link routerLink="/projects">Project List</a>
     <a mat-tab-link routerLink="/create">Create Post</a>
-</nav>
-
-<!-- form for user input of the posts  -->
-<h1>Create a Post</h1>
-<mat-card>
-    <!-- form for user input  -->
-    <form (ngSubmit) = "onPost(postForm)" #postForm = "ngForm" *ngIf="(profile$ | async) !== undefined">
+  </nav>
+  
+  <!-- form for user input of the posts  -->
+  <div class="create-post-container">
+    <h1 class="form-title">Create a Project Post</h1>
+    <mat-card>
+      <!-- form for user input  -->
+      <form (ngSubmit)="onPost(postForm)" #postForm="ngForm" *ngIf="(profile$ | async) !== undefined">
         <!-- title -->
-        <mat-form-field>
-            <input type="text" 
-            matInput 
-            ngModel
-            name = "title"
-            placeholder = "Post Title"
-            required
-            #title = "ngModel"
-            >
-        </mat-form-field>
+        <mat-form-field class="full-width">
+        <!-- <p>Post Title:</p> -->
+          <input type="text" matInput ngModel name="title" placeholder="Post Title" required #title="ngModel">
+        </mat-form-field> 
         <!-- post description -->
-        <mat-form-field>
-            <textarea rows = "2"
-            type="text" 
-            matInput 
-            ngModel
-            name = "description"
-            placeholder= "Description"
-            required
-            #description = "ngModel"
-            ></textarea>
+        <mat-form-field class="full-width">
+          <textarea rows="2" type="text" matInput ngModel name="description" placeholder="Description" required #description="ngModel"></textarea>
         </mat-form-field>
         <!-- post content -->
-        <mat-form-field>
-            <textarea rows = "10"
-            type="text" 
-            matInput 
-            ngModel
-            name = "content"
-            placeholder= "Content"
-            required
-            #content = "ngModel"
-            ></textarea>
+        <mat-form-field class="full-width">
+          <textarea rows="10" type="text" matInput ngModel name="content" placeholder="Content" required #content="ngModel"></textarea>
         </mat-form-field>
         <!-- post tag -->
-        <mat-form-field class="chip-list" appearance="fill">
-            <mat-label>Tags</mat-label>
-            <mat-chip-grid #chipGrid aria-label="Tag selection">
-                <mat-chip-row *ngFor="let tag of tags" (removed)="remove(tag)">
-                    {{tag}}
-                <button matChipRemove [attr.aria-label]="'remove ' + tag">
-                    <mat-icon>cancel</mat-icon>
-                </button>
-                </mat-chip-row>
-            </mat-chip-grid>
-            <input placeholder="Other tags..." #tagInput [formControl]="tagCtrl"
-                [matChipInputFor]="chipGrid" [matAutocomplete]="auto"
-                [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                (matChipInputTokenEnd)="add($event)"/>
-            <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
-                <mat-option *ngFor="let tag of filteredTags | async" [value]="tag">
-                {{tag}}
-                </mat-option>
-            </mat-autocomplete>
+        <mat-form-field class="chip-list full-width" appearance="fill">
+          <mat-label>Tags</mat-label>
+          <mat-chip-grid #chipGrid aria-label="Tag selection">
+            <mat-chip-row *ngFor="let tag of tags" (removed)="remove(tag)">
+              {{tag}}
+              <button matChipRemove [attr.aria-label]="'remove ' + tag">
+                <mat-icon>cancel</mat-icon>
+              </button>
+            </mat-chip-row>
+          </mat-chip-grid>
+          <input placeholder="Other tags..." #tagInput [formControl]="tagCtrl" [matChipInputFor]="chipGrid" [matAutocomplete]="auto" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" (matChipInputTokenEnd)="add($event)" />
+          <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+            <mat-option *ngFor="let tag of filteredTags | async" [value]="tag">
+              {{tag}}
+            </mat-option>
+          </mat-autocomplete>
         </mat-form-field>
-        <!-- <mat-form-field>
-            <textarea rows = "1"
-            matInput 
-            ngModel
-            type="text" 
-            name = "comments"
-            placeholder= "Comment"
-            required
-            #content = "ngModel"
-            ></textarea>
-        </mat-form-field> -->
-        <!-- submit project button  -->
-        <button 
-        mat-raised-button
-        color = "blue"
-        type="submit">Create Post</button>
-    </form>
-</mat-card>
+        <div mat-dialog-actions align="center">
+            <button mat-raised-button color="primary" type="submit" >Create Post</button>
+        </div>
+      </form>
+    </mat-card>
+  </div>
+  
