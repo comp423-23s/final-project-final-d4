@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { Observable, throwError, map } from 'rxjs';
+import { catchError, shareReplay } from 'rxjs/operators';
 import { PostsService } from '../post.service';
 import { PostView } from '../post.service';
 import { PermissionService } from '../permission.service';
@@ -9,6 +9,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { MatDialog } from '@angular/material/dialog';
 import { NoSearchResultComponent } from '../no-search-result/no-search-result.component';
 import { NoSearchStringComponent } from '../no-search-string/no-search-string.component';
+
 
 
 @Component({
@@ -94,8 +95,41 @@ export class PostListComponent {
     return throwError(err);
   }
   
-  addPrivateComment(){
-    
+  getRandomInt(min: number, max: number): number {
+    return Math.floor(Math.random() * (max - min + 1) + min);
   }
 
+  private userCache: { [key: string]: Observable<string> } = {};
+
+  getUserFullName(post: PostView): Observable<string> {
+    const cachedValue = this.userCache[post.pid];
+    if (cachedValue) {
+      return cachedValue;
+    }
+    const newValue = this.postService.getUserInfo(post.pid).pipe(
+      map(user => user ? `${user.first_name} ${user.last_name}` : ''),
+      shareReplay(1) // cache the result
+    );
+    this.userCache[post.pid] = newValue;
+    return newValue;
+  }
+
+  getPostTagClass(tag: string): string {
+    switch (tag) {
+      case 'Finding teammates':
+        return 'teammates';
+      case 'Project':
+        return 'project';
+      case 'Bug':
+        return 'bug';
+      case 'Frontend':
+        return 'frontend';
+      case 'Backend':
+        return 'backend';
+      case 'Share insights':
+        return 'insights';
+      default:
+        return 'other';
+    }
+  }
 }

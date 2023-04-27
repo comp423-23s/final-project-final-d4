@@ -118,5 +118,27 @@ export class PostsService{
       return new_posts;
     }
 
-  
+  getUserInfo(pid: number) {
+    return this.http.get<Profile>(`/api/user/${pid}`);
+  }
+
+  updatePost(
+    id: number,
+    title: string | null = null,
+    description: string | null = null,
+    content: string | null = null,
+    tags: string[] | null = null
+  ): Observable<PostView> {
+    const updatedPost = {
+      id: id,
+      title: title,
+      description: description,
+      content: content,
+      tags: tags,
+      created: new Date(),
+    };
+    console.log("updatedPost", updatedPost);
+    return this.http.put<PostView>(`/api/post/${id}`, updatedPost);
+  }
+
 }

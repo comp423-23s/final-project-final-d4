@@ -27,7 +27,7 @@ export class CreatePostComponent {
   @ViewChild('tagInput')
   tagInput!: ElementRef<HTMLInputElement>;
   
-  
+
   // declares a public property profile$ that holds an observable of either a Profile object or undefined
   public profile$: Observable<Profile | undefined>;
   
@@ -49,8 +49,6 @@ export class CreatePostComponent {
     let title = (form.value.title ?? "");
     let description = (form.value.description ?? "");
     let content = (form.value.content ?? "");
-    let time = (form.value.dateTime);
-
 
     this.postService.addPost(title, description, content, this.tags)
     .subscribe({
@@ -65,7 +63,6 @@ export class CreatePostComponent {
     });
 
   }
-  
   
   // For tags part
   add(event: MatChipInputEvent): void {

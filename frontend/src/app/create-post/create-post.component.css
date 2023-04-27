@@ -1,3 +1,60 @@
-mat-form-field{
+.form-title {
+    margin-bottom: 16px;
+    margin-left: 20px;
+    font-size: 1.60rem;
+    font-weight: 400;
+  }
+
+.create-post-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 16px;
+  }
+  
+::ng-deep.full-width {
     width: 100%;
+  }
+  
+mat-card {
+    padding: 15px;
+    background-color: transparent;
+    border-radius: 20px;
 }
+
+::ng-deep mat-form-field{
+    background-color: transparent;
+}
+
+mat-raised-button{
+    border-radius: 50px;
+}
+
+/* input {
+    border-radius: 10px;
+    border:none;
+    width: 100%;
+    box-shadow: none;
+    height: 50px;
+    margin-bottom: 20px;
+    background-color: rgb(235, 238, 238);
+    font-size: medium;
+  }
+
+  textarea {
+    border-radius: 10px;
+    border:none;
+    width: 100%;
+    box-shadow: none;
+    height: 50px;
+    margin-bottom: 20px;
+    background-color: rgb(235, 238, 238);
+    font-size: medium;
+  } */
+
+  /* ::-webkit-input-placeholder {
+    -ms-text-align-last: left;
+  }
+  
+  :-moz-placeholder {
+    -ms-text-align-last: left;
+  } */

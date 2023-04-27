@@ -10,6 +10,7 @@ import { AuthenticationService } from '../authentication.service';
 import { Router } from '@angular/router';
 import { Profile, ProfileService } from '../profile/profile.service';
 import { PermissionService } from '../permission.service';
+import { PostView, PostsService } from '../post.service';
 
 @Component({
   selector: 'app-navigation',
@@ -26,6 +27,7 @@ export class NavigationComponent implements OnInit, OnDestroy {
   public profile$: Observable<Profile | undefined>;
   public checkinPermission$: Observable<boolean>;
   public adminPermission$: Observable<boolean>;
+  public posts: Observable<PostView[]>;
 
   constructor(
     public auth: AuthenticationService,
@@ -34,11 +36,13 @@ export class NavigationComponent implements OnInit, OnDestroy {
     private profileService: ProfileService,
     private breakpointObserver: BreakpointObserver,
     protected navigationService: NavigationTitleService,
-    protected errorDialog: MatDialog
+    protected errorDialog: MatDialog,
+    public postService: PostsService,
   ) {
     this.profile$ = profileService.profile$;
     this.checkinPermission$ = this.permission.check('checkin.create', 'checkin/');
-    this.adminPermission$ = this.permission.check('admin.view', 'admin/')
+    this.adminPermission$ = this.permission.check('admin.view', 'admin/');
+    this.posts = postService.getPost()
   }
 
   ngOnInit(): void {
@@ -74,4 +78,8 @@ export class NavigationComponent implements OnInit, OnDestroy {
         .subscribe(isHandset => this.isHandset = isHandset);
   }
 
+  //reset the post list after search 
+  // resetSearch():void {
+  //   this.posts = this.postService.getPost();
+  // }
 }

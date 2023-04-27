@@ -1,48 +1,59 @@
-<!-- created routerlink tab of project list and create posts to the nav -->
+<!-- Navigation bar -->
 <nav mat-tab-nav-bar>
-    <a mat-tab-link routerLink="/projects">Project List</a>
-    <a mat-tab-link routerLink="/create">Create Post</a>
+  <a mat-tab-link routerLink="/projects">Project List</a>
+  <a mat-tab-link routerLink="/create">Create Post</a>
 </nav>
 
-
+<!-- Post card -->
 <mat-card *ngIf="post">
-    <mat-card-header>
-      <mat-card-subtitle>Posted By: {{ post.pid }}</mat-card-subtitle>
-      <mat-card-subtitle>Time: {{ post.created }}</mat-card-subtitle>
-      <mat-card-title>{{ post.title }}</mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
-      <p>{{ post.description }}</p>
-      <p>{{ post.content }}</p>
-    </mat-card-content>
-    <mat-card-actions>
-      <a>Tags: </a>
-      <mat-chip>{{ post.tags }}</mat-chip>
-    </mat-card-actions>
-    <!-- Add comments and other sections as required -->
-  </mat-card>
-
-
-  <div class="comments-container">
-    <div *ngFor="let comment of comments">
-      <div>
-        {{ comment.text }} - {{ comment.created | date: 'short' }}
-        <button *ngIf="(deleteAdminPermission$ | async) || (getDeleteUserPermission(comment.commenter) | async)" (click)="deleteComment(comment.id)">
-          Delete
-        </button>
-        <!-- <button>Delete</button> -->
-      </div>
+  <mat-card-header>
+    <mat-card-subtitle>Posted By: {{ user.first_name }} {{ user.last_name }}</mat-card-subtitle>
+    <mat-card-subtitle>Time: {{ post.created }}</mat-card-subtitle>
+    <mat-card-title>{{ post.title }}</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <p>{{ post.description }}</p>
+    <p>{{ post.content }}</p>
+  </mat-card-content>
+  <mat-card-actions>
+    <div class="post-tags">
+      <a class="post-tags-label">Tags: </a>
+      <mat-chip [ngClass]="getPostTagClass(tag)" class="post-chip" *ngFor="let tag of post.tags">{{ tag }}</mat-chip>
     </div>
-    <form (submit)="addComment(newComment.value, selectedValue)">
-    <!-- <form> -->
-      <mat-form-field appearance="outline">
-        <mat-label>Add a comment...</mat-label>
-        <input matInput #newComment type="text" name="text"/>
-      </mat-form-field>
-      <mat-radio-group [(ngModel)]="selectedValue" #isPrivate="ngModel">
-        <mat-radio-button value="true">Private</mat-radio-button>
-        <mat-radio-button value="false">Public</mat-radio-button>
-      </mat-radio-group>
-      <button mat-raised-button type="submit">Add Comment</button>
-    </form>
+  </mat-card-actions>
+  <div class="edit-button">
+    <button *ngIf="(editAdminPermission$ | async) || (getEditUserPermission(post.pid) | async)" mat-raised-button color="lightblue" (click)="editPost(post.id)">
+      Edit
+    </button>
   </div>
+  
+</mat-card>
+
+<!-- Comments section -->
+<div class="comments-container">
+  <div class="comment" *ngFor="let comment of comments">
+    <div class="comment-text">
+      <span class="comment-author">{{getUserFullName(comment) | async}}:</span> {{ comment.text }}
+    </div>
+    <div class="comment-metadata">
+      <!-- <mat-form-field appearance="outline">
+        <mat-label>Timestamp</mat-label>
+        <input matInput [value]="comment.created | date: 'short'" disabled>
+      </mat-form-field> -->
+      <button *ngIf="(deleteAdminPermission$ | async) || (getDeleteUserPermission(comment.commenter) | async)" mat-icon-button color="warn" (click)="deleteComment(comment.id)">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </div>
+  </div>
+  <form (submit)="addComment(newComment.value, selectedValue)">
+    <mat-form-field appearance="outline">
+      <mat-label>Add a comment...</mat-label>
+      <input matInput #newComment type="text" name="text"/>
+    </mat-form-field>
+    <mat-radio-group [(ngModel)]="selectedValue" #isPrivate="ngModel">
+      <mat-radio-button value="true">Private</mat-radio-button>
+      <mat-radio-button value="false">Public</mat-radio-button>
+    </mat-radio-group>
+    <button class = "comment" mat-raised-button color="lightblue" type="submit">Add Comment</button>
+  </form>
+</div>

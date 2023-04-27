@@ -1,0 +1,27 @@
+.full-width{
+    width:100%;
+}
+h1{
+    padding-left: 60px;
+    padding-top: 30px;
+    font-size: 1.60rem;
+    font-weight: 400;
+}
+mat-dialog-actions{
+    padding-left: 60px;
+    padding-top: 30px;
+}
+mat-card {
+    background-color: transparent;
+    border-radius: 20px;
+}
+
+::ng-deep mat-form-field{
+    background-color: transparent;
+}
+
+.create-post-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 16px;
+  }
