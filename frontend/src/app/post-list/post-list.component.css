@@ -8,7 +8,7 @@ mat-form-field.comment{
     width: 100%;
 }
 
-.post {
+.post-home {
   z-index: 1;
   position: sticky;
   top: 1;
