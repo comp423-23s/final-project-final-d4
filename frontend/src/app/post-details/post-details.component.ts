@@ -44,6 +44,7 @@ export class PostDetailsComponent {
     });
     this.projectId = postId;
     this.getComments();
+    console.log(this.projectId);
   }
 
   getComments(): void {
@@ -78,6 +79,7 @@ export class PostDetailsComponent {
       width: '70%',
       height: '90%',
       data: {
+        id: postId,
         title: this.post.title,
         description: this.post.description,
         content: this.post.content,
@@ -89,9 +91,9 @@ export class PostDetailsComponent {
       if (result) {
         this.postService.updatePost(
             result.id,
-            result.content,
             result.title,
             result.description,
+            result.content,
             result.tags
           )
           .subscribe((updatedPost) => {

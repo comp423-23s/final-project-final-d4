@@ -124,19 +124,21 @@ export class PostsService{
 
   updatePost(
     id: number,
-    content: string | null = null,
     title: string | null = null,
     description: string | null = null,
+    content: string | null = null,
     tags: string[] | null = null
   ): Observable<PostView> {
     const updatedPost = {
-      id,
-      content,
-      tags,
+      id: id,
+      title: title,
+      description: description,
+      content: content,
+      tags: tags,
       created: new Date(),
-      title,
-      description,
     };
+    console.log("updatedPost", updatedPost);
     return this.http.put<PostView>(`/api/post/${id}`, updatedPost);
   }
+
 }

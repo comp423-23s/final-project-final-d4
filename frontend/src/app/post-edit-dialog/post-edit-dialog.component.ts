@@ -26,7 +26,7 @@ export class PostEditDialogComponent implements OnInit {
   separatorKeysCodes: number[] = [ENTER, COMMA];
   tagCtrl = new FormControl('');
   filteredTags!: Observable<string[]>;
-  tags: string[] = [ ];
+  tags: string[] = [];
   allTags: string[] = ['Finding teammates', 'Project', 'Bug', 'Frontend', 'Backend'];
   @ViewChild('tagInput')
   tagInput!: ElementRef<HTMLInputElement>;
@@ -43,14 +43,15 @@ export class PostEditDialogComponent implements OnInit {
     this.profile$ = profileService.profile$;
     this.filteredTags = this.tagCtrl.valueChanges.pipe(startWith(null),
     map((fruit: string | null) => (fruit ? this._filter(fruit) : this.allTags.slice())),);
+    this.tags = data.tags || [];
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+  }
   
   save(): void {
-    const id = this.data.id;
     this.postService
-    .updatePost(id, this.data.title, this.data.description, this.data.content, this.tags)
+    .updatePost(this.data.id, this.data.title, this.data.description, this.data.content, this.tags)
     .subscribe({
       next: (post) => {
         console.log('Post updated successfully: ', post);
@@ -68,38 +69,38 @@ export class PostEditDialogComponent implements OnInit {
 
 
     // For tags part
-    add(event: MatChipInputEvent): void {
-      const value = (event.value || '').trim();
-  
-      // Add our tag
-      if (value) {
-        this.tags.push(value);
-      }
-  
-      // Clear the input value
-      event.chipInput!.clear();
-  
-      this.tagCtrl.setValue(null);
+  add(event: MatChipInputEvent): void {
+    const value = (event.value || '').trim();
+
+    // Add our tag
+    if (value) {
+      this.tags.push(value);
     }
+
+    // Clear the input value
+    event.chipInput!.clear();
+
+    this.tagCtrl.setValue(null);
+  }
   
-    remove(fruit: string): void {
-      const index = this.tags.indexOf(fruit);
-  
-      if (index >= 0) {
-        this.tags.splice(index, 1);
-      }
+  remove(fruit: string): void {
+    const index = this.tags.indexOf(fruit);
+
+    if (index >= 0) {
+      this.tags.splice(index, 1);
     }
-  
-    selected(event: MatAutocompleteSelectedEvent): void {
-      this.tags.push(event.option.viewValue);
-      this.tagInput.nativeElement.value = '';
-      this.tagCtrl.setValue(null);
-    }
-  
-    private _filter(value: string): string[] {
-      const filterValue = value.toLowerCase();
-  
-      return this.allTags.filter(tag => tag.toLowerCase().includes(filterValue));
-    }
+  }
+
+  selected(event: MatAutocompleteSelectedEvent): void {
+    this.tags.push(event.option.viewValue);
+    this.tagInput.nativeElement.value = '';
+    this.tagCtrl.setValue(null);
+  }
+
+  private _filter(value: string): string[] {
+    const filterValue = value.toLowerCase();
+
+    return this.allTags.filter(tag => tag.toLowerCase().includes(filterValue));
+  }
 
 }
