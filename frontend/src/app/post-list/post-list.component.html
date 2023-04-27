@@ -1,22 +1,28 @@
 <br>
-<div class="post">
+<div class="post-home">
     <div>
-        <mat-grid-list cols="2" rowHeight="48px">
-            <mat-grid-tile class="create">
+        <mat-grid-list cols="4" rowHeight="48px">
+            <mat-grid-tile class="home" [colspan]="1">
+                <button mat-raised-button (click)="resetSearch()">
+                    <mat-icon>home</mat-icon>
+                    All Posts
+                </button>
+            </mat-grid-tile>
+            <mat-grid-tile class="create" [colspan]="1">
                 <button mat-raised-button routerLink="/create" color="lightblue">
                     <mat-icon>add</mat-icon>
                     Create Post
                   </button>
             </mat-grid-tile>
-            <mat-grid-tile>
+            <mat-grid-tile [colspan]="2">
                 <mat-form-field appearance="fill" class="search">
                     <mat-label>Type here to search...</mat-label>
                     <input matInput [(ngModel)]="search" name="search">
                     <button mat-button matSuffix (click)="searchPost(search)">
                       <mat-icon>search</mat-icon>
                     </button>
-                  </mat-form-field>
-                  
+                </mat-form-field>
+                
             </mat-grid-tile>
         </mat-grid-list>
     </div>
@@ -48,5 +54,4 @@
                 </mat-card>
             </mat-grid-tile>
         </mat-grid-list>
-    >
 </div>

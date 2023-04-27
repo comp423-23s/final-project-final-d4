@@ -8,7 +8,7 @@ mat-form-field.comment{
     width: 100%;
 }
 
-.post {
+.post-home {
   z-index: 1;
   position: sticky;
   top: 1;
@@ -20,8 +20,6 @@ mat-form-field.comment{
 
 .post-card {
     position: absolute;
-    width: 480px;
-    height: 230px;
     box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.2);
     background-color: #ffffff;
     border-radius: 8px;
@@ -32,6 +30,20 @@ mat-form-field.comment{
 
   .post-card:hover {
     transform: scale(1.05);
+  }
+
+  @media only screen and (max-width: 480px) {
+    .post-card {
+      width: 95%;
+      height: auto;
+    }
+  }
+  
+  @media only screen and (min-width: 481px) {
+    .post-card {
+      width: 90%;
+      height: auto;
+    }
   }
 
   .post-header {

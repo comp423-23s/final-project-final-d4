@@ -21,10 +21,12 @@ export class PostListComponent {
 
   //declare search as string and initialize it as " "
   public search: string = "";
+  public search_return: Boolean = false;
   
   // declares a public property posts that holds an observable of either a PostView[]
   public posts: Observable<PostView[]>;
   public deleteAdminPermission$: Observable<Boolean>;
+
   
   constructor(
     public postService: PostsService,
@@ -54,6 +56,7 @@ export class PostListComponent {
       },
       error: (err) => this.searchError(err)
       })
+      this.search_return = true;
     }
     
   }
@@ -66,9 +69,10 @@ export class PostListComponent {
     }
   }
 
-//reset the post list after search 
+  //reset the post list after search 
   resetSearch():void {
     this.posts = this.postService.getPost();
+    this.search_return = false;
   }
   
   //delete post from project list
