@@ -25,6 +25,7 @@ export class PostDetailsComponent {
   deleteAdminPermission$: Observable<Boolean>;
   editAdminPermission$: Observable<Boolean>;
   
+  
 
   constructor(
     private route: ActivatedRoute,
@@ -58,6 +59,7 @@ export class PostDetailsComponent {
       this.comments.push(comment);
     });
   }
+
 
   deleteComment(comment_id: number): void {
     this.commentService.deleteComment(this.projectId,comment_id)

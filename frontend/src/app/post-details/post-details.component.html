@@ -1,77 +1,59 @@
 <!-- Navigation bar -->
-<br>
-<div class="post-home">
-  <div>
-      <mat-grid-list cols="2" rowHeight="48px">
-          <mat-grid-tile class="home">
-              <button mat-raised-button routerLink="/projects">
-                  <mat-icon>home</mat-icon>
-                  All Posts
-              </button>
-          </mat-grid-tile>
-          <mat-grid-tile class="create">
-              <button mat-raised-button routerLink="/create" color="lightblue">
-                  <mat-icon>add</mat-icon>
-                  Create Post
-                </button>
-          </mat-grid-tile>
-      </mat-grid-list>
-  </div>
-<br>
-<!-- Post card -->
-<div class="post-card">
-  <mat-card *ngIf="post" class="post-card">
-    <mat-card-header>
-      <mat-card-subtitle class="post-header">Posted By: {{ user.first_name }} {{ user.last_name }}</mat-card-subtitle>
-      <mat-card-subtitle class="post-header">Time: {{ post.created }}</mat-card-subtitle>
-      <mat-card-title class="post-title">{{ post.title }}</mat-card-title>
-    </mat-card-header>
-    <mat-card-content class="post-content">
-      <p>{{ post.description }}</p>
-      <p>{{ post.content }}</p>
-    </mat-card-content>
-    <mat-card-actions class="post-actions">
-      <div class="post-tags">
-        <a class="post-tags-label">Tags: </a>
-        <mat-chip [ngClass]="getPostTagClass(tag)" class="post-chip" *ngFor="let tag of post.tags">{{ tag }}</mat-chip>
-      </div>
-    </mat-card-actions>
-    <div class="edit-button">
-      <button *ngIf="(editAdminPermission$ | async) || (getEditUserPermission(post.pid) | async)" mat-raised-button color="lightblue" (click)="editPost(post.id)">
-        Edit
-      </button>
-    </div>
-    
-  </mat-card>
-</div>
+<nav mat-tab-nav-bar>
+  <a mat-tab-link routerLink="/projects">Project List</a>
+  <a mat-tab-link routerLink="/create">Create Post</a>
+</nav>
 
-<br>
-<br>
+<!-- Post card -->
+<mat-card *ngIf="post">
+  <mat-card-header>
+    <mat-card-subtitle>Posted By: {{ user.first_name }} {{ user.last_name }}</mat-card-subtitle>
+    <mat-card-subtitle>Time: {{ post.created }}</mat-card-subtitle>
+    <mat-card-title>{{ post.title }}</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <p>{{ post.description }}</p>
+    <p>{{ post.content }}</p>
+  </mat-card-content>
+  <mat-card-actions>
+    <div class="post-tags">
+      <a class="post-tags-label">Tags: </a>
+      <mat-chip [ngClass]="getPostTagClass(tag)" class="post-chip" *ngFor="let tag of post.tags">{{ tag }}</mat-chip>
+    </div>
+  </mat-card-actions>
+  <div class="edit-button">
+    <button *ngIf="(editAdminPermission$ | async) || (getEditUserPermission(post.pid) | async)" mat-raised-button color="lightblue" (click)="editPost(post.id)">
+      Edit
+    </button>
+  </div>
+  
+</mat-card>
 
 <!-- Comments section -->
 <div class="comments-container">
-  <h3 class="comment-title">Comments</h3>
-  <div class="new-comment">
-    <form (submit)="addComment(newComment.value, selectedValue)">
-      <mat-form-field appearance="outline">
-        <mat-label>Add a comment...</mat-label>
-        <input matInput #newComment type="text" name="text"/>
-      </mat-form-field>
-      <mat-radio-group [(ngModel)]="selectedValue" #isPrivate="ngModel">
-        <mat-radio-button value="true">Private</mat-radio-button>
-        <mat-radio-button value="false">Public</mat-radio-button>
-      </mat-radio-group>
-      <button class = "comment" mat-raised-button color="lightblue" type="submit">Add Comment</button>
-    </form>
-  </div>
   <div class="comment" *ngFor="let comment of comments">
     <div class="comment-text">
       <span class="comment-author">{{getUserFullName(comment) | async}}:</span> {{ comment.text }}
     </div>
     <div class="comment-metadata">
+      <!-- <mat-form-field appearance="outline">
+        <mat-label>Timestamp</mat-label>
+        <input matInput [value]="comment.created | date: 'short'" disabled>
+      </mat-form-field> -->
       <button *ngIf="(deleteAdminPermission$ | async) || (getDeleteUserPermission(comment.commenter) | async)" mat-icon-button color="warn" (click)="deleteComment(comment.id)">
         <mat-icon>delete</mat-icon>
       </button>
     </div>
   </div>
+  <form (submit)="addComment(newComment.value, selectedValue)">
+    <mat-form-field appearance="outline">
+      <mat-label>Add a comment...</mat-label>
+      <input matInput #newComment type="text" name="text"/>
+    </mat-form-field>
+    <mat-radio-group [(ngModel)]="selectedValue" #isPrivate="ngModel">
+      <mat-radio-button value="true">Private</mat-radio-button>
+      <mat-radio-button value="false">Public</mat-radio-button>
+    </mat-radio-group>
+    <button class = "comment" mat-raised-button color="lightblue" type="submit">Add Comment</button>
+  </form>
 </div>
