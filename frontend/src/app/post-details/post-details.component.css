@@ -4,7 +4,6 @@
     align-items: center;
   }
   
-  
   .post-home {
     z-index: 1;
     position: sticky;
@@ -33,7 +32,7 @@
       height: auto;
     }
   }
-
+  
   .post-header {
     font-size: 14px;
   }
