@@ -72,38 +72,34 @@ export class PostDetailsComponent {
     return this.permission.checkPID(postId);
   }
 
+  
   editPost(postId: number): void {
-    
+    const dialogRef = this.dialog.open(PostEditDialogComponent, {
+      width: '70%',
+      height: '90%',
+      data: {
+        title: this.post.title,
+        description: this.post.description,
+        content: this.post.content,
+        tags: this.post.tags,
+      },
+    });
+  
+    dialogRef.afterClosed().subscribe((result: UpdatedPost | undefined) => {
+      if (result) {
+        this.postService.updatePost(
+            result.id,
+            result.content,
+            result.title,
+            result.description,
+            result.tags
+          )
+          .subscribe((updatedPost) => {
+            this.post = updatedPost;
+          });
+      }
+    });
   }
-  // editPost(postId: number): void {
-  //   const dialogRef = this.dialog.open(PostEditDialogComponent, {
-  //     width: '90%',
-  //     height: '90%',
-  //     data: {
-  //       title: this.post.title,
-  //       description: this.post.description,
-  //       content: this.post.content,
-  //       tags: this.post.tags,
-  //     },
-  //   });
-  
-  //   dialogRef.afterClosed().subscribe((result: UpdatedPost | undefined) => {
-  //     if (result) {
-  //       this.postService.updatePost(
-  //           result.id,
-  //           result.content,
-  //           result.title,
-  //           result.description,
-  //           result.tags
-  //         )
-  //         .subscribe((updatedPost) => {
-  //           this.post = updatedPost;
-  //         });
-  //     }
-  //   });
-  // }
-
-  
 
   getDeleteUserPermission(commenter: number): Observable<boolean> {
     return this.permission.checkPID(commenter);
@@ -139,5 +135,23 @@ export class PostDetailsComponent {
     return newValue;
   }
 
+  getPostTagClass(tag: string): string {
+    switch (tag) {
+      case 'Finding teammates':
+        return 'teammates';
+      case 'Project':
+        return 'project';
+      case 'Bug':
+        return 'bug';
+      case 'Frontend':
+        return 'frontend';
+      case 'Backend':
+        return 'backend';
+      case 'Share insights':
+        return 'insights';
+      default:
+        return 'other';
+    }
+  }
 
 }

@@ -26,12 +26,13 @@ export class PostEditDialogComponent implements OnInit {
   separatorKeysCodes: number[] = [ENTER, COMMA];
   tagCtrl = new FormControl('');
   filteredTags!: Observable<string[]>;
-  tags: string[] = [];
+  tags: string[] = [ ];
   allTags: string[] = ['Finding teammates', 'Project', 'Bug', 'Frontend', 'Backend'];
+  @ViewChild('tagInput')
+  tagInput!: ElementRef<HTMLInputElement>;
 
   public profile$: Observable<Profile | undefined>;
 
-  @ViewChild('tagInput') tagInput!: ElementRef<HTMLInputElement>;
 
   constructor(
     public dialogRef: MatDialogRef<PostEditDialogComponent>,
@@ -40,73 +41,65 @@ export class PostEditDialogComponent implements OnInit {
     public postService: PostsService
   ) {
     this.profile$ = profileService.profile$;
-    this.filteredTags = this.tagCtrl.valueChanges.pipe(
-      startWith(null),
-      map((tag: string | null) => (tag ? this._filter(tag) : this.allTags.slice()))
-    );
+    this.filteredTags = this.tagCtrl.valueChanges.pipe(startWith(null),
+    map((fruit: string | null) => (fruit ? this._filter(fruit) : this.allTags.slice())),);
   }
 
   ngOnInit(): void {}
   
-  save():void{
-
+  save(): void {
+    const id = this.data.id;
+    this.postService
+    .updatePost(id, this.data.title, this.data.description, this.data.content, this.tags)
+    .subscribe({
+      next: (post) => {
+        console.log('Post updated successfully: ', post);
+        this.dialogRef.close(post);
+      },
+      error: (err) => {
+        console.error('Error updating post: ', err);
+      },
+    });
+  }
+  
+  cancel(): void {
+    this.dialogRef.close();
   }
 
-  cancel(): void{
 
-  }
-  // save(form: NgForm): void {
-  //   let id = this.data.id;
-  //   let title = form.value.title ?? '';
-  //   let description = form.value.description ?? '';
-  //   let content = form.value.content ?? '';
-
-  //   this.postService
-  //     .updatePost(id, title, description, content, this.tags)
-  //     .subscribe({
-  //       next: (post) => {
-  //         console.log('Post updated successfully: ', post);
-  //         this.dialogRef.close(post);
-  //       },
-  //       error: (err) => {
-  //         console.error('Error updating post: ', err);
-  //       },
-  //     });
-  // }
-
-  // cancel(): void {
-  //   this.dialogRef.close();
-  // }
-
-  add(event: MatChipInputEvent): void {
-    const value = (event.value || '').trim();
-
-    if (value) {
-      this.tags.push(value);
+    // For tags part
+    add(event: MatChipInputEvent): void {
+      const value = (event.value || '').trim();
+  
+      // Add our tag
+      if (value) {
+        this.tags.push(value);
+      }
+  
+      // Clear the input value
+      event.chipInput!.clear();
+  
+      this.tagCtrl.setValue(null);
+    }
+  
+    remove(fruit: string): void {
+      const index = this.tags.indexOf(fruit);
+  
+      if (index >= 0) {
+        this.tags.splice(index, 1);
+      }
+    }
+  
+    selected(event: MatAutocompleteSelectedEvent): void {
+      this.tags.push(event.option.viewValue);
+      this.tagInput.nativeElement.value = '';
+      this.tagCtrl.setValue(null);
+    }
+  
+    private _filter(value: string): string[] {
+      const filterValue = value.toLowerCase();
+  
+      return this.allTags.filter(tag => tag.toLowerCase().includes(filterValue));
     }
 
-    event.chipInput!.clear();
-
-    this.tagCtrl.setValue(null);
-  }
-
-  remove(tag: string): void {
-    const index = this.tags.indexOf(tag);
-
-    if (index >= 0) {
-      this.tags.splice(index, 1);
-    }
-  }
-
-  selected(event: MatAutocompleteSelectedEvent): void {
-    this.tags.push(event.option.viewValue);
-    this.tagInput.nativeElement.value = '';
-    this.tagCtrl.setValue(null);
-  }
-
-  private _filter(value: string): string[] {
-    const filterValue = value.toLowerCase();
-
-    return this.allTags.filter((tag) => tag.toLowerCase().includes(filterValue));
-  }
 }

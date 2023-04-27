@@ -27,11 +27,6 @@ export class CreatePostComponent {
   @ViewChild('tagInput')
   tagInput!: ElementRef<HTMLInputElement>;
   
-  invertColors: boolean = false;
-
-  toggleInvertColors(): void {
-  this.invertColors = !this.invertColors;
-}
 
   // declares a public property profile$ that holds an observable of either a Profile object or undefined
   public profile$: Observable<Profile | undefined>;
