@@ -19,11 +19,11 @@
   </div>
 <br>
 <!-- Post card -->
-<div class="post-card">
+<div>
   <mat-card *ngIf="post" class="post-card">
     <mat-card-header>
-      <mat-card-subtitle class="post-header">Posted By: {{ user.first_name }} {{ user.last_name }}</mat-card-subtitle>
-      <mat-card-subtitle class="post-header">Time: {{ post.created }}</mat-card-subtitle>
+      <mat-card-subtitle class="post-header">{{ user.first_name }} {{ user.last_name }}</mat-card-subtitle>
+      <mat-card-subtitle class="post-header">{{ post.created | date: 'yyyy/MM/dd @hh:mm aaa'}}</mat-card-subtitle>
       <mat-card-title class="post-title">{{ post.title }}</mat-card-title>
     </mat-card-header>
     <mat-card-content class="post-content">
@@ -35,24 +35,22 @@
         <a class="post-tags-label">Tags: </a>
         <mat-chip [ngClass]="getPostTagClass(tag)" class="post-chip" *ngFor="let tag of post.tags">{{ tag }}</mat-chip>
       </div>
-    </mat-card-actions>
-    <div class="edit-button">
-      <button *ngIf="(editAdminPermission$ | async) || (getEditUserPermission(post.pid) | async)" mat-raised-button color="lightblue" (click)="editPost(post.id)">
+      <button *ngIf="(editAdminPermission$ | async) || (getEditUserPermission(post.pid) | async)" mat-raised-button style="background-color: #4786C6; color: white;" (click)="editPost(post.id)">
         Edit
       </button>
-    </div>
-    
+    </mat-card-actions>
+    <br>
   </mat-card>
 </div>
 
 <br>
 
 <!-- Comments section -->
-<div class="comments-container">
-  <mat-card>
+<div>
+  <!-- <mat-card>
     <mat-card-content>
-      <div class="new-comment">
-        <form (submit)="addComment(newComment.value, selectedValue)">
+      <div>
+        <form (submit)="addComment(newComment.value, selectedValue)" class="new-comment">
           <mat-form-field appearance="outline">
             <mat-label>Add a comment...</mat-label>
             <input matInput #newComment type="text" name="text"/>
@@ -65,26 +63,33 @@
         </form>
       </div>
     </mat-card-content>
-  </mat-card>
+  </mat-card>-->
+  <div class="comments-header">
+    <h3 class="comments-heading">Comments</h3>
+  </div>
   <br>
-  <mat-card *ngFor="let comment of comments" class="comment">
-    <mat-card-header>
-      <mat-card-subtitle>
-        {{getUserFullName(comment) | async}}
-      </mat-card-subtitle>
-      <mat-card-subtitle>
-        {{comment.created | date: 'short'}}
-      </mat-card-subtitle>
-    </mat-card-header>
-    <mat-card-content>
-      {{comment.text}}
-    </mat-card-content>
-    <mat-card-actions>
-      <div class="comment-metadata">
-        <button *ngIf="(deleteAdminPermission$ | async) || (getDeleteUserPermission(comment.commenter) | async)" mat-icon-button color="warn" (click)="deleteComment(comment.id)">
-          <mat-icon>delete</mat-icon>
-        </button>
-      </div>
-    </mat-card-actions>
-  </mat-card>
+  <mat-grid-list cols="1" rowHeight="180px">
+    <mat-grid-tile *ngFor="let comment of comments">
+      <mat-card  class="comment">
+        <mat-card-header>
+          <mat-card-subtitle>
+            {{getUserFullName(comment) | async}}
+          </mat-card-subtitle>
+          <mat-card-subtitle>
+            {{comment.created | date: 'yyyy/MM/dd @hh:mm aaa'}}
+          </mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content class="post-content">
+          {{comment.text}}
+        </mat-card-content>
+        <mat-card-actions class="comment-actions">
+          <div class="comment-metadata">
+            <button *ngIf="(deleteAdminPermission$ | async) || (getDeleteUserPermission(comment.commenter) | async)" mat-icon-button (click)="deleteComment(comment.id)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        </mat-card-actions>
+      </mat-card>
+    </mat-grid-tile>
+  </mat-grid-list>
 </div>
