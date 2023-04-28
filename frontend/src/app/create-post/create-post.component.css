@@ -50,33 +50,3 @@ mat-card {
   position: sticky;
   top: 1;
 }
-
-/* input {
-    border-radius: 10px;
-    border:none;
-    width: 100%;
-    box-shadow: none;
-    height: 50px;
-    margin-bottom: 20px;
-    background-color: rgb(235, 238, 238);
-    font-size: medium;
-  }
-
-  textarea {
-    border-radius: 10px;
-    border:none;
-    width: 100%;
-    box-shadow: none;
-    height: 50px;
-    margin-bottom: 20px;
-    background-color: rgb(235, 238, 238);
-    font-size: medium;
-  } */
-
-  /* ::-webkit-input-placeholder {
-    -ms-text-align-last: left;
-  }
-  
-  :-moz-placeholder {
-    -ms-text-align-last: left;
-  } */
