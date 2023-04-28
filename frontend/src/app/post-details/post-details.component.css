@@ -4,10 +4,6 @@
     align-items: center;
   }
   
-  .edit-button {
-    margin-left: 94%;
-  }
-  
   .post-home {
     z-index: 1;
     position: sticky;
@@ -23,6 +19,20 @@
     border-radius: 8px;
   }
 
+  @media only screen and (max-width: 480px) {
+    .post-card {
+      width: 95%;
+      height: auto;
+    }
+  }
+  
+  @media only screen and (min-width: 481px) {
+    .post-card {
+      width: 90%;
+      height: auto;
+    }
+  }
+  
   .post-header {
     font-size: 14px;
   }
@@ -94,21 +104,52 @@
 
   .post-actions button {
     position: absolute;
-    bottom: 0;
-    right: 0;
+    bottom: 8%;
+    right: 3%;
   }
 
-.comments-container {
-  background-color: white;
+  .comments-header {
+    text-align: center;
+  }
+  
+  .comments-heading {
+    margin: 0;
+    font-size: 18px;
+    font-weight: bold;
+  }
+
+.new-comment {
+  width: 700px;
+  height: auto;
+  background-color: transparent;
+  border-radius: 20px;
+}
+
+.comment {
   width: 700px;
   height: auto;
   margin: 0 auto;
   box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.2);
+  background-color: white;
   border-radius: 8px;
 }
 
-.comment-title {
-  font-size: 18px;
-  font-weight: bold;
+@media only screen and (max-width: 480px) {
+  .comment {
+    width: 95%;
+    height: auto;
+  }
 }
 
+@media only screen and (min-width: 481px) {
+  .comment {
+    width: 90%;
+    height: auto;
+  }
+}
+
+.comment-actions button {
+  position: absolute;
+  bottom: 8%;
+  right: 3%;
+}

@@ -30,17 +30,16 @@
     <div class="post-list">
         <mat-grid-list cols="2" rowHeight="280px">
             <mat-grid-tile *ngFor="let post of posts | async">
-                <mat-card class="post-card">
+                <mat-card class="post-card" (click)="goToPostDetails(post.id)">
                     <mat-card-header>
-                        <mat-card-subtitle class="post-header">Posted By: {{getUserFullName(post) | async}}</mat-card-subtitle>
-                        <mat-card-subtitle class="post-header">Time: {{ post.created | date: 'yyyy/MM/dd @hh:mm aaa' }}</mat-card-subtitle>
+                        <mat-card-subtitle class="post-header">{{getUserFullName(post) | async}}</mat-card-subtitle>
+                        <mat-card-subtitle class="post-header">{{ post.created | date: 'yyyy/MM/dd @hh:mm aaa' }}</mat-card-subtitle>
                         <mat-card-title class="post-title">
-                            <a [routerLink]="['/post-details', post.id]" style="text-decoration: none; color:darkblue">{{ post.title }}</a>
+                            {{ post.title }}
                             </mat-card-title>
                     </mat-card-header>
                     <mat-card-content class="post-content">
                         <p>{{ post.description }}</p>
-                        
                     </mat-card-content>
                     <mat-card-actions class="post-actions">
                         <div class="post-tags">
