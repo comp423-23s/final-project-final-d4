@@ -35,7 +35,6 @@
   </mat-card-header>
   <br>
   <mat-card-content class="post-content">
-    <!-- <p>{{ post.description }}</p> -->
     <p>{{ post.content }}</p>
   </mat-card-content>
   <mat-card-actions class="post-actions">
@@ -77,7 +76,7 @@
     <div class="comments-header">
       <h3 class="comments-heading">Comments</h3>
     </div>
-    
+    <br>
     <mat-grid-list cols="1" rowHeight="180px">
       <mat-grid-tile *ngIf="getBlankcomment()">
         <mat-card class="comment">
@@ -88,9 +87,9 @@
             </mat-card-title>
             <mat-card-subtitle class="post-header">Rameses</mat-card-subtitle>
           </mat-card-header>
-          <mat-card-content class="post-content">
-            <div>Nobody's responded to this post yet. </div>
-            <div>Add your thoughts and get the conversation going.</div>
+          <mat-card-content class="post-content" style="color: gray;">
+            <div>Nobody's responded to this post yet... </div>
+            <div>Add your thoughts and get the conversation going...</div>
           </mat-card-content>
         </mat-card>
       </mat-grid-tile>
@@ -98,13 +97,13 @@
         <mat-grid-tile *ngIf="visibleComment(comment) | async">
           <mat-card class="comment">
             <mat-card-header>
-              <mat-card-subtitle>
-                {{getUserFullName(comment) | async}}
-              </mat-card-subtitle>
+              <img mat-card-avatar class="comment-image" src="../../assets/student.jpeg" alt="Photo of CS Student">
+              <mat-card-title class="comment-title">{{getUserFullName(comment) | async}}</mat-card-title>
               <mat-card-subtitle>
                 {{comment.created | date: 'yyyy/MM/dd @hh:mm aaa'}}
               </mat-card-subtitle>
             </mat-card-header>
+            <br>
             <mat-card-content class="post-content">
               {{comment.text}}
             </mat-card-content>
