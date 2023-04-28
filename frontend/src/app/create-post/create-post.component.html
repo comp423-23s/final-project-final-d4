@@ -1,30 +1,38 @@
 <!-- created routerlink tab of project list and create posts to the nav -->
-<nav mat-tab-nav-bar>
-    <a mat-tab-link routerLink="/projects">Project List</a>
-    <a mat-tab-link routerLink="/create">Create Post</a>
-  </nav>
-  
+<br>
+<div class="post-home">
+      <mat-grid-list cols="1" rowHeight="48px">
+          <mat-grid-tile class="home">
+              <button mat-raised-button routerLink="/projects">
+                  <mat-icon>home</mat-icon>
+                  All Posts
+              </button>
+          </mat-grid-tile>
+      </mat-grid-list>
+</div>
   <!-- form for user input of the posts  -->
   <div class="create-post-container">
-    <h1 class="form-title">Create a Project Post</h1>
     <mat-card>
       <!-- form for user input  -->
       <form (ngSubmit)="onPost(postForm)" #postForm="ngForm" *ngIf="(profile$ | async) !== undefined">
         <!-- title -->
-        <mat-form-field class="full-width">
-        <!-- <p>Post Title:</p> -->
-          <input type="text" matInput ngModel name="title" placeholder="Post Title" required #title="ngModel">
-        </mat-form-field> 
+            <mat-form-field appearance="outline" class="full-width custom-form-field" >
+                <!-- <p>Post Title:</p> -->
+            <mat-label>Title</mat-label>
+            <input type="text" matInput ngModel name="title" required #title="ngModel">
+            </mat-form-field> 
         <!-- post description -->
-        <mat-form-field class="full-width">
-          <textarea rows="2" type="text" matInput ngModel name="description" placeholder="Description" required #description="ngModel"></textarea>
+        <mat-form-field appearance="outline" class="full-width custom-form-field"  >
+        <mat-label>Description</mat-label>
+          <textarea rows="2" type="text" matInput ngModel name="description" required #description="ngModel"></textarea>
         </mat-form-field>
         <!-- post content -->
-        <mat-form-field class="full-width">
-          <textarea rows="10" type="text" matInput ngModel name="content" placeholder="Content" required #content="ngModel"></textarea>
+        <mat-form-field appearance="outline" class="full-width custom-form-field">
+            <mat-label>Content</mat-label>
+          <textarea rows="8" type="text" matInput ngModel name="content" required #content="ngModel"></textarea>
         </mat-form-field>
         <!-- post tag -->
-        <mat-form-field class="chip-list full-width" appearance="fill">
+        <mat-form-field class="chip-list full-width custom-form-field" appearance="outline">
           <mat-label>Tags</mat-label>
           <mat-chip-grid #chipGrid aria-label="Tag selection">
             <mat-chip-row *ngFor="let tag of tags" (removed)="remove(tag)">
@@ -42,7 +50,9 @@
           </mat-autocomplete>
         </mat-form-field>
         <div mat-dialog-actions align="center">
-            <button mat-raised-button color="primary" type="submit" >Create Post</button>
+            <button mat-raised-button style="background-color: #4786C6; color: white;" type="submit">
+                Create Post
+            </button>
         </div>
       </form>
     </mat-card>

@@ -1,22 +1,28 @@
 <br>
-<div class="post">
+<div class="post-home">
     <div>
-        <mat-grid-list cols="2" rowHeight="48px">
-            <mat-grid-tile class="create">
+        <mat-grid-list cols="4" rowHeight="48px">
+            <mat-grid-tile class="home" [colspan]="1">
+                <button mat-raised-button (click)="resetSearch()">
+                    <mat-icon>home</mat-icon>
+                    All Posts
+                </button>
+            </mat-grid-tile>
+            <mat-grid-tile class="create" [colspan]="1">
                 <button mat-raised-button routerLink="/create" color="lightblue">
                     <mat-icon>add</mat-icon>
                     Create Post
                   </button>
             </mat-grid-tile>
-            <mat-grid-tile>
+            <mat-grid-tile [colspan]="2">
                 <mat-form-field appearance="fill" class="search">
                     <mat-label>Type here to search...</mat-label>
                     <input matInput [(ngModel)]="search" name="search">
                     <button mat-button matSuffix (click)="searchPost(search)">
                       <mat-icon>search</mat-icon>
                     </button>
-                  </mat-form-field>
-                  
+                </mat-form-field>
+                
             </mat-grid-tile>
         </mat-grid-list>
     </div>
@@ -24,17 +30,16 @@
     <div class="post-list">
         <mat-grid-list cols="2" rowHeight="280px">
             <mat-grid-tile *ngFor="let post of posts | async">
-                <mat-card class="post-card">
+                <mat-card class="post-card" (click)="goToPostDetails(post.id)">
                     <mat-card-header>
-                        <mat-card-subtitle class="post-header">Posted By: {{getUserFullName(post) | async}}</mat-card-subtitle>
-                        <mat-card-subtitle class="post-header">Time: {{ post.created | date: 'yyyy/MM/dd @hh:mm aaa' }}</mat-card-subtitle>
+                        <mat-card-subtitle class="post-header">{{getUserFullName(post) | async}}</mat-card-subtitle>
+                        <mat-card-subtitle class="post-header">{{ post.created | date: 'yyyy/MM/dd @hh:mm aaa' }}</mat-card-subtitle>
                         <mat-card-title class="post-title">
-                            <a [routerLink]="['/post-details', post.id]" style="text-decoration: none; color:darkblue">{{ post.title }}</a>
+                            {{ post.title }}
                             </mat-card-title>
                     </mat-card-header>
                     <mat-card-content class="post-content">
                         <p>{{ post.description }}</p>
-                        
                     </mat-card-content>
                     <mat-card-actions class="post-actions">
                         <div class="post-tags">
@@ -48,5 +53,4 @@
                 </mat-card>
             </mat-grid-tile>
         </mat-grid-list>
-    >
 </div>

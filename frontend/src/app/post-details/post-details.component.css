@@ -4,6 +4,152 @@
     align-items: center;
   }
   
-  .edit-button {
-    margin-left: 94%;
+  .post-home {
+    z-index: 1;
+    position: sticky;
+    top: 1;
   }
+
+  .post-card {
+    width: 700px;
+    height: auto;
+    margin: 0 auto;
+    box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.2);
+    background-color: white;
+    border-radius: 8px;
+  }
+
+  @media only screen and (max-width: 480px) {
+    .post-card {
+      width: 95%;
+      height: auto;
+    }
+  }
+  
+  @media only screen and (min-width: 481px) {
+    .post-card {
+      width: 90%;
+      height: auto;
+    }
+  }
+  
+  .post-header {
+    font-size: 14px;
+  }
+
+  .post-title {
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+    font-size: 18px;
+    font-weight: bold;
+  }
+
+  .post-content {
+    font-size: 16px;
+    padding-top: 8px;
+    flex-grow: 1;
+  }
+
+  .post-actions {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-top: auto;
+    font-size: 14px;
+    padding-top: 8px;
+    padding-left: 17px;
+  }
+  
+  .post-tags {
+    font-size: 14px;
+    font-weight: bold;
+  }
+
+  .post-chip {
+    font-size: 14px;
+    height: 24px;
+  }
+
+  .mat-mdc-standard-chip {
+    --mdc-chip-label-text-color: rgba(10, 10, 10, 0.732);
+  }
+
+  .post-chip.insights{
+    background-color: #b2ebcca8;
+  }
+
+  .post-chip.project {
+    background-color: #b2d6f7;
+  }
+
+  .post-chip.bug {
+    background-color:#eff7f6;
+  }
+
+  .post-chip.frontend {
+    background-color:rgb(247,214,224);
+  }
+
+  .post-chip.backend {
+    background-color:#f58dc1;
+  }
+
+  .post-chip.teammates {
+    background-color:rgb(244, 205, 133);
+  }
+
+  .post-chip.other {
+    background-color:rgb(231, 169, 243);
+  }
+
+  .post-actions button {
+    position: absolute;
+    bottom: 8%;
+    right: 3%;
+  }
+
+  .comments-header {
+    text-align: center;
+  }
+  
+  .comments-heading {
+    margin: 0;
+    font-size: 18px;
+    font-weight: bold;
+  }
+
+.new-comment {
+  width: 700px;
+  height: auto;
+  background-color: transparent;
+  border-radius: 20px;
+}
+
+.comment {
+  width: 700px;
+  height: auto;
+  margin: 0 auto;
+  box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.2);
+  background-color: white;
+  border-radius: 8px;
+}
+
+@media only screen and (max-width: 480px) {
+  .comment {
+    width: 95%;
+    height: auto;
+  }
+}
+
+@media only screen and (min-width: 481px) {
+  .comment {
+    width: 90%;
+    height: auto;
+  }
+}
+
+.comment-actions button {
+  position: absolute;
+  bottom: 8%;
+  right: 3%;
+}
