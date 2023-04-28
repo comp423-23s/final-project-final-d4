@@ -40,7 +40,6 @@ class CommentService:
         self._session = session
         self._permission = PermissionService(session)
 
-    # get comments given a post id and current user
     def all(self,subject:User,post_id:int) -> list[Comment]:
         """Fetch all comments from a post visible to the user.
 
@@ -81,7 +80,6 @@ class CommentService:
         entities = self._session.execute(query).scalars().all()
         return [entity.to_model() for entity in entities]
     
-    # create a comment to a post
     def create(self, user: User, comment: NewComment, post_id: int) -> Comment:
         """Create a comment under a post.
 
@@ -123,7 +121,6 @@ class CommentService:
         self._session.commit()
         return comment_entity.to_model()
             
-    # delete a comment
     def delete(self, subject: User, post_id: int, comment_id:int) -> None:
         """Delete a comment under a post.
 
