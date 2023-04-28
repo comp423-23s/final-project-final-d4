@@ -6,7 +6,6 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from typing import Self
 from .entity_base import EntityBase
 from .user_role_entity import user_role_table
-from .membership_entity import membership_table
 from ..models import User
 
 
@@ -34,7 +33,6 @@ class UserEntity(EntityBase):
     roles: Mapped[list['RoleEntity']] = relationship(secondary=user_role_table, back_populates='users')
     permissions: Mapped['PermissionEntity'] = relationship(back_populates='user')
     userPosts: Mapped[list["PostEntity"]] = relationship(back_populates="postedBy")
-    teams: Mapped[list['TeamEntity']] = relationship(secondary=membership_table, back_populates='members')
 
     @classmethod
     def from_model(cls, model: User) -> Self:
