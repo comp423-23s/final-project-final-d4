@@ -1,4 +1,4 @@
-import { Component} from '@angular/core';
+import { Component, ViewChild} from '@angular/core';
 import { PostView, PostsService } from '../post.service';
 import { ActivatedRoute } from '@angular/router';
 import { CommentService } from '../comment.service';
@@ -10,6 +10,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Profile } from '../profile/profile.service';
 import { MatDialog } from '@angular/material/dialog';
 import { PostEditDialogComponent, UpdatedPost } from '../post-edit-dialog/post-edit-dialog.component';
+
 
 @Component({
   selector: 'app-post-details',
