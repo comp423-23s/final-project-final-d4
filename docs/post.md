@@ -1,5 +1,7 @@
 # Post
 
+## Authors: Wenjing Huang, Chalisa "Keaw" Phoomsakha, Guning Shen, Ziqian Zhao
+
 ## Overview
 The post forum feature provides functionality for viewing posts, creating posts, searching for posts, and deleting posts in the post forum. This feature fulfills **four** stories in our project, including view-post story, create-post story, search-post story, and delete-post story. It primarily serves to **UNC students who are looking for potential projects to get involved in or students who have project ideas in mind and are looking for teammates to build the project together**. 
 
