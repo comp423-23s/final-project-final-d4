@@ -51,6 +51,10 @@ export class PostDetailsComponent {
     console.log(this.projectId);
   }
 
+  getBlankcomment(): Boolean {
+    return this.comments.length === 0;
+  }
+
   getPrivate(isPrivate: string): void {
     this.isPrivate = isPrivate;
   }
