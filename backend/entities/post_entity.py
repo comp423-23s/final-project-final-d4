@@ -9,12 +9,6 @@ from datetime import datetime
 from .entity_base import EntityBase
 from ..models import Post
 
-
-# __authors__ = ['Chalisa Phoomsakha']
-# __copyright__ = 'Copyright 2023'
-# __license__ = 'MIT'
-
-
 class PostEntity(EntityBase):
     __tablename__ = 'post'
 
@@ -50,8 +44,3 @@ class PostEntity(EntityBase):
             description = self.description,
             pid = self.user_pid,
         )
-
-    # not sure if necessary
-    # def update(self, model: Post) -> None:
-    #     self.content = model.content
-    #     self.tags = model.tagss
