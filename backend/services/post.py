@@ -145,7 +145,6 @@ class PostService:
         """Update a post.
 
         Given a post id, update the post in the database. 
-        TODO: The post can only be updated by the author of the post or the administrator.
 
         Args:
             id: An integer that is the id of the post that the user wants to delete.
