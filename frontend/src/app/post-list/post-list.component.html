@@ -46,11 +46,12 @@
                             <a>Tags: </a>
                             <mat-chip [ngClass]="getPostTagClass(tag)" class="post-chip" *ngFor="let tag of post.tags">{{ tag }}</mat-chip>
                         </div>
-                        <button mat-icon-button *ngIf="(deleteAdminPermission$ | async) || (getDeleteUserPermission(post.pid) | async)" (click)="deletePost(post.id)">
-                             <mat-icon>delete</mat-icon>
-                        </button>
+                        <button class="delete-button" mat-icon-button *ngIf="(deleteAdminPermission$ | async) || (getDeleteUserPermission(post.pid) | async)" (click)="deletePost(post.id, $event)">
+                            <mat-icon>delete</mat-icon>
+                       </button>
                     </mat-card-actions>
                 </mat-card>
+                
             </mat-grid-tile>
         </mat-grid-list>
 </div>

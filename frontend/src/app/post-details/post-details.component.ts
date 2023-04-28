@@ -1,4 +1,4 @@
-import { Component, ViewChild} from '@angular/core';
+import { ChangeDetectorRef, Component, ViewChild} from '@angular/core';
 import { PostView, PostsService } from '../post.service';
 import { ActivatedRoute } from '@angular/router';
 import { CommentService } from '../comment.service';
@@ -34,6 +34,7 @@ export class PostDetailsComponent {
     private postService: PostsService,
     private commentService: CommentService,
     private permission: PermissionService,
+    private cdr: ChangeDetectorRef,
     public dialog: MatDialog) {
       this.deleteAdminPermission$ = this.permission.check('comment.delete', 'comment/')
       this.editAdminPermission$ = this.permission.check('edit.post', 'post/')
@@ -63,7 +64,8 @@ export class PostDetailsComponent {
   addComment(text: string): void {
     console.log("in component",this.isPrivate);
     this.commentService.addComment(text, this.post.id, this.isPrivate).subscribe((comment: Comment) => {
-      this.comments.push(comment);
+      this.comments.unshift(comment);
+      this.cdr.detectChanges();
       (<HTMLFormElement>document.getElementById("commentForm")).reset();
     });
   }
