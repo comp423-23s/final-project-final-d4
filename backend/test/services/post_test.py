@@ -116,32 +116,39 @@ def test_search_post(post: PostService):
     sample_2 = post.search_post("Greeting")
     assert(len(sample_2) == 2)
 
+# update post tests
 def test_update_post_alloptions(post: PostService):
     post.create_post(sample_post, user)
-    newPost = post.update(user, 1, "test", "test", "test", ["test"])
+    newPost = NewPost(content="test", tags=["test"], title="test", description="test")
+    post.update(subject=user, id=1, update_post=newPost)
     savedPost = post.get_posts()[0]
     assert(savedPost.content == newPost.content
            and savedPost.title == newPost.title
            and savedPost.description == newPost.description
            and savedPost.tags == newPost.tags)
 
-def test_update_post_someoptions(post: PostService):
-    post.create_post(sample_post, user)
-    newPost = post.update(subject=user, id=1, content="test", tags=["test"])
-    savedPost = post.get_posts()[0]
-    assert(savedPost.content == newPost.content
-           and savedPost.tags == newPost.tags)
+# this funtionality was removed
+# def test_update_post_someoptions(post: PostService):
+#     post.create_post(sample_post, user)
+#     newPost = NewPost(content="test", tags=["test"], title=None, description=None)
+#     post.update(subject=user, id=1, update_post=newPost)
+#     savedPost = post.get_posts()[0]
+#     assert(savedPost.content == newPost.content
+#            and savedPost.tags == newPost.tags)
 
 def test_update_post_permissions_otheruser(post: PostService):
     post.create_post(sample_post, user)
     with pytest.raises(UserPermissionError):
-        post.update(ambassador, 1, "test", "test", "test", ["test"])
+        post.update(subject=ambassador, id=1, update_post=NewPost(content="test", tags=["test"], title="test", description="test"))
 
 def test_update_post_permissions_admin(post: PostService):
     post.create_post(sample_post, user)
-    newPost = post.update(subject=root, id=1, content="test", tags=["test"])
+    newPost = NewPost(content="test", tags=["test"], title="test", description="test")
+    post.update(subject=root, id=1, update_post=newPost)
     savedPost = post.get_posts()[0]
     assert(savedPost.content == newPost.content
+           and savedPost.title == newPost.title
+           and savedPost.description == newPost.description
            and savedPost.tags == newPost.tags)
     
 # Test for comment part
