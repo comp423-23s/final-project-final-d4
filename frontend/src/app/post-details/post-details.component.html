@@ -46,7 +46,7 @@
   <br>
   <mat-card-content>
     <div class="new-comment">
-      <form (submit)="addComment(newComment.value)">
+      <form id="commentForm" (submit)="addComment(newComment.value)">
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Add a comment...</mat-label>
           <textarea rows="4" matInput #newComment type="text" name="text"></textarea>

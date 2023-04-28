@@ -12,6 +12,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { PostEditDialogComponent, UpdatedPost } from '../post-edit-dialog/post-edit-dialog.component';
 
 
+
 @Component({
   selector: 'app-post-details',
   templateUrl: './post-details.component.html',
@@ -63,6 +64,7 @@ export class PostDetailsComponent {
     console.log("in component",this.isPrivate);
     this.commentService.addComment(text, this.post.id, this.isPrivate).subscribe((comment: Comment) => {
       this.comments.push(comment);
+      (<HTMLFormElement>document.getElementById("commentForm")).reset();
     });
   }
 
