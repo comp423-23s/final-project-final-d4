@@ -3,11 +3,6 @@
 from pydantic import BaseModel
 from datetime import datetime
 
-# not sure if i need this lol
-# __authors__ = ["Chalisa Phoomsakha"]
-# __copyright__ = "Copyright 2023"
-# __license__ = "MIT"
-
 #: Post object
 class Post(BaseModel):
     # this is the primary key
@@ -29,6 +24,5 @@ class NewPost(BaseModel):
 
 # copied fro professor's databse code at the end of User Model.. Assuming theres some importance here
 # Python... :sob:... necessary due to circularity (TODO: refactor to remove circularity)
-# from .comment import Comment
 Post.update_forward_refs()
 NewPost.update_forward_refs()
