@@ -6,7 +6,6 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from typing import Self
 from datetime import datetime
 from .entity_base import EntityBase
-from .reply_entity import reply_table
 from ..models import Comment
 
 class CommentEntity(EntityBase):
