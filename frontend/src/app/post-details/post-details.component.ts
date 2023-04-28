@@ -96,7 +96,7 @@ export class PostDetailsComponent {
   
   editPost(postId: number): void {
     const dialogRef = this.dialog.open(PostEditDialogComponent, {
-      width: '70%',
+      width: '65%',
       height: '90%',
       data: {
         id: postId,

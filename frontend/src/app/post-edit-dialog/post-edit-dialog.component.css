@@ -2,13 +2,13 @@
     width:100%;
 }
 h1{
-    padding-left: 60px;
+    padding-left: 7%;
     padding-top: 30px;
     font-size: 1.60rem;
     font-weight: 400;
 }
 mat-dialog-actions{
-    padding-left: 60px;
+    padding-left: 7%;
     padding-top: 30px;
 }
 mat-card {

@@ -2,18 +2,18 @@
 <mat-dialog-content>
   <mat-card class="create-post-container ">
     <form *ngIf="(profile$ | async) !== undefined">
-      <mat-form-field class="full-width">
+      <mat-form-field  appearance="outline" class="full-width">
         <input type="text" matInput [(ngModel)]="data.title" name="title" placeholder="Post Title" required #title="ngModel">
       </mat-form-field> 
-      <mat-form-field class="full-width">
+      <mat-form-field appearance="outline" class="full-width">
         <textarea rows="2" type="text" matInput [(ngModel)]="data.description" name="description" placeholder="Description" required #description="ngModel"></textarea>
       </mat-form-field>
-      <mat-form-field class="full-width">
+      <mat-form-field appearance="outline" class="full-width">
         <textarea rows="10" type="text" matInput [(ngModel)]="data.content" name="content" placeholder="Content" required #content="ngModel"></textarea>
       </mat-form-field>
-      <mat-form-field class="chip-list full-width" appearance="fill">
+      <mat-form-field appearance="outline" class="chip-list full-width">
         <mat-label>Tags</mat-label>
-        <mat-chip-grid #chipGrid aria-label="Tag selection">
+        <mat-chip-grid #chipGrid aria-label="Tag selection" >
           <mat-chip-row *ngFor="let tag of tags" (removed)="remove(tag)">
             {{tag}}
             <button matChipRemove [attr.aria-label]="'remove ' + tag">
