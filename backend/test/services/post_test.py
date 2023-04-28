@@ -127,15 +127,6 @@ def test_update_post_alloptions(post: PostService):
            and savedPost.description == newPost.description
            and savedPost.tags == newPost.tags)
 
-# this funtionality was removed
-# def test_update_post_someoptions(post: PostService):
-#     post.create_post(sample_post, user)
-#     newPost = NewPost(content="test", tags=["test"], title=None, description=None)
-#     post.update(subject=user, id=1, update_post=newPost)
-#     savedPost = post.get_posts()[0]
-#     assert(savedPost.content == newPost.content
-#            and savedPost.tags == newPost.tags)
-
 def test_update_post_permissions_otheruser(post: PostService):
     post.create_post(sample_post, user)
     with pytest.raises(UserPermissionError):
