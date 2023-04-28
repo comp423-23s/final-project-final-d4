@@ -17,21 +17,23 @@ export class CommentService {
   
   constructor(private http: HttpClient) {}
 
-  getComments(projectId: number): Observable<Comment[]> {
-    let originalComments = this.http.get<Comment[]>(`/api/comment/${projectId}`);
-    let newComments = originalComments.pipe(
-      map((comments: Comment[]) => {
-        return comments.map((comment: Comment) => {
-          return {
-            ...comment,
-            created: new Date(comment.created)
-          }
-        }).sort((a, b) => b.created.getTime() - a.created.getTime())
-      })
-    )
 
-    return newComments;
-  }
+getComments(projectId: number): Observable<Comment[]> {
+  let original_comment$: Observable<Comment[]> = this.http.get<Comment[]>(`/api/comment/${projectId}`);
+  let new_comments = original_comment$.pipe(
+    map((comments: Comment[]) => {
+      return comments.map((comment: Comment) => {
+        return {
+          ...comment,
+          created: new Date(comment.created)
+        };
+      }).sort((a, b) => {
+        return b.created.getTime() - a.created.getTime();
+      });
+    })
+  );
+  return new_comments;
+}
 
 
   addComment(text: string, postId: number, isPrivate: string): Observable<Comment> {

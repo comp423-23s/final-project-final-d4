@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component, ViewChild} from '@angular/core';
 import { PostView, PostsService } from '../post.service';
 import { ActivatedRoute } from '@angular/router';
 import { CommentService } from '../comment.service';
@@ -10,6 +10,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Profile } from '../profile/profile.service';
 import { MatDialog } from '@angular/material/dialog';
 import { PostEditDialogComponent, UpdatedPost } from '../post-edit-dialog/post-edit-dialog.component';
+
+
 
 @Component({
   selector: 'app-post-details',
@@ -24,6 +26,7 @@ export class PostDetailsComponent {
   selectedValue!: string;
   deleteAdminPermission$: Observable<Boolean>;
   editAdminPermission$: Observable<Boolean>;
+  isPrivate!: string;
   
 
   constructor(
@@ -31,6 +34,7 @@ export class PostDetailsComponent {
     private postService: PostsService,
     private commentService: CommentService,
     private permission: PermissionService,
+    private cdr: ChangeDetectorRef,
     public dialog: MatDialog) {
       this.deleteAdminPermission$ = this.permission.check('comment.delete', 'comment/')
       this.editAdminPermission$ = this.permission.check('edit.post', 'post/')
@@ -47,16 +51,32 @@ export class PostDetailsComponent {
     console.log(this.projectId);
   }
 
+  getPrivate(isPrivate: string): void {
+    this.isPrivate = isPrivate;
+  }
+
   getComments(): void {
     this.commentService.getComments(this.projectId).subscribe((comments) => {
       this.comments = comments;
     });
   }
 
-  addComment(text: string, isPrivate: string): void {
-    this.commentService.addComment(text, this.post.id, isPrivate).subscribe((comment: Comment) => {
-      this.comments.push(comment);
+  addComment(text: string): void {
+    console.log("in component",this.isPrivate);
+    this.commentService.addComment(text, this.post.id, this.isPrivate).subscribe((comment: Comment) => {
+      this.comments.unshift(comment);
+      this.cdr.detectChanges();
+      (<HTMLFormElement>document.getElementById("commentForm")).reset();
     });
+  }
+
+  visibleComment(comment: Comment): Observable<boolean> {
+    return this.permission.check('admin.*', '*').pipe(
+      map(permission => {
+        // console.log(comment.text,comment.private, comment.commenter===this.user.pid, this.post.pid===this.user.pid, permission);
+        return !comment.private || comment.commenter===this.user.pid || this.post.pid===this.user.pid || permission;
+      })
+    );
   }
 
   deleteComment(comment_id: number): void {

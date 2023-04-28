@@ -78,8 +78,9 @@ export class PostListComponent {
   }
   
   //delete post from project list
-  deletePost(postId: number) {
+  deletePost(postId: number, event: MouseEvent) {
     // Call a service method to delete the post with the given ID
+    event.stopPropagation();
     this.postService.deletePost(postId)
     .pipe(
       catchError(this.onError)

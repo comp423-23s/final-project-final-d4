@@ -17,7 +17,7 @@
             <mat-grid-tile [colspan]="2">
                 <mat-form-field appearance="fill" class="search">
                     <mat-label>Type here to search...</mat-label>
-                    <input matInput [(ngModel)]="search" name="search">
+                    <input matInput [(ngModel)]="search" name="search" (keyup.enter) ="searchPost(search)">
                     <button mat-button matSuffix (click)="searchPost(search)">
                       <mat-icon>search</mat-icon>
                     </button>
@@ -46,11 +46,12 @@
                             <a>Tags: </a>
                             <mat-chip [ngClass]="getPostTagClass(tag)" class="post-chip" *ngFor="let tag of post.tags">{{ tag }}</mat-chip>
                         </div>
-                        <button mat-icon-button *ngIf="(deleteAdminPermission$ | async) || (getDeleteUserPermission(post.pid) | async)" (click)="deletePost(post.id)">
-                             <mat-icon>delete</mat-icon>
-                        </button>
+                        <button class="delete-button" mat-icon-button *ngIf="(deleteAdminPermission$ | async) || (getDeleteUserPermission(post.pid) | async)" (click)="deletePost(post.id, $event)">
+                            <mat-icon>delete</mat-icon>
+                       </button>
                     </mat-card-actions>
                 </mat-card>
+                
             </mat-grid-tile>
         </mat-grid-list>
 </div>
