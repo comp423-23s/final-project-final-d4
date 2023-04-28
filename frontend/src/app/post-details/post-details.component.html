@@ -29,9 +29,9 @@
       Edit
     </button>
     <img mat-card-avatar class="comment-image" src="../../assets/rameses.gif" alt="Photo of UNC Rameses">
+    <mat-card-title class="post-title">{{ post.title }}</mat-card-title>
     <mat-card-subtitle class="post-header">{{ user.first_name }} {{ user.last_name }}</mat-card-subtitle>
     <mat-card-subtitle class="post-header">{{ post.created | date: 'yyyy/MM/dd @hh:mm aaa'}}</mat-card-subtitle>
-    <mat-card-title class="post-title">{{ post.title }}</mat-card-title>
   </mat-card-header>
   <br>
   <mat-card-content class="post-content">
