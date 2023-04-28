@@ -58,10 +58,18 @@ export class CreatePostComponent {
         this.router.navigate(['/projects']);
       },
       error: (err) => {
-        console.error('Error creating post: ', err);
+        this.onError(err)
       }
     });
 
+  }
+
+  onError(err: HttpErrorResponse) {
+    if (err.message) {
+      window.alert(err.error.detail);
+    } else {
+      window.alert("Unknown error: " + JSON.stringify(err));
+    }
   }
   
   // For tags part
