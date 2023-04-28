@@ -1,12 +1,17 @@
 <!-- created routerlink tab of project list and create posts to the nav -->
-<nav mat-tab-nav-bar>
-    <a mat-tab-link routerLink="/projects">Project List</a>
-    <a mat-tab-link routerLink="/create">Create Post</a>
-  </nav>
-  
+<br>
+<div class="post-home">
+      <mat-grid-list cols="1" rowHeight="48px">
+          <mat-grid-tile class="home">
+              <button mat-raised-button routerLink="/projects">
+                  <mat-icon>home</mat-icon>
+                  All Posts
+              </button>
+          </mat-grid-tile>
+      </mat-grid-list>
+</div>
   <!-- form for user input of the posts  -->
   <div class="create-post-container">
-    <h1 class="form-title">Create a Project Post</h1>
     <mat-card>
       <!-- form for user input  -->
       <form (ngSubmit)="onPost(postForm)" #postForm="ngForm" *ngIf="(profile$ | async) !== undefined">
@@ -24,7 +29,7 @@
         <!-- post content -->
         <mat-form-field appearance="outline" class="full-width custom-form-field">
             <mat-label>Content</mat-label>
-          <textarea rows="10" type="text" matInput ngModel name="content" required #content="ngModel"></textarea>
+          <textarea rows="8" type="text" matInput ngModel name="content" required #content="ngModel"></textarea>
         </mat-form-field>
         <!-- post tag -->
         <mat-form-field class="chip-list full-width custom-form-field" appearance="outline">

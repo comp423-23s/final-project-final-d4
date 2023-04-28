@@ -9,6 +9,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { MatDialog } from '@angular/material/dialog';
 import { NoSearchResultComponent } from '../no-search-result/no-search-result.component';
 import { NoSearchStringComponent } from '../no-search-string/no-search-string.component';
+import { Router } from '@angular/router';
 
 
 
@@ -32,6 +33,7 @@ export class PostListComponent {
     public postService: PostsService,
     private permission: PermissionService,
     public dialog: MatDialog,
+    public router: Router
     ){
     this.posts = postService.getPost()
     this.deleteAdminPermission$ = this.permission.check('delete.post', 'post/')
@@ -135,5 +137,9 @@ export class PostListComponent {
       default:
         return 'other';
     }
+  }
+
+  goToPostDetails(postId: number): void {
+    this.router.navigate(['/post-details', postId]);
   }
 }

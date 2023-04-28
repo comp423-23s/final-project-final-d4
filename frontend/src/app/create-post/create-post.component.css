@@ -45,6 +45,12 @@ mat-card {
     background-color: transparent;
 }
 
+.post-home {
+  z-index: 1;
+  position: sticky;
+  top: 1;
+}
+
 /* input {
     border-radius: 10px;
     border:none;
