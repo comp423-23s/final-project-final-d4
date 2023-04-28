@@ -6,7 +6,3 @@ export interface Comment {
     post: number;
     private: boolean;
   }
-
-// export interface toComment {
-    
-// }
