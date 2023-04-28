@@ -21,74 +21,101 @@
 </div>
 <br>
 <br>
+
 <!-- Post card and comments section -->
 <mat-card class="post-card">
   <mat-card-header>
     <button *ngIf="(editAdminPermission$ | async) || (getEditUserPermission(post.pid) | async)" mat-raised-button style="background-color: #4786C6; color: white; margin-left: auto;" (click)="editPost(post.id)">
       Edit
     </button>
+    <img mat-card-avatar class="comment-image" src="../../assets/rameses.gif" alt="Photo of UNC Rameses">
+    <mat-card-title class="post-title">{{ post.title }}</mat-card-title>
     <mat-card-subtitle class="post-header">{{ user.first_name }} {{ user.last_name }}</mat-card-subtitle>
     <mat-card-subtitle class="post-header">{{ post.created | date: 'yyyy/MM/dd @hh:mm aaa'}}</mat-card-subtitle>
-    <mat-card-title class="post-title">{{ post.title }}</mat-card-title>
   </mat-card-header>
+  <br>
   <mat-card-content class="post-content">
-    <p>{{ post.description }}</p>
     <p>{{ post.content }}</p>
   </mat-card-content>
   <mat-card-actions class="post-actions">
     <div class="post-tags">
-      <a class="post-tags-label">Tags: </a>
+      <!-- <a class="post-tags-label">Tags: </a> -->
       <mat-chip [ngClass]="getPostTagClass(tag)" class="post-chip" *ngFor="let tag of post.tags">{{ tag }}</mat-chip>
     </div>
   </mat-card-actions>
   <br>
   <mat-divider></mat-divider>
   <br>
-  <mat-card-content>
-    <div class="new-comment">
-      <form id="commentForm" (submit)="addComment(newComment.value)">
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Add a comment...</mat-label>
-          <textarea rows="4" matInput #newComment type="text" name="text"></textarea>
-          <div class="text_button">
-          <mat-radio-group [(ngModel)]="isPrivate" (change)="getPrivate($event.value)">
-            <mat-radio-button value="true">Private</mat-radio-button>
-            <mat-radio-button value="false">Public</mat-radio-button>
-          </mat-radio-group>
-          <button mat-raised-button style="background-color: #4786C6; color: white; margin-left: 10px;" type="submit">Add Comment</button>
-        </div>
-        </mat-form-field>
-      </form>
-    </div>
-  </mat-card-content>  
+
+  <!-- Add comment section -->
+  <div>
+    <mat-card-content>
+      <div class="new-comment">
+        <form id="commentForm" (submit)="addComment(newComment.value)">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Tell what you think...</mat-label>
+            <textarea rows="4" matInput #newComment type="text" name="text"></textarea>
+            <div class="text_button">
+            <mat-radio-group [(ngModel)]="isPrivate" (change)="getPrivate($event.value)">
+              <mat-radio-button value="true">Private</mat-radio-button>
+              <mat-radio-button value="false">Public</mat-radio-button>
+            </mat-radio-group>
+            <button mat-raised-button style="background-color: #4786C6; color: white; margin-left: 10px;" type="submit">Add Comment</button>
+          </div>
+          </mat-form-field>
+        </form>
+      </div>
+    </mat-card-content>  
+  </div>
   <br>
   <mat-divider></mat-divider>
   <br>
-  <div class="comments-header">
-    <h3 class="comments-heading">Comments</h3>
-  </div>
-  <mat-grid-list cols="1" rowHeight="180px">
-    <ng-container *ngFor="let comment of comments">
-      <mat-grid-tile *ngIf="visibleComment(comment) | async">
+
+  <!-- Comment list view -->
+  <div>
+    <div class="comments-header">
+      <h3 class="comments-heading">Comments</h3>
+    </div>
+    <br>
+    <mat-grid-list cols="1" rowHeight="180px">
+      <mat-grid-tile *ngIf="getBlankcomment()">
         <mat-card class="comment">
           <mat-card-header>
-            <mat-card-subtitle>
-              {{getUserFullName(comment) | async}}
-            </mat-card-subtitle>
-            <mat-card-subtitle>
-              {{comment.created | date: 'yyyy/MM/dd @hh:mm aaa'}}
-            </mat-card-subtitle>
+            <img mat-card-avatar class="comment-image" src="../../assets/rameses.gif" alt="Photo of UNC Rameses">
+            <mat-card-title class="comment-title">
+              Be the first to comment
+            </mat-card-title>
+            <mat-card-subtitle class="post-header">Rameses</mat-card-subtitle>
           </mat-card-header>
-          <mat-card-content class="post-content">
-            {{comment.text}}
+          <mat-card-content class="post-content" style="color: gray;">
+            <div>Nobody's responded to this post yet... </div>
+            <div>Add your thoughts and get the conversation going...</div>
           </mat-card-content>
-          <mat-card-actions class="comment-actions">
-            <div class="comment-metadata">
-              <button *ngIf="(deleteAdminPermission$ | async) || (getDeleteUserPermission(comment.commenter) | async)" mat-icon-button (click)="deleteComment(comment.id)">
-                <mat-icon>delete</mat-icon>
-              </button>
-            </div>
-          </mat-card-actions>
         </mat-card>
       </mat-grid-tile>
-    </ng-container>
+      <ng-container *ngFor="let comment of comments">
+        <mat-grid-tile *ngIf="visibleComment(comment) | async">
+          <mat-card class="comment">
+            <mat-card-header>
+              <img mat-card-avatar class="comment-image" src="../../assets/student.jpeg" alt="Photo of CS Student">
+              <mat-card-title class="comment-title">{{getUserFullName(comment) | async}}</mat-card-title>
+              <mat-card-subtitle>
+                {{comment.created | date: 'yyyy/MM/dd @hh:mm aaa'}}
+              </mat-card-subtitle>
+            </mat-card-header>
+            <br>
+            <mat-card-content class="post-content">
+              {{comment.text}}
+            </mat-card-content>
+            <mat-card-actions class="comment-actions">
+              <div class="comment-metadata">
+                <button *ngIf="(deleteAdminPermission$ | async) || (getDeleteUserPermission(comment.commenter) | async)" mat-icon-button (click)="deleteComment(comment.id)">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </div>
+            </mat-card-actions>
+          </mat-card>
+        </mat-grid-tile>
+      </ng-container>
+    </mat-grid-list>
+  </div>

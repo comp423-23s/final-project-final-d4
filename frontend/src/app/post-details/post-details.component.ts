@@ -51,6 +51,10 @@ export class PostDetailsComponent {
     console.log(this.projectId);
   }
 
+  getBlankcomment(): Boolean {
+    return this.comments.length === 0;
+  }
+
   getPrivate(isPrivate: string): void {
     this.isPrivate = isPrivate;
   }
@@ -96,7 +100,7 @@ export class PostDetailsComponent {
   
   editPost(postId: number): void {
     const dialogRef = this.dialog.open(PostEditDialogComponent, {
-      width: '70%',
+      width: '65%',
       height: '90%',
       data: {
         id: postId,
