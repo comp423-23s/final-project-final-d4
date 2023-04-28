@@ -40,7 +40,6 @@ class CommentService:
         self._session = session
         self._permission = PermissionService(session)
 
-    # get comments given a post id and current user
     def all(self,subject:User,post_id:int) -> list[Comment]:
         """Fetch all comments from a post visible to the user.
 
@@ -81,7 +80,6 @@ class CommentService:
         entities = self._session.execute(query).scalars().all()
         return [entity.to_model() for entity in entities]
     
-    # create a comment to a post
     def create(self, user: User, comment: NewComment, post_id: int) -> Comment:
         """Create a comment under a post.
 
@@ -123,7 +121,6 @@ class CommentService:
         self._session.commit()
         return comment_entity.to_model()
             
-    # delete a comment
     def delete(self, subject: User, post_id: int, comment_id:int) -> None:
         """Delete a comment under a post.
 
@@ -142,9 +139,6 @@ class CommentService:
             ValueError: An error occurred accessing the comment if the user does not exist.
             UserPermissionError: An error occurred if the user is not allowed to delete the comment.
         """
-        
-        # user.permissions = self._permission.get_permissions(user)
-        # admin = self._permission.enforce(user,"comment.delete","*")
         for i in self.all(subject,post_id):
             if i.id == comment_id:
                 comment_entity = self._session.query(CommentEntity).filter(CommentEntity.id == comment_id).one()
@@ -161,32 +155,3 @@ class CommentService:
                     self._session.delete(comment_entity)
                     self._session.commit()
                 return comment_entity.to_model()
-            
-        
-    # def update(self, comment_id: int, newText: str) -> Comment:
-    #     temp = self._session.get(CommentEntity, comment_id)
-    #     if temp:
-    #         temp.text = newText
-    #         self._session.commit()
-    #         return temp.to_model()
-    #     else:
-    #         raise ValueError(f"Comment not found")
-
-    # def reply(self, comment_id: int, reply: Comment) -> Comment:
-    #     temp = self._session.get(CommentEntity, comment_id)
-    #     if temp:
-    #         reply = self._session.get(CommentEntity, reply.id)
-    #         reply.replyTo_id = temp.id
-    #         temp.replies.append(reply)
-    #         self._session.add(reply)
-    #         self._session.commit()
-    #         return temp.to_model()
-    #     else:
-    #         raise ValueError(f"Comment not found")
-        
-    # def search(self, id: int) -> Comment | None:
-    #     post = self._session.get(CommentEntity, id)
-    #     if post:
-    #         return post.to_model()
-    #     else:
-    #         raise ValueError(f"Comment not found")

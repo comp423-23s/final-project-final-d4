@@ -32,7 +32,6 @@ class PostService:
         self._session = session
         self._permission = PermissionService(session)
 
-    # Get all posts
     def get_posts(self) -> list[Post] | None:
         """Get all posts in the database.
 
@@ -45,7 +44,6 @@ class PostService:
         entities = query.all()
         return [entity.to_model() for entity in entities]
 
-    # Search posts
     def search_post(self, query: str) -> list[Post] | None:
         """ Search for posts
 
@@ -70,7 +68,6 @@ class PostService:
         entities = self._session.execute(statement).scalars()
         return [entity.to_model() for entity in entities]
     
-    # Create new post
     def create_post(self, post: NewPost, user: User) -> Post | None:
         """Create a new post.
 
@@ -108,7 +105,6 @@ class PostService:
         self._session.commit()
         return post_entity.to_model()
     
-    # Delete post
     def delete_post(self, subject: User, id: int) -> Post | None:
         """Delete a post.
 
@@ -143,14 +139,12 @@ class PostService:
             self._session.commit()
             return post_entity.to_model()
         
-    # update post
     def update(self, subject: User,
                 id: int, 
                 update_post: NewPost) -> Post:
         """Update a post.
 
         Given a post id, update the post in the database. 
-        TODO: The post can only be updated by the author of the post or the administrator.
 
         Args:
             id: An integer that is the id of the post that the user wants to delete.

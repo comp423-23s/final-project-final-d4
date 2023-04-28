@@ -17,11 +17,6 @@ class User(BaseModel):
     email: str = ""
     pronouns: str = ""
     permissions: list['Permission'] = []
-    # year as in 1st, 2nd, ..etc or freshman, junior, etc
-    # year: str = ""
-    # userPosts: list['Post'] = []
-    # teams: list['Team'] = []
-
 
 class NewUser(BaseModel):
     pid: int
@@ -43,6 +38,5 @@ class ProfileForm(BaseModel):
 # Python... :sob:... necessary due to circularity (TODO: refactor to remove circularity)
 from .permission import Permission
 from .post import Post
-from .team import Team
 User.update_forward_refs()
 NewUser.update_forward_refs()

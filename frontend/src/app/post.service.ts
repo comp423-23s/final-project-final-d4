@@ -21,8 +21,6 @@ export interface PostView {
     title: string;
     description: string;
     pid: number;
-    // first_name: string;
-    // last_name: string;
 }
 
 @Injectable({providedIn: 'root'})

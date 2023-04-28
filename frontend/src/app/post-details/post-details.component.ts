@@ -77,7 +77,6 @@ export class PostDetailsComponent {
   visibleComment(comment: Comment): Observable<boolean> {
     return this.permission.check('admin.*', '*').pipe(
       map(permission => {
-        // console.log(comment.text,comment.private, comment.commenter===this.user.pid, this.post.pid===this.user.pid, permission);
         return !comment.private || comment.commenter===this.user.pid || this.post.pid===this.user.pid || permission;
       })
     );

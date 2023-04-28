@@ -3,11 +3,6 @@
 from pydantic import BaseModel
 from datetime import datetime
 
-# not sure if i need this lol
-# __authors__ = ["Chalisa Phoomsakha"]
-# __copyright__ = "Copyright 2023"
-# __license__ = "MIT"
-
 #: Comments
 class Comment(BaseModel):
     id: int | None = None

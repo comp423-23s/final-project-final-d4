@@ -17,7 +17,6 @@
       <form (ngSubmit)="onPost(postForm)" #postForm="ngForm" *ngIf="(profile$ | async) !== undefined">
         <!-- title -->
             <mat-form-field appearance="outline" class="full-width custom-form-field" >
-                <!-- <p>Post Title:</p> -->
             <mat-label>Title</mat-label>
             <input type="text" matInput ngModel name="title" required #title="ngModel">
             </mat-form-field> 
