@@ -1,7 +1,7 @@
 // comment.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
+import { Observable, map, throwError } from 'rxjs';
 import { Comment } from './comment.model';
 
 export interface newComment {
@@ -18,7 +18,19 @@ export class CommentService {
   constructor(private http: HttpClient) {}
 
   getComments(projectId: number): Observable<Comment[]> {
-    return this.http.get<Comment[]>(`/api/comment/${projectId}`);
+    let originalComments = this.http.get<Comment[]>(`/api/comment/${projectId}`);
+    let newComments = originalComments.pipe(
+      map((comments: Comment[]) => {
+        return comments.map((comment: Comment) => {
+          return {
+            ...comment,
+            created: new Date(comment.created)
+          }
+        }).sort((a, b) => b.created.getTime() - a.created.getTime())
+      })
+    )
+
+    return newComments;
   }
 
 
