@@ -1,5 +1,7 @@
 # Comments
 
+## Authors: Wenjing Huang, Chalisa "Keaw" Phoomsakha, Guning Shen, Ziqian Zhao
+
 ## Overview
 The comment feature provides functionality for viewing, creating and deleting comments on posts. It primarily serves for users who are interested in the post and wants to discuss with other users. This feature allows the community to be more interactive and friendly.
 

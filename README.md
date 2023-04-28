@@ -4,6 +4,8 @@ The Experience Labs' (XL) mission is to accelerate technical experience and buil
 
 * [Get Started with a Development Environment](docs/get_started.md)
 
+## Authors: Wenjing Huang, Chalisa "Keaw" Phoomsakha, Guning Shen, Ziqian Zhao
+
 ## Sprint 0
 
 Our sprint 0 aims to complete the story 6 of allowing users to view other users' posts. 
@@ -42,3 +44,17 @@ For the admin-only story, we completed the story of deleting posts. Only the adm
     
 For Expectation 5:
 Other than the story we mentioned before, we also completed the story of searching posts. There is a search bar at the top of the page. Users can search for posts containing specific keywords. And all related posts would come out.
+
+## Sprint 02:
+In sprint 2, we finalized all details on posts and comments. We also added detailed documentation and docstring.
+For Expectation 1: 
+You can see our progress and management in the project tab. We tried to divide all the work in the project tab and linked them to corresponding PRs.
+
+For Expectation 2: 
+We changed the UI a lot to make it more asthetically appealing and more user friendly. Every feature is straightforward and has friendly error message.
+
+For Expectation 3:
+We have a full set of CRUDS for post feasures for administrtors, and a set of CRD for comment features.
+
+For Expectation 4:
+Our technical lead did not push any commit or merge any PRs during the sprint 2 (except for deployment because there was an error Kris helped us fix on technical lead's computer) The documentation for comment and post features are as detailed as possible for developers to understand.
