@@ -29,18 +29,3 @@ def delete_comment(post_id: int, comment_id: int, user = Depends(registered_user
     except Exception as e:
         raise HTTPException(status_code=404, detail=str(e))
     
-#api route to update a comment's text
-# @api.post("/api/comment/edit")
-# def update_comment(comment_id: int, newText: str, comment_service: CommentService = Depends()) -> Comment:
-#     try:
-#         return comment_service.update(comment_id, newText)
-#     except Exception as e:
-#         raise HTTPException(status_code=422, detail=str(e))
-    
-#api route to reply to a comment
-@api.post("/reply")
-def create_reply(comment_id: int, reply: Comment, comment_service: CommentService = Depends()) -> Comment:
-    try: 
-        return comment_service.reply(comment_id=comment_id,reply=reply)
-    except Exception as e:
-        raise HTTPException(status_code=422, detail=str(e))
